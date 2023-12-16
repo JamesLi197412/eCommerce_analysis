@@ -13,6 +13,8 @@ After a customer place his order from Olist Store, notification sent to seller t
 
 
 ### Tasks
+#### 1. Data Visualisation
+
 #### 1. Time Series Analysis 
 
 # This is an ongoing project 
