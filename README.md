@@ -8,4 +8,11 @@ After a customer place his order from Olist Store, notification sent to seller t
 
 
 
+### Data Schema
+![databaseRelationship.png](databaseRelationship.png)
+
+
 ### Tasks
+#### 1. Time Series Analysis 
+
+# This is an ongoing project 
