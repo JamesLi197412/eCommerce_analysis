@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Brazilian E-Commerce Public Dataset by Olist.iml" filepath="$PROJECT_DIR$/.idea/Brazilian E-Commerce Public Dataset by Olist.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Classification Models/.idea/Classification Models.iml" filepath="$PROJECT_DIR$/../Classification Models/.idea/Classification Models.iml" />
     </modules>
   </component>
 </project>
