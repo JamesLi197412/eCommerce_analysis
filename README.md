@@ -11,19 +11,20 @@ After a customer place his order from Olist Store, notification sent to seller t
 
 ### Python Packages Used
 * General Purpose: 
-* Data Manipulation:
+* Data Manipulation: pandas, numpy
 * Data Visualization: seaborn, matplotlib
 * Machine Learning
 
 #### Data
 * Data Source: https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce
+*
+####  Data Schema
+![databaseRelationship.png](databaseRelationship.png)
 
 ### Data Preprocessing
 
 ### Code Structure
 
-### Data Schema
-![databaseRelationship.png](databaseRelationship.png)
 
 ### Results and evaluation
 
