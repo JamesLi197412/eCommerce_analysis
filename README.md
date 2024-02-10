@@ -31,9 +31,15 @@ After a customer place his order from Olist Store, notification sent to seller t
 ### Tasks
 #### 1. Data Visualisation
 
-#### 1. Time Series Analysis 
+
+#### Customer Segment who do not write comments -- 
 
 
+### Delivery Performance -- to do
+
+### Sentiment Analysis (NLP) -- to do
+
+### Product Quality
 
 ### Future work
 
