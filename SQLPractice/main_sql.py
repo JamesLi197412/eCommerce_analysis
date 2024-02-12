@@ -10,13 +10,13 @@ def load_connection_info(ini_filename: str) -> Dict[str, str]:
     parser.read(ini_filename)
     config = {}
     # Create a dictionary of the variables stored under the "postgresql" section of the .ini
-    if parser.has_section('postgres'):
-        params = parser.items('postgres')
-        for param in params:
-            config[param[0]] = param[1]
+    #if parser.has_section('postgres'):
+    #    params = parser.items('postgres')
+    #    for param in params:
+    #        config[param[0]] = param[1]
 
 
-    # conn_info = {param[0]: param[1] for param in parser.items("postgresql")}
+    config = {param[0]: param[1] for param in parser.items("postgresql")}
     return config
 
 def connect(config):
@@ -61,7 +61,7 @@ if __name__ == "__main_sql__":
         user = 'postgres',
         password = 'Lizhiyue1997412'
     )
-    config = c
+    #    config = c
     '''
     # host, database, user, password
     conn_info = load_connection_info("db.ini")
