@@ -42,14 +42,14 @@ def master():
     orders = orders.merge(order_payment, how = 'inner', on = 'order_id')
     orders = orders.merge(order_reviews, how = 'inner', on = 'order_id')
     orders = orders.merge(products, how = 'inner', on = 'product_id')
-
     orders = orders.merge(product_category, how = 'inner', on = 'product_category_name')
 
+    # drop columns
+    orders = orders.drop(['product_category_name'], axis = 1, errors = 'ignore')
 
     # Except geolocation dataset
     customers_order = customers_loc.merge(orders, how = 'left', on = 'customer_id')
     customers_order = data_process(customers_order)
-
 
 
     return customers_order
