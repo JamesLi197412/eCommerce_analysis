@@ -24,7 +24,7 @@ After a customer place his order from Olist Store, notification sent to seller t
 
 ### Tasks
 #### 1. Data Visualisation
-![dashboard -- Data Visualisation](dashboard output/e-commerce dashboard.png)
+![e-commerce dashboard.png](dashboard output/e-commerce dashboard.png)
 
 #### 2. Customer Segment
 Customer are categorised into various groups. Firstly, customer could be split into New Customer and Regular Customer to see how they purchase products. In addition, RFM segmentation are utilised on customer as well, which is a marketing analysis method that involves analyzing customer behavior based on three key factors: recency, frequency, and monetary value. Later K-Means and DBSCAN methods to categorised customer into various groups.
