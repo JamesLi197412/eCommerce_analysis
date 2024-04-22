@@ -3,7 +3,9 @@ import pandas as pd
 
 def data_process(df):
     # adjust column _date from object to datetime
-    cols = ['order_delivered_carrier_date','order_delivered_customer_date','order_estimated_delivery_date','shipping_limit_date','review_creation_date','order_purchase_timestamp']
+    cols = ['order_delivered_carrier_date','order_delivered_customer_date',
+            'order_estimated_delivery_date','shipping_limit_date',
+            'review_creation_date','order_purchase_timestamp']
     for col in cols:
         df[col] = pd.to_datetime(df[col])
 
