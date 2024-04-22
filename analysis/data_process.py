@@ -20,7 +20,7 @@ def data_process(df):
 
 def master():
     # access files
-    path = 'dataset/'
+    path = '../dataset/'
     customers = pd.read_csv(path + 'olist_customers_dataset.csv')
     geolocation = pd.read_csv(path + 'olist_geolocation_dataset.csv')
     order_items = pd.read_csv(path + 'olist_order_items_dataset.csv')

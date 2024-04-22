@@ -17,14 +17,14 @@ After a customer place his order from Olist Store, notification sent to seller t
 * Machine Learning: sklearn
 
 ####  Data Schema
-![databaseRelationship.png](databaseRelationship.png)
+![databaseRelationship.png](dataset/databaseRelationship.png)
 
 
 ### Results and evaluation
 
 ### Tasks
 #### 1. Data Visualisation
-<img alt="Dashboard"  src="dashboard output/e-commerce dashboard.png" />
+<img alt="Dashboard"  src="output/dashboard output/e-commerce dashboard.png" />
 
 
 #### 2. Customer Segment
