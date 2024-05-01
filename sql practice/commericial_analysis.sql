@@ -1,29 +1,28 @@
 USE e_commerce;
 
 # Q1 Find out total sales and total orders
-SELECT COUNT(a.order_id) AS 'Total Orders', SUM(b.price + b.freight_value) AS 'Total Sales'
+SELECT c.product_category_name, COUNT(a.order_id) AS Total_Orders, SUM(b.price + b.freight_value) AS Total_Sales
 FROM orders AS a
 INNER JOIN order_items b
-ON a.order_id = b.order_id;
+ON a.order_id = b.order_id
+LEFT JOIN products c
+ON c.product_id = b.product_id
+GROUP BY product_category_name
+ORDER BY Total_Orders DESC;
 
 # Q2 Find out # of Orders and Sales by Purchase timestamp
-ALTER TABLE orders
-MODIFY order_purchase_timestamp DATETIME;
-
-SELECT YEAR(order_purchase_timestamp) AS 'Purchase_Year', MONTH(order_purchase_timestamp) AS 'Purchase Month',
-       COUNT(order_id) AS order_qty
-FROM orders
-GROUP BY Purchase_Year, `Purchase Month`
-ORDER BY Purchase_Year, `Purchase Month`;
-
-SELECT DATE_FORMAT(a.order_approved_at,"%Y-%m") AS date, SUM(b.price) AS sales
-FROM orders AS a
-INNER JOIN order_items AS b
-ON a.order_id = b.order_id
-GROUP BY date
+# EXPLAIN Query
+SELECT DATE_FORMAT(order_purchase_timestamp, "%Y-%m") as date, c.customer_state AS buyer_state,
+       COUNT(o.order_id) AS order_qty, SUM(i.price + i.freight_value) AS order_sales
+FROM orders o
+INNER JOIN order_items i
+ON o.order_id = i.order_id
+INNER JOIN customers c
+ON o.customer_id = c.customer_id
+GROUP BY date, buyer_state
 ORDER BY date;
 
-# Q3 Selling product by Category
+# Q3 Selling # of product by Category
 SELECT a.product_category_name_english AS product, COUNT(b.product_category_name) AS qty
 FROM product_category_name_translation AS a
 INNER JOIN products as b
@@ -32,13 +31,13 @@ GROUP BY product
 ORDER BY qty DESC;
 
 
-# Q4 Sellers / Customer by City
+# Q4 Sellers / Customer by City -- Generate Temp Table
 WITH temp_sellers AS (
     SELECT a.seller_city AS seller_city,
            COUNT(b.order_id) AS sales_qty,
            COUNT(b.order_id) * 100 / SUM(COUNT(b.order_id)) OVER() AS temp_sales_percentage
     FROM sellers AS a
-    INNER JOIN order_items AS b
+    LEFT JOIN order_items AS b
     ON a.seller_id = b.seller_id
     GROUP BY seller_city
     ORDER BY sales_qty DESC
@@ -51,52 +50,69 @@ WITH temp_customer AS(
             COUNT(b.order_id) AS order_qty,
             COUNT(b.order_id) * 100 / SUM(COUNT(b.order_id)) OVER() AS temp_order_percentage
     FROM customers AS a
-    INNER JOIN orders AS b
+    LEFT JOIN orders AS b
     ON a.customer_id = b.customer_id
     GROUP BY customer_city
     ORDER BY order_qty
 )
-SELECT *
+SELECT customer_city, order_qty, temp_order_percentage
 FROM temp_customer;
 
-# Q5 Avg, Min, and Max Products
+# Q5 Find out product price (MAX, Min, AVG and Median)
 SELECT AVG(order_items.price) AS Average_price,
        MAX(order_items.price) AS Max_Price,
        MIN(order_items.price) AS Min_Price
 FROM order_items;
 
+SELECT AVG(data.price) AS "Median_price"
+FROM (
+        SELECT order_items.price,
+               ROW_NUMBER() OVER (ORDER BY price ASC, order_id ASC) RowAsc,
+               ROW_NUMBER() OVER (ORDER BY price DESC, order_id DESC) AS RowDesc
+        FROM order_items
+     ) AS data
+WHERE RowAsc IN (RowDesc, RowDesc - 1, RowDesc + 1);
+
 # Q6. Delivery Interval (Estimate vs Actual) per Month
-WITH average_time AS (
-    SELECT DATE_FORMAT(orders.order_delivered_customer_date, "%Y-%m") AS date,
-           DATEDIFF(orders.order_estimated_delivery_date, orders.order_delivered_customer_date) As delivery_time,
-           COUNT(order_id) AS qty
+SELECT temp.date, temp.delivery_time as gap_estimated_actual, temp.order_qty
+FROM (
+    SELECT DATE_FORMAT(orders.order_purchase_timestamp, "%Y-%m") AS date,
+           AVG(DATEDIFF(orders.order_estimated_delivery_date, orders.order_delivered_customer_date)) As delivery_time,
+           COUNT(order_id) AS order_qty
     FROM orders
     WHERE order_status = 'delivered'
     GROUP BY date
     ORDER BY date
-)
-SELECT date AS Date, delivery_time as Day, qty AS Qty
-FROM average_time;
+) temp;
+
+# Q7. Payment Type
+SELECT a.payment_type,
+       COUNT(a.payment_type) AS count_pay_type,
+       ROUND(SUM(a.payment_value)/ 1000000,2) AS 'value_pay_type(M)'
+FROM order_payments AS a
+LEFT JOIN orders As b
+ON a.order_id = b.order_id
+WHERE b.order_status != 'canceled'
+GROUP BY a.payment_type
+ORDER BY count_pay_type DESC;
 
 
-
-# Q7. Find out score 5 count and its percentage
-SELECT c.yearmonth, c.score_5, c.count_all,
-        ROUND(CAST(c.score_5 AS float) / CAST(count_all AS float) * 100,2) AS percentage
+# Q8. Find out score 5 count and its percentage
+SELECT c.date, c.score_5, c.count_all,
+        ROUND((c.score_5 ) / (count_all) * 100,2) AS percentage
 FROM
     (
-        SELECT DATE_FORMAT(a.review_answer_timestamp, "%Y-%m") AS yearmonth,
-               SUM(CASE WHEN a.review_score = 5 THEN 1 ELSE 0 END) AS score_5,
-             COUNT(DISTINCT a.order_id) AS count_all
-        FROM order_reviews a
-        LEFT JOIN orders b
+        SELECT DATE_FORMAT(b.review_answer_timestamp, "%Y-%m") AS date,
+               SUM(CASE WHEN b.review_score = 5 THEN 1 ELSE 0 END) AS score_5,
+               COUNT(DISTINCT a.order_id) AS count_all
+        FROM orders a
+        LEFT JOIN order_reviews b
         ON a.order_id = b.order_id
-        WHERE b.order_status = 'delivered' AND YEAR(a.review_answer_timestamp) =2018
-        GROUP BY yearmonth
+        WHERE a.order_status = 'delivered'
+        GROUP BY date
     )c;
 
-
-# Q8
+# Q9 Check # of monthly purchase from 2016 - 2018
 SELECT Month as Month_no,
        CASE WHEN a.month = '01' THEN 'Jan'
             WHEN a.month = '02' THEN 'Feb'
@@ -126,44 +142,10 @@ FROM (
 GROUP BY Month
 ORDER BY Month_no ASC;
 
-
-# Q9. Payment Type count
-SELECT a.payment_type,
-       COUNT(a.payment_type) AS count_pay_type,
-       SUM(a.payment_value)/ 1000 AS 'value_pay_type(K)'
-FROM order_payments AS a
-LEFT JOIN orders As b
-ON a.order_id = b.order_id
-WHERE b.order_status != 'canceled' AND b.order_delivered_customer_date IS NOT NULL
-GROUP BY a.payment_type
-ORDER BY count_pay_type DESC;
-
-
-# Q10. Category, Seller_ID, Revenue
-SELECT S.product_category_name_english AS Category,
-       seller_id,
-       SUM(S.payment_value) AS Revenue
-FROM (
-        SELECT *
-        FROM sellers AS a
-        LEFT JOIN order_items AS b
-        on a.seller_city = b.seller_id
-        LEFT JOIN products AS c
-        ON b.product_id = c.product_id
-        LEFT JOIN product_category_name_translation AS d
-        ON d.product_category_name = c.product_category_name
-        LEFT JOIN order_payments AS e
-        ON e.order_id = b.order_id
-        LEFT JOIN orders AS f
-        ON f.order_id = b.order_id
-     ) AS S
-WHERE S.product_category_name IS NOT NULL
-AND S.order_status != 'canceled' AND S.order_delivered_customer_date IS NOT NULL
-GROUP BY Category, S.seller_id
-ORDER BY Category, Revenue DESC;
-
-# Q11. Sales by Customer State and its product_category
-SELECT S.customer_state,S.product_category_name, sum(S.payment_value) AS Revenue
+# Q10. Sales by Customer State, its product_category and order table by sales DESC
+SELECT S.customer_state,
+       (S.product_category_name),
+       ROUND(sum(S.payment_value)/1000,2) AS 'sales(k)'
 FROM (
         SELECT a.customer_id, customer_state, c.payment_value, product_category_name
         FROM customers AS a
@@ -179,43 +161,26 @@ FROM (
         AND product_category_name IS NOT NULL
      ) AS S
 GROUP BY customer_state, product_category_name
-ORDER BY Revenue DESC;
+ORDER BY 'sales(k)' DESC;
 
-# Q12 # of customer & seller by state
-SELECT a.state, a.num_customer, b.num_seller
-FROM (
-        SELECT customer_state AS state,
-               COUNT(DISTINCT(customers.customer_unique_id)) AS num_customer
-        FROM customers
-        GROUP BY state
-     ) AS a
-    LEFT JOIN (
-        SELECT seller_state AS state,
-               COUNT(DISTINCT(seller_id)) AS num_seller
-        FROM sellers
-        GROUP BY state
-    )AS b
-    ON a.state = b.state
-ORDER BY a.state, a.num_customer DESC;
-
-# Q13 RFM
+# Q11  RFM characteristics by customer unique ID
 SELECT c.customer_unique_id, MAX(DATE(a.order_purchase_timestamp)) AS R,
        COUNT(DISTINCT a.order_id) AS F,
-       SUM(b.payment_value) AS M
+       IFNULL(ROUND(SUM(b.payment_value),1),0) AS M
 FROM orders AS a
 LEFT JOIN order_payments b
 ON a.order_id = b.order_id
 LEFT JOIN customers AS c
 ON c.customer_id = a.customer_id
-WHERE order_status != 'available' AND order_status != 'canceled'
+WHERE order_status NOT IN('unavailable','canceled')
 GROUP BY customer_unique_id
-ORDER BY M DESC;
+ORDER BY M,R DESC;
 
-# Q14 Find out daily active customer (DAU)
+# Q12 Find out daily active customer (DAU)
 SELECT t.day AS DAY, count(t.customer_unique_id) AS DAU
 FROM
     (
-        SELECT date_format(o.order_purchase_timestamp, "%d") AS day,
+        SELECT date_format(o.order_purchase_timestamp, "%Y-%M-%d") AS day,
                c.customer_unique_id
         FROM orders as o
         LEFT JOIN customers as c
