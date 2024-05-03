@@ -8,7 +8,7 @@ from analysis.commerical_analysis import *
 
 def mysql():
     file_name, final_df = AWS_access()
-    connection = MySQLConnection('localhost', 'root', 'Lizhiyue1997412', 'test')
+    connection = MySQLConnection('*******', '******', '*******', '******')
 
     # Loop through dictionary
     for file_name, data in final_df.items():
