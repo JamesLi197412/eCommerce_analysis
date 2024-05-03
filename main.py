@@ -53,12 +53,11 @@ def commercial_analysis():
     payment_exploration.df_info_()
 
     # Data Visualisation for understanding data distribution and trend more
+    # Commercial Analysis
     # orders & customers dataset
-    date_state_sales = order_customer(order_dataset,customers,order_payment)
+    date_state_sales = order_customer(order_dataset,customers,order_payment,order_items,products)
 
 
-
-    # sales analysis by merging multiple tables
 
 
     # sales analysis
@@ -67,6 +66,6 @@ def commercial_analysis():
 
 # file_name, final_df = aws_mysql()
 if __name__ == '__main__':
-    commercial_analysis()
+    date_state_sales = commercial_analysis()
 
 
