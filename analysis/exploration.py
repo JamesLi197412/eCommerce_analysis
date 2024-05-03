@@ -3,21 +3,21 @@ class Exploration:
     def __init__(self,data):
         self.data = data
 
-    def missing_col(self,df):
-        missing_values = df.isnull().sum()
+    def missing_col(self):
+        missing_values = self.data.isnull().sum()
         missing_values = missing_values.sort_values(ascending=False)
 
         return missing_values
 
-    def df_info_(self,df):
+    def df_info_(self):
         """
             Information about the DataFrame
         """
 
-        features_dtypes = df.dtypes
-        rows, columns = df.shape
+        features_dtypes = self.data.dtypes
+        rows, columns = self.data.shape
 
-        missing_cols = self.missing_col(df)
+        missing_cols = self.missing_col()
         features_names = missing_cols.index.values
         missing_values = missing_cols.values
 
@@ -32,10 +32,15 @@ class Exploration:
 
         for features_names, features_dtypes, missing_values in zip(features_names, features_dtypes[features_names],
                                                                    missing_values):
-            print('{:15} {:14} {:20}'.format(features_names, str(features_dtypes), str(missing_values) + '-' +
-                                             str(round(100 * missing_values / sum(missing_cols), 3)) + ' %'), end=" ")
+            if (sum(missing_cols) != 0):
+                print('{:15} {:14} {:20}'.format(features_names, str(features_dtypes), str(missing_values) + '-' +
+                                                 str(round(100 * missing_values /
+                                                           sum(missing_cols), 3)) + ' %'), end=" ")
+            else:
+                print('{:15} {:14} {:20}'.format(features_names, str(features_dtypes), str(missing_values) + '-' +
+                                                 str(0) + ' %'), end=" ")
 
             for i in range(5):
-                print(df[features_names].iloc[i], end=",")
+                print(self.data[features_names].iloc[i], end=",")
 
             print("=" * 50)

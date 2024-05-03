@@ -1,6 +1,5 @@
 
 import pandas as pd
-
 def data_process(df):
     # adjust column _date from object to datetime
     cols = ['order_delivered_carrier_date','order_delivered_customer_date',
@@ -20,9 +19,9 @@ def data_process(df):
 
     return df
 
-def master():
+def local_access_df():
     # access files
-    path = '../dataset/'
+    path = 'dataset/'
     customers = pd.read_csv(path + 'olist_customers_dataset.csv')
     geolocation = pd.read_csv(path + 'olist_geolocation_dataset.csv')
     order_items = pd.read_csv(path + 'olist_order_items_dataset.csv')
@@ -33,6 +32,7 @@ def master():
     sellers = pd.read_csv(path + 'olist_sellers_dataset.csv')
     product_category = pd.read_csv(path + 'product_category_name_translation.csv')
 
+    '''
     # Data Merge by relationship chart
     # rename geolocation column geolocation_zip_code - > customer_zip_code
     temp = geolocation.copy(deep = True)
@@ -52,6 +52,6 @@ def master():
     # Except geolocation dataset
     customers_order = customers_loc.merge(orders, how = 'left', on = 'customer_id')
     customers_order = data_process(customers_order)
+    '''
 
-
-    return customers_order
+    return customers,geolocation,order_items,order_payment, order_reviews,order_dataset,products, sellers,product_category

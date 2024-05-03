@@ -7,18 +7,22 @@ class MySQLConnection:
         self.user = user
         self.password = password
         self.database = database
+        self.connection = None
 
-    def connection(self):
-        self.connection = pymysql.connect(
+    def connection_generate(self):
+        connection = pymysql.connect(
             host = self.host,
             user = self.user,
             password = self.password,
             database = self.database
         )
+        self.connection = connection
+        return connection
 
     def create_table(self, table_name, columns):
+        self.connection_generate()
         cursor = self.connection.cursor()
-        query = f"CREATE TABLE {table_name} ({columns})"
+        query = f"CREATE TABLE  IF NOT EXISTS {table_name} ({columns})"
         cursor.execute(query)
         self.connection.commit()
 
@@ -28,7 +32,7 @@ class MySQLConnection:
             self.connection = None
 
     def insert_data(self, table_name, values):
-        cursor = self.connection.cursor()
+        cursor = self.connection_generate.cursor()
         query = f"INSERT INTO {table_name} VALUES ({values})"
         cursor.execute(query)
         self.connection.commit()
