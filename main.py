@@ -28,10 +28,10 @@ def AWS_access():
     # config = configparser.ConfigParser()
     # config.read(config_file)
 
-    access_key_id = "AKIAYPUDGOYO6UHV4R4U"
-    secret_access_key = "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"
-    region_name = "ap-northeast-1"
-    bucket_name = "ecommerceolist"
+    access_key_id = ""
+    secret_access_key = ""
+    region_name = ""
+    bucket_name = ""
 
     s3_reader = S3Reader(access_key_id, secret_access_key, region_name)
 
