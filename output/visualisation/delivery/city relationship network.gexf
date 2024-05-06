@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='utf-8'?>
+<gexf xmlns="http://www.gexf.net/1.2draft" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.gexf.net/1.2draft http://www.gexf.net/1.2draft/gexf.xsd" version="1.2">
+  <meta lastmodifieddate="2024-05-06">
+    <creator>NetworkX 3.2.1</creator>
+  </meta>
+  <graph defaultedgetype="undirected" mode="static" name="">
+    <nodes>
+      <node id="abadia dos dourados" label="abadia dos dourados" />
+      <node id="montenegro" label="montenegro" />
+      <node id="rio de janeiro" label="rio de janeiro" />
+      <node id="sao paulo" label="sao paulo" />
+      <node id="abadiania" label="abadiania" />
+      <node id="abaete" label="abaete" />
+      <node id="bauru" label="bauru" />
+      <node id="betim" label="betim" />
+      <node id="formiga" label="formiga" />
+      <node id="guariba" label="guariba" />
+      <node id="ibitinga" label="ibitinga" />
+      <node id="itajai" label="itajai" />
+      <node id="itatiba" label="itatiba" />
+      <node id="abaetetuba" label="abaetetuba" />
+      <node id="atibaia" label="atibaia" />
+      <node id="barueri" label="barueri" />
+      <node id="bebedouro" label="bebedouro" />
+      <node id="belo horizonte" label="belo horizonte" />
+      <node id="cascavel" label="cascavel" />
+      <node id="congonhas" label="congonhas" />
+      <node id="recife" label="recife" />
+      <node id="sao jose do rio preto" label="sao jose do rio preto" />
+      <node id="abaiara" label="abaiara" />
+      <node id="cajamar" label="cajamar" />
+      <node id="conselheiro lafaiete" label="conselheiro lafaiete" />
+      <node id="abaira" label="abaira" />
+      <node id="abare" label="abare" />
+      <node id="alfenas" label="alfenas" />
+      <node id="abatia" label="abatia" />
+      <node id="jacarei" label="jacarei" />
+      <node id="abdon batista" label="abdon batista" />
+      <node id="abelardo luz" label="abelardo luz" />
+      <node id="curitiba" label="curitiba" />
+      <node id="guarulhos" label="guarulhos" />
+      <node id="santa barbara d´oeste" label="santa barbara d´oeste" />
+      <node id="sbc/sp" label="sbc/sp" />
+      <node id="abrantes" label="abrantes" />
+      <node id="ilicinea" label="ilicinea" />
+      <node id="abre campo" label="abre campo" />
+      <node id="jaragua do sul" label="jaragua do sul" />
+      <node id="maua" label="maua" />
+      <node id="santo andre" label="santo andre" />
+      <node id="abreu e lima" label="abreu e lima" />
+      <node id="araraquara" label="araraquara" />
+      <node id="ipira" label="ipira" />
+      <node id="itapeva" label="itapeva" />
+      <node id="sao jose dos campos" label="sao jose dos campos" />
+      <node id="sao pedro" label="sao pedro" />
+      <node id="acaiaca" label="acaiaca" />
+      <node id="ribeirao preto" label="ribeirao preto" />
+      <node id="acailandia" label="acailandia" />
+      <node id="lauro de freitas" label="lauro de freitas" />
+      <node id="rolandia" label="rolandia" />
+      <node id="acajutiba" label="acajutiba" />
+      <node id="acarau" label="acarau" />
+      <node id="borda da mata" label="borda da mata" />
+      <node id="praia grande" label="praia grande" />
+      <node id="salvador" label="salvador" />
+      <node id="sao luis" label="sao luis" />
+      <node id="acari" label="acari" />
+      <node id="acegua" label="acegua" />
+      <node id="mesquita" label="mesquita" />
+      <node id="sao jose dos pinhais" label="sao jose dos pinhais" />
+      <node id="acopiara" label="acopiara" />
+      <node id="franca" label="franca" />
+      <node id="acreuna" label="acreuna" />
+      <node id="brusque" label="brusque" />
+      <node id="resende" label="resende" />
+      <node id="acu" label="acu" />
+      <node id="piracicaba" label="piracicaba" />
+      <node id="acucena" label="acucena" />
+      <node id="adamantina" label="adamantina" />
+      <node id="andradas" label="andradas" />
+      <node id="arapongas" label="arapongas" />
+      <node id="campo limpo paulista" label="campo limpo paulista" />
+      <node id="cariacica" label="cariacica" />
+      <node id="caxias do sul" label="caxias do sul" />
+      <node id="foz do iguacu" label="foz do iguacu" />
+      <node id="garca" label="garca" />
+      <node id="guaruja" label="guaruja" />
+      <node id="jales" label="jales" />
+      <node id="queimados" label="queimados" />
+      <node id="rio claro" label="rio claro" />
+    </nodes>
+    <edges>
+      <edge source="abadia dos dourados" target="montenegro" id="0" weight="1" />
+      <edge source="abadia dos dourados" target="rio de janeiro" id="1" weight="1" />
+      <edge source="abadia dos dourados" target="sao paulo" id="2" weight="1" />
+      <edge source="rio de janeiro" target="abaete" id="3" weight="1" />
+      <edge source="sao paulo" target="abadiania" id="4" weight="1" />
+      <edge source="sao paulo" target="abaete" id="5" weight="3" />
+      <edge source="sao paulo" target="abaetetuba" id="6" weight="4" />
+      <edge source="sao paulo" target="abaira" id="7" weight="2" />
+      <edge source="sao paulo" target="abare" id="8" weight="1" />
+      <edge source="sao paulo" target="abatia" id="9" weight="1" />
+      <edge source="sao paulo" target="abelardo luz" id="10" weight="1" />
+      <edge source="sao paulo" target="abrantes" id="11" weight="1" />
+      <edge source="sao paulo" target="abre campo" id="12" weight="1" />
+      <edge source="sao paulo" target="abreu e lima" id="13" weight="1" />
+      <edge source="sao paulo" target="acailandia" id="14" weight="3" />
+      <edge source="sao paulo" target="acajutiba" id="15" weight="1" />
+      <edge source="sao paulo" target="acarau" id="16" weight="1" />
+      <edge source="sao paulo" target="acopiara" id="17" weight="3" />
+      <edge source="sao paulo" target="acreuna" id="18" weight="5" />
+      <edge source="sao paulo" target="acu" id="19" weight="2" />
+      <edge source="sao paulo" target="acucena" id="20" weight="1" />
+      <edge source="abaete" target="bauru" id="21" weight="1" />
+      <edge source="abaete" target="betim" id="22" weight="1" />
+      <edge source="abaete" target="formiga" id="23" weight="1" />
+      <edge source="abaete" target="guariba" id="24" weight="1" />
+      <edge source="abaete" target="ibitinga" id="25" weight="1" />
+      <edge source="abaete" target="itajai" id="26" weight="1" />
+      <edge source="abaete" target="itatiba" id="27" weight="1" />
+      <edge source="guariba" target="acailandia" id="28" weight="1" />
+      <edge source="guariba" target="adamantina" id="29" weight="1" />
+      <edge source="ibitinga" target="abatia" id="30" weight="1" />
+      <edge source="ibitinga" target="abdon batista" id="31" weight="2" />
+      <edge source="ibitinga" target="acailandia" id="32" weight="1" />
+      <edge source="ibitinga" target="adamantina" id="33" weight="4" />
+      <edge source="abaetetuba" target="atibaia" id="34" weight="1" />
+      <edge source="abaetetuba" target="barueri" id="35" weight="2" />
+      <edge source="abaetetuba" target="bebedouro" id="36" weight="1" />
+      <edge source="abaetetuba" target="belo horizonte" id="37" weight="1" />
+      <edge source="abaetetuba" target="cascavel" id="38" weight="1" />
+      <edge source="abaetetuba" target="congonhas" id="39" weight="1" />
+      <edge source="abaetetuba" target="recife" id="40" weight="3" />
+      <edge source="abaetetuba" target="sao jose do rio preto" id="41" weight="1" />
+      <edge source="belo horizonte" target="abre campo" id="42" weight="1" />
+      <edge source="belo horizonte" target="acarau" id="43" weight="1" />
+      <edge source="belo horizonte" target="acreuna" id="44" weight="1" />
+      <edge source="cascavel" target="acaiaca" id="45" weight="1" />
+      <edge source="cascavel" target="acarau" id="46" weight="1" />
+      <edge source="sao jose do rio preto" target="abelardo luz" id="47" weight="1" />
+      <edge source="sao jose do rio preto" target="abreu e lima" id="48" weight="2" />
+      <edge source="sao jose do rio preto" target="acreuna" id="49" weight="1" />
+      <edge source="abaiara" target="cajamar" id="50" weight="1" />
+      <edge source="abaiara" target="conselheiro lafaiete" id="51" weight="1" />
+      <edge source="abare" target="alfenas" id="52" weight="1" />
+      <edge source="abatia" target="jacarei" id="53" weight="1" />
+      <edge source="jacarei" target="adamantina" id="54" weight="1" />
+      <edge source="abelardo luz" target="curitiba" id="55" weight="1" />
+      <edge source="abelardo luz" target="guarulhos" id="56" weight="1" />
+      <edge source="abelardo luz" target="santa barbara d´oeste" id="57" weight="1" />
+      <edge source="abelardo luz" target="sbc/sp" id="58" weight="1" />
+      <edge source="curitiba" target="acari" id="59" weight="1" />
+      <edge source="guarulhos" target="abreu e lima" id="60" weight="2" />
+      <edge source="abrantes" target="ilicinea" id="61" weight="1" />
+      <edge source="abre campo" target="jaragua do sul" id="62" weight="1" />
+      <edge source="abre campo" target="maua" id="63" weight="1" />
+      <edge source="abre campo" target="santo andre" id="64" weight="1" />
+      <edge source="santo andre" target="abreu e lima" id="65" weight="3" />
+      <edge source="abreu e lima" target="araraquara" id="66" weight="1" />
+      <edge source="abreu e lima" target="ipira" id="67" weight="2" />
+      <edge source="abreu e lima" target="itapeva" id="68" weight="1" />
+      <edge source="abreu e lima" target="sao jose dos campos" id="69" weight="1" />
+      <edge source="abreu e lima" target="sao pedro" id="70" weight="1" />
+      <edge source="acaiaca" target="ribeirao preto" id="71" weight="1" />
+      <edge source="ribeirao preto" target="acopiara" id="72" weight="1" />
+      <edge source="ribeirao preto" target="adamantina" id="73" weight="1" />
+      <edge source="acailandia" target="lauro de freitas" id="74" weight="1" />
+      <edge source="acailandia" target="rolandia" id="75" weight="1" />
+      <edge source="acarau" target="borda da mata" id="76" weight="2" />
+      <edge source="acarau" target="praia grande" id="77" weight="1" />
+      <edge source="acarau" target="salvador" id="78" weight="1" />
+      <edge source="acarau" target="sao luis" id="79" weight="1" />
+      <edge source="borda da mata" target="acopiara" id="80" weight="1" />
+      <edge source="praia grande" target="acopiara" id="81" weight="2" />
+      <edge source="acegua" target="mesquita" id="82" weight="1" />
+      <edge source="acegua" target="sao jose dos pinhais" id="83" weight="1" />
+      <edge source="acopiara" target="franca" id="84" weight="1" />
+      <edge source="franca" target="adamantina" id="85" weight="2" />
+      <edge source="acreuna" target="brusque" id="86" weight="1" />
+      <edge source="acreuna" target="resende" id="87" weight="1" />
+      <edge source="acu" target="piracicaba" id="88" weight="4" />
+      <edge source="adamantina" target="andradas" id="89" weight="1" />
+      <edge source="adamantina" target="arapongas" id="90" weight="1" />
+      <edge source="adamantina" target="campo limpo paulista" id="91" weight="1" />
+      <edge source="adamantina" target="cariacica" id="92" weight="1" />
+      <edge source="adamantina" target="caxias do sul" id="93" weight="1" />
+      <edge source="adamantina" target="foz do iguacu" id="94" weight="1" />
+      <edge source="adamantina" target="garca" id="95" weight="1" />
+      <edge source="adamantina" target="guaruja" id="96" weight="1" />
+      <edge source="adamantina" target="jales" id="97" weight="2" />
+      <edge source="adamantina" target="queimados" id="98" weight="1" />
+      <edge source="adamantina" target="rio claro" id="99" weight="1" />
+    </edges>
+  </graph>
+</gexf>

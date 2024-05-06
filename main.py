@@ -3,7 +3,9 @@ from data.S3Access import *
 from data.MySQLConnection import *
 from data.local import *
 from analysis.exploration import *
-from analysis.commerical_analysis import *
+from analysis.commercial import *
+from analysis.review import *
+from analysis.delivery import *
 
 
 def mysql():
@@ -28,10 +30,10 @@ def AWS_access():
     # config = configparser.ConfigParser()
     # config.read(config_file)
 
-    access_key_id = ""
-    secret_access_key = ""
-    region_name = ""
-    bucket_name = ""
+    access_key_id = "*************"
+    secret_access_key = "*************"
+    region_name = "*************"
+    bucket_name = "*************"
 
     s3_reader = S3Reader(access_key_id, secret_access_key, region_name)
 
@@ -55,13 +57,21 @@ def commercial_analysis():
     # Data Visualisation for understanding data distribution and trend more
     # Commercial Analysis
     # orders & customers dataset
-    date_state_sales = order_customer(order_dataset,customers,order_payment,order_items,products)
+    # date_state_sales = order_customer(order_dataset,customers,order_payment,order_items,products,product_category)
 
+
+    # Review analysis
+    # review_exploration = Exploration(order_reviews)
+    #review_exploration.df_info_()
+    # review_analysis(order_reviews)
+
+    # Delivery analysis
+    delivery_df = delivery_analysis(order_dataset, customers, order_payment, order_items, products, product_category,sellers)
 
 
 
     # sales analysis
-    return date_state_sales
+    return None
 
 
 # file_name, final_df = aws_mysql()
