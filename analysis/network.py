@@ -23,7 +23,7 @@ def order_data(df):
     df['order_estimated_delivery_date'] = pd.to_datetime(df['order_estimated_delivery_date'],errors='coerce')
     return df
 
-def delivery_analysis(orders,customers,payment,items,products,product_category, sellers):
+def network_analysis(orders,customers,payment,items,products,product_category, sellers):
     # One customer could have multiple orders
     orders = order_data(orders)
     orders['order_date'] = orders['order_purchase_timestamp'].dt.date

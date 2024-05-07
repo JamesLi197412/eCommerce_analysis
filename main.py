@@ -63,10 +63,10 @@ def commercial_analysis():
     # Review analysis
     # review_exploration = Exploration(order_reviews)
     #review_exploration.df_info_()
-    # review_analysis(order_reviews)
+    review_analysis(order_reviews)
 
-    # Delivery analysis
-    delivery_df = delivery_analysis(order_dataset, customers, order_payment, order_items, products, product_category,sellers)
+    # Network analysis
+    # delivery_df = network_analysis(order_dataset, customers, order_payment, order_items, products, product_category,sellers)
 
 
 
