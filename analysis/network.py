@@ -11,6 +11,9 @@ from bokeh.palettes import Blues8,Spectral8,Plasma256,Colorblind
 from bokeh.transform import linear_cmap
 from networkx.algorithms import community
 
+from mlxtend.frequent_patterns import apriori
+from mlxtend.frequent_patterns import association_rules
+
 def order_data(df):
     """to adjust order date column in orders dataset"""
     df['order_delivered_customer_date'] = pd.to_datetime(df['order_delivered_customer_date'],errors='coerce')
@@ -34,7 +37,7 @@ def delivery_analysis(orders,customers,payment,items,products,product_category, 
 
     # 1. Generate a table with seller_city and buyer city (aggregation)
     # Ideally generate network analysis
-    seller_buyer_df = seller_buyer_network(orders_customers_sellers)
+    # seller_buyer_df = seller_buyer_network(orders_customers_sellers)
 
 
 
@@ -66,35 +69,69 @@ def seller_buyer_network(df):
     # Create a network graph
     G = nx.from_pandas_edgelist(sample_df, edge_attr='weight')
 
-    # Draw the network graph
-    #pos = nx.spring_layout(G)
-    #nx.draw(G, pos, with_labels=True, node_size=2000, node_color='skyblue', font_size=10, font_weight='bold',
-    #        edge_color='gray', width=2)
-    #labels = nx.get_edge_attributes(G, 'weight')
-    #nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
-    #draw_network(G)
-    #nx.write_gexf(G, path = f'output/visualisation/network/city relationship network.gexf')
+    # Draw the network graph & export diagram to output file
+    draw_simple_network(G,f'output/visualisation/network/city relationship network.gexf')
 
     return buyer_seller_df
 
+def hot_encode(x):
+    if (x<=0):
+        return False
+    else:
+        return True
+
 def product_association(df):
-    onehotOrders = (df.groupby(['order_id', 'product_category_name_english'])['product_category_name_english'].count().unstack().
-                    reset_index().fillna(0).set_index('order_id') > 0) * 1
+    order_product = df.groupby(['order_id', 'product_category_name_english'])['product_category_name_english'].count().\
+        unstack().reset_index().fillna(0).set_index('order_id')
+    order_product_df = order_product.applymap(hot_encode)
 
-    onehotOrders = onehotOrders.fillna(0)
-    AMorders = onehotOrders.T.dot(onehotOrders) # AM stands for Adjacency matrix
+    rules,items = get_rules(order_product_df,0.0000001)
+    rules.to_csv('output/visualisation/network/Product Buying Rules.csv')
+    print('Number of Associations: {}'.format(rules.shape[0]))
+
+    rules.plot.scatter('support','confidence', alpha = 0.5, marker = '*')
+    plt.xlabel('Support')
+    plt.ylabel('Confidence')
+    plt.title('Association Rule')
+    plt.savefig(f'output/visualisation/network/Association Rules.png')
+    # plt.show()
+
+
+    AMorders = order_product.T.dot(order_product) # AM stands for Adjacency matrix
     np.fill_diagonal(AMorders.values,0)
+    print(AMorders.head())
+    # print(type(AMorders))
+    #AMorders.to_csv('test1.csv')
+    #rules = get_rules(AMorders)
 
-    G = nx.from_pandas_adjacency(AMorders)
 
+
+
+    #G = nx.from_pandas_adjacency(AMorders)
     # Draw the network diagram
-    #pos = nx.circular_layout(G)
-    # nx.draw(G, pos, with_labels=True, node_size=2000, node_color='skyblue', font_size=10, font_weight='bold',
-    #        edge_color='black')
-    #plt.show()
-    draw_network(G)
+    # draw_simple_network(G)
+
     return None
 
+def get_rules(df, min_support = 0.01):
+    # Apply the Apriori algorithm to find frequent itemsets
+    frequent_itemsets = apriori(df, min_support=min_support, use_colnames=True)
+    frequent_itemsets['length'] = frequent_itemsets['itemsets'].apply(lambda x: len(x))
+
+    # Generate association rules
+    rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.6)
+
+    return rules,frequent_itemsets
+
+def draw_simple_network(G,path):
+    # Draw the network diagram
+    pos = nx.spring_layout(G)
+    nx.draw(G, pos, with_labels=True, node_size=2000, node_color='skyblue', font_size=10, font_weight='bold',
+            edge_color='black')
+    labels = nx.get_edge_attributes(G, 'weight')
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
+    plt.show()
+    nx.write_gexf(G, path=path)
 
 def draw_network(G, title = 'buyer seller relationship'):
     # References: https://melaniewalsh.github.io/Intro-Cultural-Analytics/06-Network-Analysis/02-Making-Network-Viz-with-Bokeh.html
@@ -110,7 +147,7 @@ def draw_network(G, title = 'buyer seller relationship'):
     # Create empty dictionaries
     modularity_class = {}
     modularity_color = {}
-    print(Spectral8)
+
     # Loop through each community in the network
     for community_number, community in enumerate(communities):
         # For each member of the community, add their community number and a distinct color
