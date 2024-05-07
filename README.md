@@ -7,7 +7,7 @@ After a customer place his order from Olist Store, notification sent to seller t
 [here](Link https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
 
 ### Codes and Resources Used
-* DataSpell
+* Pycharm
 * Python 3.8
 
 ### Python Packages Used
@@ -34,15 +34,3 @@ Customer are categorised into various groups. Firstly, customer could be split i
 Reviews left by customers are valuable to improve product quality and service. Bascially, text processing are utilised on customer reviews. Labels are given by their score. In the end, various classification method are used to split reviews into groups and pick up negative feedbacks to improve in order to provide better service.
 
 
-## Versioning
-Github/Git are used for versioning/sharing. 
-
-## Authors
-
-* **James Li** 
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## This Project is not completely finished.

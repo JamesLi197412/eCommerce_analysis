@@ -5,7 +5,7 @@ from data.local import *
 from analysis.exploration import *
 from analysis.commercial import *
 from analysis.review import *
-from analysis.delivery import *
+from analysis.network import *
 
 
 def mysql():
