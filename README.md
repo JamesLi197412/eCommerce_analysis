@@ -14,7 +14,8 @@ After a customer place his order from Olist Store, notification sent to seller t
 ### Project Framework
 
 #### Project Flow Diagram
-![Project Flow Diagram.png](Project Flow Diagram.png)
+![ProjectFlowDiagram.png](Project Flow Diagram.png)
+
 
 ####  Data Schema
 ![databaseRelationship.png](dataset/databaseRelationship.png)
