@@ -14,8 +14,14 @@ After a customer place his order from Olist Store, notification sent to seller t
 ### Project Framework
 
 #### Project Flow Diagram
-![ProjectFlowDiagram.png](Project Flow Diagram.png)
-
+```mermaid
+flowchart TD
+    A[AWS S3 ] -->|Get data| B(Data Storage at MySQL)
+    B --> C{Data Exploration and Visualisation}
+    C -->|Commercial analysis| D[Gelocation Sales & Customer Analysis]
+    C -->|Review Analysis| E[Analysis Customer Reviews & Classification]
+    C -->|Network Analysis| F[Product Associaton Rule & Cities Networks]
+```
 
 ####  Data Schema
 ![databaseRelationship.png](dataset/databaseRelationship.png)
