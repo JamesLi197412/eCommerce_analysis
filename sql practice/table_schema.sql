@@ -134,3 +134,16 @@ ALTER TABLE order_items
 ADD CONSTRAINT fk_orders_items_id
 FOREIGN KEY (order_id) REFERENCES orders(order_id);
 
+# INSERT INTO examples
+START TRANSACTION;
+INSERT INTO product_category_name_translation(
+         product_category_name,
+         product_category_name_english
+)VALUES(
+        'Elektroauto',
+        'electric auto'
+);
+COMMIT;
+
+
+

@@ -9,6 +9,13 @@ from sklearn.metrics import f1_score
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
 
+from gensim import corpora
+from gensim.models import LdaModel
+from gensim.models import CoherenceModel
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+
 # Sentiment analysis
 def review_analysis(reviews_df):
     stop_words = set(stopwords.words('portuguese'))
@@ -21,19 +28,21 @@ def review_analysis(reviews_df):
     reviews_df['label'] = np.where(reviews_df['review_score'] >=3 , 1, 0)
 
     # common_words_visualisation(reviews_df,'typed_review_comment_message')
-
+    # Classification
     # Bag of Words + Logistic Regression
-    test_df = bag_of_words(reviews_df,stop_words) # generate the prediction
-    test_df.columns = ['review_id','prediction_label']
+    #test_df = bag_of_words(reviews_df,stop_words) # generate the prediction
+    #test_df.columns = ['review_id','prediction_label']
     # print(test_df.columns)
     # merge test_df with original review_df
-    test_df = test_df.merge(reviews_df, on = 'review_id', how = 'inner')
-    print(test_df.head(5))
-    print(test_df.columns)
+    #test_df = test_df.merge(reviews_df, on = 'review_id', how = 'inner')
+    #print(test_df.head(5))
+    #print(test_df.columns)
 
     # TF-IDF + Logistic Regression
     # tf_idf(reviews_df,stop_words)
 
+    # Topic modelling
+    topic_modelling()
 
     return reviews_df
 
@@ -114,3 +123,35 @@ def tf_idf(df,stop_words, col = 'tidy_review_comment_message'):
 
     f1_score(yvalid, prediction_int)
     return
+
+def topic_modelling():
+    # Sample documents
+    documents = ["I like to eat bananas",
+                 "I prefer apples over bananas",
+                 "Bananas are delicious",
+                 "I like to eat apples",
+                 "I like to eat oranges"]
+
+    # Tokenize the documents
+    nltk.download('stopwords')
+    nltk.download('punkt')
+    stop_words = set(stopwords.words('english'))
+    tokenized_docs = [word_tokenize(doc.lower()) for doc in documents]
+    tokenized_docs = [[word for word in doc if word not in stop_words and word.isalnum()] for doc in tokenized_docs]
+
+    # Create a dictionary and a corpus
+    dictionary = corpora.Dictionary(tokenized_docs)
+    corpus = [dictionary.doc2bow(doc) for doc in tokenized_docs]
+
+    # Build the LDA model
+    lda_model = LdaModel(corpus=corpus, id2word=dictionary, num_topics=2, passes=10)
+
+    # Print the topics
+    topics = lda_model.print_topics(num_topics=2, num_words=3)
+    for topic in topics:
+        print(topic)
+
+    # Compute Coherence score
+    coherence_model_lda = CoherenceModel(model=lda_model, texts=tokenized_docs, dictionary=dictionary, coherence='c_v')
+    coherence_lda = coherence_model_lda.get_coherence()
+    print('Coherence Score: ', coherence_lda)
