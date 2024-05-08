@@ -109,20 +109,8 @@ def tf_idf(df,stop_words, col = 'tidy_review_comment_message'):
     train_tfidf = tfidf_vectorizer.fit_transform(train[col])
     test_tfidf = tfidf_vectorizer.fit_transform(test[col])
 
-    xtrain, xvalid, ytrain, yvalid = train_test_split(train_tfidf, train['label'], random_state=42, test_size=0.3)
 
-    xtrain_tfidf = train_tfidf[ytrain.index]
-    xvalid_tfidf = train_tfidf[yvalid.index]
-
-    lreg = LogisticRegression()
-    lreg.fit(xtrain_tfidf, ytrain)
-
-    prediction = lreg.predict_proba(xvalid_tfidf)
-    prediction_int = prediction[:, 1] >= 0.3
-    prediction_int = prediction_int.astype(np.int)
-
-    f1_score(yvalid, prediction_int)
-    return
+    return train_tfidf,test_tfidf
 
 def topic_modelling():
     # Sample documents

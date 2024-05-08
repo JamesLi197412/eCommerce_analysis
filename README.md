@@ -10,10 +10,18 @@ After a customer place his order from Olist Store, notification sent to seller t
 * Pycharm
 * Python 
 * PowerBI
+* Packages needed: See requirements.txt 
 
 ### Project Framework
 
 #### Project Flow Diagram
+flowchart TD
+    A[AWS S3 ] -->|Get data| B(Data Storage at MySQL)
+    B --> C{Data Exploration and Visualisation}
+    C -->|Commercial analysis| D[Gelocation Sales & Customer Analysis]
+    C -->|Review Analysis| E[Analysis Customer Reviews & Classification]
+    C -->|Network Analysis| F[Product Associaton Rule & Cities Networks]
+  
 
 
 ####  Data Schema
@@ -26,10 +34,13 @@ After a customer place his order from Olist Store, notification sent to seller t
 <img alt="Dashboard"  src="output/dashboard output/e-commerce dashboard.png" />
 
 #### 2. Commercial Analysis
-Tables are merged together to form dataframe. 
+Tables are merged together to form master dataframe. From commercial sales perspective, gelocation sales such as customer city and state are viewd. The output are stored at output/visualisation/commercial. In addition, popular product category by city are found and presented in treee map. Later, customer sales such as rfm and new customer against regular customer are analysied. In the end, DAU will be presented in line chart.
 
 
 #### 3. Network Analysis (City relationship & Product Association)
+* Speaking of customer city and seller city, taking them as nodes, and frequencies between as edges. Relationship betweem cities are presented in network diagram. For the strong relationship with high connection between cities, more deliveries services could be planned in order to increase customer statistication.
+
+* But for product association, an adjacnecy matrix are produced between proucts relationship. Association rules are utilised to help sellers have more bundles in order to attract customer in order to increase sales.  Association rule could tell you what is the probability of buying this product given if customer have already bought other products.
 
 
 #### 4. Customer Segment
