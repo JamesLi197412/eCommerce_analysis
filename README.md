@@ -31,7 +31,9 @@ flowchart TD
 ### Results and evaluation
 ### Tasks
 #### 1. Data Visualisation
-<img alt="Dashboard"  src="output/dashboard output/e-commerce dashboard.png" />
+<img alt="Overview"  src="output/dashboard output/Overview.png" />
+
+<img alt="Delivery Status"  src="output/dashboard output/Delivery status.png" />
 
 #### 2. Commercial Analysis
 Tables are merged together to form master dataframe. From commercial sales perspective, gelocation sales such as customer city and state are viewd. The output are stored at output/visualisation/commercial. In addition, popular product category by city are found and presented in treee map. Later, customer sales such as rfm and new customer against regular customer are analysied. In the end, DAU will be presented in line chart.
@@ -44,9 +46,7 @@ Tables are merged together to form master dataframe. From commercial sales persp
 
 
 #### 4. Customer Segment
-Customer are categorised into various groups. Firstly, customers are categorised regular customer and customer who only buy once on the platform via RFM. Then
-
-customer could be split into New Customer and Regular Customer to see how they purchase products. In addition, RFM segmentation are utilised on customer as well, which is a marketing analysis method that involves analyzing customer behavior based on three key factors: recency, frequency, and monetary value. Later K-Means and DBSCAN methods to categorised customer into various groups.
+Customer are categorised into various groups. Firstly, customers are categorised regular customer and customer who only buy once on the platform via RFM. Then customer could be split into New Customer and Regular Customer to see how they purchase products. In addition, RFM segmentation are utilised on customer as well, which is a marketing analysis method that involves analyzing customer behavior based on three key factors: recency, frequency, and monetary value. Later K-Means and DBSCAN methods to categorised customer into various groups.
 
 
 #### 5. Sentiment Analysis (NLP) 
