@@ -1,20 +1,10 @@
-import pandas as pd
 import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
-import scipy.stats as stats
 import squarify
-
-def order_data(df):
-    """to adjust order date column in orders datasets"""
-    df['order_delivered_customer_date'] = pd.to_datetime(df['order_delivered_customer_date'],errors='coerce')
-    df['order_delivered_carrier_date'] = pd.to_datetime(df['order_delivered_carrier_date'],errors='coerce')
-    df['order_approved_at'] = pd.to_datetime(df['order_approved_at'],errors='coerce')
-    df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'],errors='coerce')
-    df['order_estimated_delivery_date'] = pd.to_datetime(df['order_estimated_delivery_date'],errors='coerce')
-    return df
+from pre_process import order_data
 
 def geolocation_sales(orders_customers_payment,geolocation):
     # geolocation could be state or city by your needs,e.g. customer_state, customer_city
@@ -99,11 +89,6 @@ def order_customer(orders,customers,payment,items,products,product_category):
                                  .groupby(['customer_unique_id']).cumcount() + 1
     customer_regular.sort_values(by = ['customer_unique_id','RN'], ascending= [True, True], inplace= True)
 
-    #customer_regular.to_csv('test.csv')
-
-
-
-
     # DAU (Daily Active User)
 
 
@@ -123,8 +108,6 @@ def bar_plot(df):
         linewidth=2.5, edgecolor=".5", facecolor=(0, 0, 0, 0),
     )
     plt.savefig(f'output/visualisation/commercial/city bar.png')
-    # plt.show()
-    # plt.xticks(rotation = -80)
 
 def product_popularity(df):
     product_df = df.groupby(['product_category_name'])['customer_unique_id'].agg(['count']).reset_index().sort_values(by = 'count', ascending= False)
@@ -135,7 +118,7 @@ def product_popularity(df):
         linewidth=2.5, edgecolor=".5", facecolor=(0, 0, 0, 0),
     )
     plt.savefig(f'output/visualisation/commercial/product popularity.png')
-    # plt.show()
+
 
 def distribution_plt(dataframe,column_name,title,xlabel,ylabel):
     # Distribution of Age of Employees
@@ -174,7 +157,7 @@ def pie_chart(dataframe, col,target,color,title):
     plt.axis('off')
     plt.legend()
     plt.savefig(f'output/visualisation/commercial/customer buying frequency distribution.png')
-    # plt.show()
+
 
 def payment_analysis(orders_customers_payment):
     payments = orders_customers_payment.groupby(['payment_type'])['payment_value'].agg(['count', 'sum']).reset_index()
@@ -204,7 +187,7 @@ def rfm_analysis(df):
     monetary_df = df.groupby(by=['customer_unique_id'], as_index=True)['payment_value'].sum().reset_index()
     monetary_df.columns = ['customer_unique_id', 'Monetary']
 
-    # merging montery, frequency, recency
+    # merging monastery, frequency, recency
     rf_df = df_recency.merge(frequency_df, on='customer_unique_id', how='inner')
     rfm_df = rf_df.merge(monetary_df, on='customer_unique_id', how='inner').drop(columns='Last Purchase Date')
     rfm_df = rfm_df.sort_values(by = ['Frequency','Monetary'], ascending = False)

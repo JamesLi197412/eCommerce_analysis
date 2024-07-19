@@ -3,25 +3,13 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
 
-from bokeh.io import output_notebook, show, save
-from bokeh.models import Range1d, Circle, ColumnDataSource, MultiLine, EdgesAndLinkedNodes, NodesAndLinkedEdges
+from bokeh.io import show
+from bokeh.models import Range1d, Circle, MultiLine
 from bokeh.plotting import figure
 from bokeh.plotting import from_networkx
-from bokeh.palettes import Blues8,Spectral8,Plasma256,Colorblind
-from bokeh.transform import linear_cmap
-from networkx.algorithms import community
-
 from mlxtend.frequent_patterns import apriori
 from mlxtend.frequent_patterns import association_rules
-
-def order_data(df):
-    """to adjust order date column in orders datasets"""
-    df['order_delivered_customer_date'] = pd.to_datetime(df['order_delivered_customer_date'],errors='coerce')
-    df['order_delivered_carrier_date'] = pd.to_datetime(df['order_delivered_carrier_date'],errors='coerce')
-    df['order_approved_at'] = pd.to_datetime(df['order_approved_at'],errors='coerce')
-    df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'],errors='coerce')
-    df['order_estimated_delivery_date'] = pd.to_datetime(df['order_estimated_delivery_date'],errors='coerce')
-    return df
+from pre_process import order_data
 
 def network_analysis(orders,customers,payment,items,products,product_category, sellers):
     # One customer could have multiple orders

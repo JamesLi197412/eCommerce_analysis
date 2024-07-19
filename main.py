@@ -1,6 +1,7 @@
 
 from src.local import *
 from analysis.exploration import *
+from analysis.delivery import *
 from analysis.commercial import *
 from analysis.review import *
 from analysis.network import *
@@ -23,11 +24,14 @@ def commercial_analysis():
     # orders & customers datasets
     # date_state_sales = order_customer(order_dataset,customers,order_payment,order_items,products,product_category)
 
+    # Delivery Analysis
+    delivery_stats = delivery_analysis(order_dataset, customers, sellers, order_items)
+
 
     # Review analysis
-    # review_exploration = Exploration(order_reviews)
+    #review_exploration = Exploration(order_reviews)
     #review_exploration.df_info_()
-    review_analysis(order_reviews)
+    # review_analysis(order_reviews)
 
     # Network analysis
     # delivery_df = network_analysis(order_dataset, customers, order_payment, order_items, products, product_category,sellers)
