@@ -19,8 +19,8 @@ def data_process(df):
     return df
 
 def local_access_df():
-    # access files
-    path = 'dataset/'
+    # access files with relative paths
+    path = 'datasets/'
     customers = pd.read_csv(path + 'olist_customers_dataset.csv')
     geolocation = pd.read_csv(path + 'olist_geolocation_dataset.csv')
     order_items = pd.read_csv(path + 'olist_order_items_dataset.csv')
@@ -48,7 +48,7 @@ def local_access_df():
     # drop columns
     orders = orders.drop(['product_category_name'], axis = 1, errors = 'ignore')
 
-    # Except geolocation dataset
+    # Except geolocation datasets
     customers_order = customers_loc.merge(orders, how = 'left', on = 'customer_id')
     customers_order = data_process(customers_order)
     '''

@@ -22,7 +22,7 @@ class Exploration:
         missing_values = missing_cols.values
 
         print('=' * 50)
-        print('===> This data frame contains {} rows and {} columns'.format(rows, columns))
+        print('===> This src frame contains {} rows and {} columns'.format(rows, columns))
         print('=' * 50)
 
         print("{:13}{:13}{:30}{:15}".format('Feature Name'.upper(),

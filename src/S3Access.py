@@ -1,7 +1,5 @@
 import boto3
 from io import BytesIO
-from botocore.exceptions import ClientError
-import configparser
 import pandas as pd
 
 class S3Reader:
@@ -20,6 +18,11 @@ class S3Reader:
         )
 
       def get_csv_file_keys(self,bucket_name):
+          """
+            Find all files end with csv in the bucket
+          :param bucket_name: the bucket you wish to explroe
+          :return: list of filename
+          """
           csv_keys = []
           paginator = self.s3_client.get_paginator('list_objects_v2')
           for page in paginator.paginate(Bucket=bucket_name):
@@ -37,10 +40,8 @@ class S3Reader:
               csv_content = csv_obj['Body'] #.read().decode('utf-8')
               df = pd.read_csv(BytesIO(csv_content.read()))
 
-              #sales = pd.read_csv(csv_content)
-              # dataframes.append(df)
               dict[key] = df
-          #final_df = pd.concat(dataframes)
+
           return csv_keys, dict
 
 

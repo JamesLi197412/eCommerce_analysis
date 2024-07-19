@@ -1,4 +1,3 @@
-
 #  E-Commerce by Olist
 ### Project Overview
 This is a public dataset on Kaggle Platform. It was generously provided by Olist which is the largets department store in Brazil. Small businesses are connected by Olist across Brazil to channels without hassle and with a single contract.
@@ -7,9 +6,9 @@ After a customer place his order from Olist Store, notification sent to seller t
 
 ### Codes and Resources Used
 * Pycharm
-* Python 
-* PowerBI
-* Packages needed: See requirements.txt 
+* Python 3
+* PowerBI/Tableau
+* Packages needed: Please See requirements.txt
 
 ### Project Framework
 
@@ -25,7 +24,7 @@ flowchart TD
 ```
 
 ####  Data Schema
-![databaseRelationship.png](dataset/databaseRelationship.png)
+![databaseRelationship.png](datasets/databaseRelationship.png)
 
 
 ### Results and evaluation

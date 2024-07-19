@@ -1,50 +1,14 @@
-#
-from data.S3Access import *
-from data.MySQLConnection import *
-from data.local import *
+
+from src.local import *
 from analysis.exploration import *
 from analysis.commercial import *
 from analysis.review import *
 from analysis.network import *
 
-
-def mysql():
-    file_name, final_df = AWS_access()
-    connection = MySQLConnection('*******', '******', '*******', '******')
-
-    # Loop through dictionary
-    for file_name, data in final_df.items():
-        table_name = file_name.split('.')[0]
-        df = pd.DataFrame(data)
-        columns = df.columns
-        connection.create_table(table_name, columns)
-        connection.insert_data(table_name, df)
-
-    connection.close()
-    return file_name, final_df
-
-def AWS_access():
-    """
-    :return: csv_keys : file name at AWS S3 bucket and data stored in dictionary formart
-    """
-    # config = configparser.ConfigParser()
-    # config.read(config_file)
-
-    access_key_id = "*************"
-    secret_access_key = "*************"
-    region_name = "*************"
-    bucket_name = "*************"
-
-    s3_reader = S3Reader(access_key_id, secret_access_key, region_name)
-
-    csv_keys, info_dict = s3_reader.process_csv_files(bucket_name)
-
-    return csv_keys, info_dict
-
-
 def commercial_analysis():
     customers, geolocation, order_items, order_payment, order_reviews, order_dataset, products, sellers, product_category = local_access_df()
-    # Data Exploration through each data set
+
+    # Data Exploration through each src set
     cust_exploration = Exploration(customers)
     cust_exploration.df_info_()
 
@@ -54,9 +18,9 @@ def commercial_analysis():
     payment_exploration = Exploration(order_payment)
     payment_exploration.df_info_()
 
-    # Data Visualisation for understanding data distribution and trend more
+    # Data Visualisation for understanding src distribution and trend more
     # Commercial Analysis
-    # orders & customers dataset
+    # orders & customers datasets
     # date_state_sales = order_customer(order_dataset,customers,order_payment,order_items,products,product_category)
 
 

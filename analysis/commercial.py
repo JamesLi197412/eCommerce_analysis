@@ -8,7 +8,7 @@ import scipy.stats as stats
 import squarify
 
 def order_data(df):
-    """to adjust order date column in orders dataset"""
+    """to adjust order date column in orders datasets"""
     df['order_delivered_customer_date'] = pd.to_datetime(df['order_delivered_customer_date'],errors='coerce')
     df['order_delivered_carrier_date'] = pd.to_datetime(df['order_delivered_carrier_date'],errors='coerce')
     df['order_approved_at'] = pd.to_datetime(df['order_approved_at'],errors='coerce')

@@ -79,7 +79,7 @@ def bag_of_words(df, stop_words,col = 'tidy_review_comment_message'):
     reviews_train = review_vectorizer.fit_transform(train[col])
     reviews_test = review_vectorizer.fit_transform(test[col])
 
-    # splitting data into training and validation set
+    # splitting src into training and validation set
     xtrain, xvalid, ytrain, yvalid = train_test_split(reviews_train, train['label'], random_state=42, test_size=0.3)
 
     lreg = LogisticRegression()
@@ -96,7 +96,7 @@ def bag_of_words(df, stop_words,col = 'tidy_review_comment_message'):
     test_pred_int = test_pred_int.astype(int)
     test.loc[:, 'label'] = test_pred_int
     submission = test[['review_id', 'label']]
-    # submission.to_csv('output/review_bag_of_word.csv', index=False)  # writing data to a CSV file
+    # submission.to_csv('output/review_bag_of_word.csv', index=False)  # writing src to a CSV file
     return submission
 
 def tf_idf(df,stop_words, col = 'tidy_review_comment_message'):
