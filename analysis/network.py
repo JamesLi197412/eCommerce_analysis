@@ -1,4 +1,3 @@
-import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
@@ -9,7 +8,7 @@ from bokeh.plotting import figure
 from bokeh.plotting import from_networkx
 from mlxtend.frequent_patterns import apriori
 from mlxtend.frequent_patterns import association_rules
-from pre_process import order_data
+from analysis.pre_process import *
 
 def network_analysis(orders,customers,payment,items,products,product_category, sellers):
     # One customer could have multiple orders
@@ -53,7 +52,7 @@ def seller_buyer_network(df):
     G = nx.from_pandas_edgelist(sample_df, edge_attr='weight')
 
     # Draw the network graph & export diagram to output file
-    draw_simple_network(G,f'output/visualisation/network/city relationship network.gexf')
+    draw_simple_network(G,f'output/visualisations/network/city relationship network.gexf')
 
     return buyer_seller_df
 
@@ -69,15 +68,14 @@ def product_association(df):
     order_product_df = order_product.applymap(hot_encode)
 
     rules,items = get_rules(order_product_df,0.0000001)
-    rules.to_csv('output/visualisation/network/Product Buying Rules.csv')
+    rules.to_csv('output/visualisations/network/Product Buying Rules.csv')
     print('Number of Associations: {}'.format(rules.shape[0]))
 
     rules.plot.scatter('support','confidence', alpha = 0.5, marker = '*')
     plt.xlabel('Support')
     plt.ylabel('Confidence')
     plt.title('Association Rule')
-    plt.savefig(f'output/visualisation/network/Association Rules.png')
-    # plt.show()
+    plt.savefig(f'output/visualisations/network/Association Rules.png')
 
 
     AMorders = order_product.T.dot(order_product) # AM stands for Adjacency matrix

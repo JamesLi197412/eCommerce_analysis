@@ -4,7 +4,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 import squarify
-from pre_process import order_data
+from analysis.pre_process import *
+
 
 def geolocation_sales(orders_customers_payment,geolocation):
     # geolocation could be state or city by your needs,e.g. customer_state, customer_city
@@ -127,7 +128,7 @@ def distribution_plt(dataframe,column_name,title,xlabel,ylabel):
     plt.xlabel(xlabel, fontsize = 15)
     plt.ylabel(ylabel)
     plt.axvline(np.median(dataframe[column_name]), 0, linestyle='--', linewidth=1.5, color='b')
-    # plt.savefig(f'output/visualisation/commercial/customer buying frequency distribution.png')
+    # plt.savefig(f'output/visualisations/commercial/customer buying frequency distribution.png')
     #plt.show()
 
 def popular_category(df,col):
