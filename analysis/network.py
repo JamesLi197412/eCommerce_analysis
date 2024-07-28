@@ -1,14 +1,13 @@
 import networkx as nx
-import matplotlib.pyplot as plt
-import numpy as np
-
 from bokeh.io import show
 from bokeh.models import Range1d, Circle, MultiLine
 from bokeh.plotting import figure
 from bokeh.plotting import from_networkx
 from mlxtend.frequent_patterns import apriori
 from mlxtend.frequent_patterns import association_rules
+
 from analysis.pre_process import *
+
 
 def network_analysis(orders,customers,payment,items,products,product_category, sellers):
     # One customer could have multiple orders
@@ -24,7 +23,7 @@ def network_analysis(orders,customers,payment,items,products,product_category, s
 
     # 1. Generate a table with seller_city and buyer city (aggregation)
     # Ideally generate network analysis
-    # seller_buyer_df = seller_buyer_network(orders_customers_sellers)
+    seller_buyer_df = seller_buyer_network(orders_customers_sellers)
 
     # 2. Product network analysis （from order - product perspective)
     # e.g. association rule

@@ -61,18 +61,22 @@ CREATE TABLE  IF NOT EXISTS order_payments
 ) ENGINE = InnoDB;
 
 ALTER TABLE order_payments
-ADD CONSTRAINT fk_payment_order_id
-FOREIGN KEY (order_id) REFERENCES orders(order_id);
+    ADD CONSTRAINT fk_payment_order_id
+        FOREIGN KEY (order_id) REFERENCES orders (order_id);
 
-CREATE TABLE  IF NOT EXISTS order_reviews
+## What if you wish to update data type
+ALTER TABLE order_payments
+    MODIFY payment_sequential DOUBLE;
+
+CREATE TABLE IF NOT EXISTS order_reviews
 (
-    review_id               varchar(50) not null,
-    order_id                varchar(50) not null,
-    review_score            int         null,
-    review_comment_title    varchar(50) null,
-    review_comment_message  varchar(300)null,
-    review_creation_date    datetime    null,
-    review_answer_timestamp datetime    null,
+    review_id               varchar(50)  not null,
+    order_id                varchar(50)  not null,
+    review_score            int          null,
+    review_comment_title    varchar(50)  null,
+    review_comment_message  varchar(300) null,
+    review_creation_date    datetime     null,
+    review_answer_timestamp datetime     null,
     PRIMARY KEY (review_id,order_id)
 )ENGINE = InnoDB;
 
@@ -82,7 +86,6 @@ FOREIGN KEY (order_id) REFERENCES orders(order_id);
 
 
 DESCRIBE order_reviews;
-
 
 CREATE TABLE  IF NOT EXISTS products
 (

@@ -1,32 +1,61 @@
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-
 from analysis.pre_process import *
 
-def delivery_analysis(orders,customers, sellers, items):
-    # Merge multiple tables together
+
+def delivery_analysis(orders, customers, sellers, items, products, gelocation):
+    # Merge multiple tables together by needs
     orders = order_data(orders)
-    orders['order_date'] = orders['order_purchase_timestamp'].dt.date
-    orders['order_month'] = orders['order_purchase_timestamp'].dt.month
-    orders_customers = orders.merge(customers, on='customer_id', how='left')
-    orders_customers_items = orders_customers.merge(items, on='order_id', how='left')
-    orders_customers_sellers = orders_customers_items.merge(sellers, how='inner', on='seller_id')
+    orders_customers = pd.merge(orders, customers, on='customer_id', how='inner')
+    del orders
+    del customers
 
-    orders_customers_sellers = delivery_performance(orders_customers_sellers)
+    # Customer Info
+    orders_customers = pd.merge(orders_customers, gelocation, left_on='customer_zip_code_prefix',
+                                right_on='geolocation_zip_code_prefix')
+    orders_customers.rename(
+        columns={'geolocation_lat': 'geolocation_lat_cust', 'geolocation_lng': 'geolocation_lng_cust'}, inplace=True)
+    orders_customers.drop(
+        columns=['geolocation_zip_code_prefix', 'geolocation_city', 'geolocation_state', 'customer_zip_code_prefix'],
+        axis=1, inplace=True)
 
-    orders_customers_sellers = delivery_prediction(orders_customers_sellers)
+    orders_customers_items = pd.merge(orders_customers, items[
+        ['order_id', 'product_id', 'seller_id', 'price', 'freight_value', 'shipping_limit_date']],
+                                      on='order_id', how='left')
+    del orders_customers
+    del items
 
+    # Seller Info
+    orders_customers_sellers = pd.merge(orders_customers_items, sellers, on='seller_id', how='inner')
+    orders_customers_sellers = pd.merge(orders_customers_sellers, gelocation, left_on='seller_zip_code_prefix',
+                                        right_on='geolocation_zip_code_prefix')
+    orders_customers_sellers.rename(
+        columns={'geolocation_lat': 'geolocation_lat_seller', 'geolocation_lng': 'geolocation_lng_seller'},
+        inplace=True)
 
+    orders_customers_sellers.drop(
+        columns=['geolocation_zip_code_prefix', 'geolocation_state', 'seller_zip_code_prefix', 'geolocation_city'],
+        axis=1, inplace=True)
+    del sellers
+
+    orders_customers_sellers = orders_customers_sellers.merge(products, how='inner', on='product_id')
+    del products
     return orders_customers_sellers
+    # output
+    orders_customers_sellers.to_csv('test2.csv')
+    # orders_customers_sellers = delivery_performance(orders_customers_sellers)
+
+    # orders_customers_sellers = delivery_prediction(orders_customers_sellers)
+
+    # gc.collect()
+
 
 def delivery_performance(df):
     # 1. Order purchase timestamp vs oder approved at
-    df['purchase_approved_delta'] = np.ceil((df['order_approved_at'] - df['order_purchase_timestamp'])/pd.Timedelta(hours= 1))
+    df['purchase_approved_delta'] = np.ceil(
+        (df['order_approved_at'] - df['order_purchase_timestamp']) / pd.Timedelta(hours=1))
 
     # 2. order_estimated delivery vs order delivered customer date
-    df['delivery_status'] = np.where(df['order_delivered_customer_date'] < df['order_estimated_delivery_date'], 'in_time', 'late')
+    df['delivery_status'] = np.where(df['order_delivered_customer_date'] < df['order_estimated_delivery_date'],
+                                     'in_time', 'late')
 
     # 3. dates between order_approved_at vs order_delivered_carrier_date
     df['carrier_response'] = np.ceil((df['order_delivered_carrier_date'] - df['order_approved_at'])/pd.Timedelta(hours= 1))
@@ -45,28 +74,9 @@ def delivery_performance(df):
 
 
 def delivery_prediction(df):
+    delivered = df[df['order_status'] == "delivered"].copy(deep=True)
+    delivered = delivered.dropna().reset_inde()
 
-    return df
+    delivered['cities differences'] = np.where(delivered['customer_city'] == delivered['seller_city'], 1, 0)
 
-def pie_chart(dataframe, col,target,color,title,path):
-    plt.figure(figsize=(10,5), dpi = 100)
-    target_df = dataframe.groupby([col])[target].agg(['count']).reset_index()
-
-    plt.pie(target_df['count'],labels = target_df[col],
-            autopct='%1.2f%%', startangle=45, colors=sns.color_palette(color),
-            labeldistance=0.75, pctdistance=0.4)
-    plt.title(title, fontsize = 20)
-    plt.axis('off')
-    plt.legend()
-    plt.savefig(path)
-
-def hist_plot(df, xlabel, ylabel, title,path):
-    plt.hist(df[xlabel], color='blue', edgecolor='black',
-             bins=int(180 / 5))
-
-    plt.xlabel(xlabel)
-    plt.ylabel(ylabel)
-    plt.title(title)
-
-    plt.show()
-    plt.savefig(path)
+    return delivered

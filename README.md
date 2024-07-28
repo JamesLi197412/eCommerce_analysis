@@ -7,6 +7,7 @@ After a customer place his order from Olist Store, notification sent to seller t
 ### Codes and Resources Used
 * Pycharm
 * Python 3
+* MySQL / AWS S3
 * PowerBI/Tableau
 * Packages needed: Please See requirements.txt
 
@@ -30,8 +31,11 @@ flowchart TD
 ### Results and evaluation
 ### Tasks
 #### 1. Data Visualisation
+
+Commercial Analysis
 <img alt="Overview"  src="output/dashboard output/Overview.png" />
 
+Delivery Dashboard for Analysis
 <img alt="Delivery Status"  src="output/dashboard output/Delivery status.png" />
 
 #### 2. Commercial Analysis

@@ -1,8 +1,5 @@
 import matplotlib
 matplotlib.use('TkAgg')
-import matplotlib.pyplot as plt
-import seaborn as sns
-import numpy as np
 import squarify
 from analysis.pre_process import *
 
@@ -37,20 +34,18 @@ def geolocation_sales(orders_customers_payment,geolocation):
     plt.savefig(f'output/visualisation/commercial/sales_{geolocation}_month.png')
 
 def order_customer(orders,customers,payment,items,products,product_category):
-    # One customer could have multiple orders
+    # Prepare the dataset
     orders = order_data(orders)
     orders['order_date'] = orders['order_purchase_timestamp'].dt.date
     orders['order_month'] = orders['order_purchase_timestamp'].dt.month
-    orders_customers = orders.merge(customers, on = 'customer_id', how = 'left')
-    orders_customers_payment = orders_customers.merge(payment, on = 'order_id', how = 'inner')
-
-    # To-do list: 
-    # 2. Conversion Rate
+    orders_customers = orders.merge(customers, on='customer_id', how='left')
+    orders_customers_payment = orders_customers.merge(payment, on='order_id', how='inner')
 
     # sales-state/city-date/month values
-    #geolocation_sales(orders_customers_payment, 'customer_state')
-    #geolocation_sales(orders_customers_payment, 'customer_city')
+    geolocation_sales(orders_customers_payment, 'customer_state')
+    geolocation_sales(orders_customers_payment, 'customer_city')
 
+    # Peak time of sales
     # From the plot, it shows SP has the highest sales over the time.
     # In addition, there is a high spike on one specific point.
     # to find out its speciality, then -- Black Friday
@@ -62,23 +57,23 @@ def order_customer(orders,customers,payment,items,products,product_category):
 
     # payment analysis (portion, price distribution, what products paid by each type)
     orders_customers_items = orders_customers_payment.merge(items, on='order_id', how='left')
-    orders_customers_items = orders_customers_items.merge(products, on = 'product_id', how = 'inner')
-    orders_customers_items = orders_customers_items.merge(product_category, how = 'inner', on = 'product_category_name')
+    orders_customers_items = orders_customers_items.merge(products, on='product_id', how='inner')
+    orders_customers_items = orders_customers_items.merge(product_category, how='inner', on='product_category_name')
 
     # Product category and its treemap
-    # popular_category(orders_customers_items,'product_category_name_english')
+    popular_category(orders_customers_items, 'product_category_name_english')
 
     # Customer analysis
     rfm_customer = rfm_analysis(orders_customers_items)
     # Pie chart to show portion of customer who bought products on Olist
-    # pie_chart(rfm_customer, 'Frequency', 'customer_unique_id', 'Set2', 'Customer Portion in General')
+    pie_chart(rfm_customer, 'Frequency', 'customer_unique_id', 'Set2', 'Customer Portion in General',
+              path=f'output/visualisation/commercial/customer buying frequency distribution.png')
 
     # Split customer into two parts
-    customer_regular = rfm_customer[rfm_customer['Frequency'] >1].copy(deep = True)
-    customer_once = rfm_customer[rfm_customer['Frequency'] == 1].copy(deep = True)
+    customer_regular = rfm_customer[rfm_customer['Frequency'] > 1].copy(deep=True)
+    customer_once = rfm_customer[rfm_customer['Frequency'] == 1].copy(deep=True)
 
-
-    customer_once = customer_once.merge(orders_customers_items, how = 'inner', on = 'customer_unique_id')
+    customer_once = customer_once.merge(orders_customers_items, how='inner', on='customer_unique_id')
     # customer who bought once -- 1. City/State location   2. Product Category Popularity
     # 3.
     # City/ State bar chart
@@ -147,19 +142,6 @@ def popular_category(df,col):
     plt.tight_layout()
     plt.savefig(f'output/visualisation/commercial/Treemap of product category.png')
 
-def pie_chart(dataframe, col,target,color,title):
-    plt.figure(figsize=(10,5), dpi = 100)
-    target_df = dataframe.groupby([col])[target].agg(['count']).reset_index()
-
-    plt.pie(target_df['count'],labels = target_df[col],
-            autopct='%1.2f%%', startangle=45, colors=sns.color_palette(color),
-            labeldistance=0.75, pctdistance=0.4)
-    plt.title(title, fontsize = 20)
-    plt.axis('off')
-    plt.legend()
-    plt.savefig(f'output/visualisation/commercial/customer buying frequency distribution.png')
-
-
 def payment_analysis(orders_customers_payment):
     payments = orders_customers_payment.groupby(['payment_type'])['payment_value'].agg(['count', 'sum']).reset_index()
 
@@ -195,7 +177,10 @@ def rfm_analysis(df):
 
     return rfm_df
 
+
 def yearly_new_client(df):
+    # Group by Customers and find its min or first purchase date - > yearly new clients
+
     return df
 
 def customer_lifetime(df):

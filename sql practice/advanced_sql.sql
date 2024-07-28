@@ -1,4 +1,5 @@
 USE e_commerce;
+
 # Find out yearly,monthly new clients vs regular customer
 WITH first_visit AS (
     SELECT customer_id, MIN(order_purchase_timestamp) OVER (PARTITION BY customer_id) AS first_purchase_date

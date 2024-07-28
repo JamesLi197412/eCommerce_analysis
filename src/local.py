@@ -31,26 +31,4 @@ def local_access_df():
     sellers = pd.read_csv(path + 'olist_sellers_dataset.csv')
     product_category = pd.read_csv(path + 'product_category_name_translation.csv')
 
-    '''
-    # Data Merge by relationship chart
-    # rename geolocation column geolocation_zip_code - > customer_zip_code
-    temp = geolocation.copy(deep = True)
-    temp.rename(columns = {'geolocation_zip_code_prefix':'customer_zip_code_prefix'},inplace = True)
-    customers_loc = customers.merge(temp, how ='inner', on = 'customer_zip_code_prefix')
-    del temp
-
-    orders = order_dataset.merge(order_items, on = 'order_id', how = 'left')  # 1 to many relationship because 1 order might have multiple items.
-    orders = orders.merge(order_payment, how = 'inner', on = 'order_id')
-    orders = orders.merge(order_reviews, how = 'inner', on = 'order_id')
-    orders = orders.merge(products, how = 'inner', on = 'product_id')
-    orders = orders.merge(product_category, how = 'inner', on = 'product_category_name')
-
-    # drop columns
-    orders = orders.drop(['product_category_name'], axis = 1, errors = 'ignore')
-
-    # Except geolocation datasets
-    customers_order = customers_loc.merge(orders, how = 'left', on = 'customer_id')
-    customers_order = data_process(customers_order)
-    '''
-
     return customers,geolocation,order_items,order_payment, order_reviews,order_dataset,products, sellers,product_category
