@@ -3,7 +3,6 @@ import pandas as pd
 matplotlib.use('TkAgg')
 import squarify
 from analysis.pre_process import *
-import psutil
 
 import lifetimes
 from lifetimes import BetaGeoFitter # BG/NBD
@@ -39,7 +38,7 @@ def order_customer(orders,customers,payment,items,products,product_category):
     orders_customers_items = pd.merge(orders_customers_items, products, on = 'product_id', how = 'inner')
     orders_customers_items = pd.merge(orders_customers_items, product_category, how = 'inner', on = 'product_category_name')
     del [[orders_customers_payment, products,product_category]]
-    print('RAM memory % used:', psutil.virtual_memory()[3]/1000000000)
+
 
     # Product category and its treemap
     popular_category(orders_customers_items, 'product_category_name_english','order_id','output/visualisations/commercial/Treemap of product category.png')
@@ -51,13 +50,11 @@ def order_customer(orders,customers,payment,items,products,product_category):
     DAU(orders_customers_items, 'customer_unique_id')
 
     # Customer Analysis
-    customer_analysis(orders_customers_items)
+    customer_once, clv = customer_analysis(orders_customers_items)
 
 
 
-    return orders_customers_items
-
-
+    return orders_customers_items,customer_once, clv
 
 
 def customer_split_analysis(customer_frequency,orders_customers_items):
@@ -68,8 +65,6 @@ def customer_split_analysis(customer_frequency,orders_customers_items):
 
     popular_category(df, 'product_category_name_english', 'customer_unique_id', 'output/visualisations/commercial/customer buy once product distribution.png')
 
-    #bar_plot(df,'customer_state','customer_unique_id',f'output/visualisations/commercial/city bar.png')
-
 def customer_analysis(orders_customers_items):
     # Customer analysis
     rfm_customer = rfm_analysis(orders_customers_items)
@@ -79,19 +74,13 @@ def customer_analysis(orders_customers_items):
 
     # Split customer into two parts
     customer_regular = rfm_customer[rfm_customer['Frequency'] > 1].copy(deep=True)
+    clv = customer_lifetime(orders_customers_items)
+    clv.to_csv('output/clv.csv')
 
-    clv, clv_group = customer_lifetime(orders_customers_items)
-    clv.to_csv('clv.csv')
 
     customer_once = rfm_customer[rfm_customer['Frequency'] == 1].copy(deep=True)
     customer_split_analysis(customer_once, orders_customers_items)
-
-    # Regular Customers
-    customer_regular = customer_regular.merge(orders_customers_items, how='inner', on='customer_unique_id')
-    customer_regular['RN'] = customer_regular.sort_values(['order_date'], ascending=[True]) \
-                                 .groupby(['customer_unique_id']).cumcount() + 1
-    customer_regular.sort_values(by=['customer_unique_id', 'RN'], ascending=[True, True], inplace=True)
-
+    return customer_once,clv
 
 
 def bar_plot(df,col,target,path):
@@ -229,6 +218,8 @@ def customer_lifetime(df):
     bgf = BetaGeoFitter(penalizer_coef= 0.001)
     bgf.fit(clv['frequency'], clv['recency'], clv['T'])
 
+    plot_frequency_recency_matrix(bgf)
+
     t = 180  # 30 day period
     clv['expected_purc_6_months'] = bgf.conditional_expected_number_of_purchases_up_to_time(t, clv['frequency'],
                                                                                             clv['recency'], clv['T'])
@@ -257,7 +248,7 @@ def customer_lifetime(df):
     # Create a marketing plan to increase CLV for lower segment
     # Focus on higher segments to decrease customer acquisition costs.
 
-    return clv, clv_group
+    return clv
 
 
 def geolocation_sales(orders_customers_payment,geolocation):
