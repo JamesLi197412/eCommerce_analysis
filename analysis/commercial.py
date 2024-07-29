@@ -1,45 +1,24 @@
 import matplotlib
+import pandas as pd
 matplotlib.use('TkAgg')
 import squarify
 from analysis.pre_process import *
+import psutil
 
+import lifetimes
+from lifetimes import BetaGeoFitter # BG/NBD
+from lifetimes import GammaGammaFitter # Gamma-Gamma Model
+from lifetimes.plotting import plot_frequency_recency_matrix
 
-def geolocation_sales(orders_customers_payment,geolocation):
-    # geolocation could be state or city by your needs,e.g. customer_state, customer_city
-    # Find out top 5 states by accumulated sales
-    state_sales = orders_customers_payment.groupby([geolocation])['payment_value'].agg(['sum']).reset_index()
-    state_sales = state_sales.sort_values(by = 'sum', ascending= False)
-    top_n_states = state_sales[geolocation][:5]
-
-    # sales-state-date values
-    date_state_sales = orders_customers_payment.groupby(['order_date',geolocation])['payment_value'].agg(['count', 'sum']).reset_index()
-    top_n_sales = date_state_sales[date_state_sales[geolocation].isin(top_n_states)]
-    plt.figure(figsize=(12, 6))
-    sns.lineplot(data = top_n_sales,x='order_date', y='sum', hue=geolocation)
-    plt.title(f'Sales by {geolocation} Over Date')
-    plt.xlabel('order_date')
-    plt.ylabel('Sales')
-    plt.legend(title=geolocation)
-    plt.savefig(f'output/visualisation/commercial/sales_{geolocation}_date.png')
-
-    # sales-state-month sales
-    month_state_sales = orders_customers_payment.groupby(['order_month',geolocation])['payment_value'].agg(['count', 'sum']).reset_index()
-    top_n_sales_month = month_state_sales[month_state_sales[geolocation].isin(top_n_states)]
-    plt.figure(figsize=(12, 6))
-    sns.lineplot(data = top_n_sales_month,x='order_month', y='sum', hue=geolocation)
-    plt.title(f'Sales by {geolocation} Over months')
-    plt.xlabel('order_month')
-    plt.ylabel('Sales')
-    plt.legend(title= geolocation)
-    plt.savefig(f'output/visualisation/commercial/sales_{geolocation}_month.png')
 
 def order_customer(orders,customers,payment,items,products,product_category):
     # Prepare the dataset
     orders = order_data(orders)
     orders['order_date'] = orders['order_purchase_timestamp'].dt.date
     orders['order_month'] = orders['order_purchase_timestamp'].dt.month
-    orders_customers = orders.merge(customers, on='customer_id', how='left')
-    orders_customers_payment = orders_customers.merge(payment, on='order_id', how='inner')
+    orders_customers = pd.merge(orders, customers, on = 'customer_id', how = 'left')
+    orders_customers_payment = pd.merge(orders_customers, payment, on = 'order_id', how = 'inner')
+    del [[orders, customers, payment,orders_customers]]
 
     # sales-state/city-date/month values
     geolocation_sales(orders_customers_payment, 'customer_state')
@@ -56,56 +35,76 @@ def order_customer(orders,customers,payment,items,products,product_category):
     """
 
     # payment analysis (portion, price distribution, what products paid by each type)
-    orders_customers_items = orders_customers_payment.merge(items, on='order_id', how='left')
-    orders_customers_items = orders_customers_items.merge(products, on='product_id', how='inner')
-    orders_customers_items = orders_customers_items.merge(product_category, how='inner', on='product_category_name')
+    orders_customers_items = pd.merge(orders_customers_payment, items, on = 'order_id', how = 'left')
+    orders_customers_items = pd.merge(orders_customers_items, products, on = 'product_id', how = 'inner')
+    orders_customers_items = pd.merge(orders_customers_items, product_category, how = 'inner', on = 'product_category_name')
+    del [[orders_customers_payment, products,product_category]]
+    print('RAM memory % used:', psutil.virtual_memory()[3]/1000000000)
 
     # Product category and its treemap
-    popular_category(orders_customers_items, 'product_category_name_english')
+    popular_category(orders_customers_items, 'product_category_name_english','order_id','output/visualisations/commercial/Treemap of product category.png')
 
-    # Customer analysis
-    rfm_customer = rfm_analysis(orders_customers_items)
-    # Pie chart to show portion of customer who bought products on Olist
-    pie_chart(rfm_customer, 'Frequency', 'customer_unique_id', 'Set2', 'Customer Portion in General',
-              path=f'output/visualisation/commercial/customer buying frequency distribution.png')
-
-    # Split customer into two parts
-    customer_regular = rfm_customer[rfm_customer['Frequency'] > 1].copy(deep=True)
-    customer_once = rfm_customer[rfm_customer['Frequency'] == 1].copy(deep=True)
-
-    customer_once = customer_once.merge(orders_customers_items, how='inner', on='customer_unique_id')
-    # customer who bought once -- 1. City/State location   2. Product Category Popularity
-    # 3.
-    # City/ State bar chart
-    # customer_once_analysis(customer_once)
-
-    # Regular Customers
-    customer_regular = customer_regular.merge(orders_customers_items,how = 'inner', on = 'customer_unique_id')
-    customer_regular['RN'] = customer_regular.sort_values(['order_date'], ascending = [True])\
-                                 .groupby(['customer_unique_id']).cumcount() + 1
-    customer_regular.sort_values(by = ['customer_unique_id','RN'], ascending= [True, True], inplace= True)
+    # Yearly New Clients
+    yearly_new_client(orders_customers_items)
 
     # DAU (Daily Active User)
+    DAU(orders_customers_items, 'customer_unique_id')
+
+    # Customer Analysis
+    customer_analysis(orders_customers_items)
+
 
 
     return orders_customers_items
 
-def customer_once_analysis(df):
-    bar_plot(df)
-    product_popularity(df)
 
 
-def bar_plot(df):
-    city_df = df.groupby(['customer_state'])['customer_unique_id'].agg(['count']).reset_index().sort_values(by = 'count', ascending= False)
+
+def customer_split_analysis(customer_frequency,orders_customers_items):
+    df = pd.merge(customer_frequency, orders_customers_items, how = 'inner', on = 'customer_unique_id')
+
+    # Use treemap to find out where they from and count, including product category,
+    popular_category(df, 'customer_state', 'customer_unique_id', 'output/visualisations/commercial/customer buy once state distribution.png')
+
+    popular_category(df, 'product_category_name_english', 'customer_unique_id', 'output/visualisations/commercial/customer buy once product distribution.png')
+
+    #bar_plot(df,'customer_state','customer_unique_id',f'output/visualisations/commercial/city bar.png')
+
+def customer_analysis(orders_customers_items):
+    # Customer analysis
+    rfm_customer = rfm_analysis(orders_customers_items)
+    # Pie chart to show portion of customer who bought products on Olist
+    pie_chart(rfm_customer, 'Frequency', 'customer_unique_id', 'Set2', 'Customer Portion in General',
+              path=f'output/visualisations/commercial/customer buying frequency distribution.png')
+
+    # Split customer into two parts
+    customer_regular = rfm_customer[rfm_customer['Frequency'] > 1].copy(deep=True)
+
+    clv, clv_group = customer_lifetime(orders_customers_items)
+    clv.to_csv('clv.csv')
+
+    customer_once = rfm_customer[rfm_customer['Frequency'] == 1].copy(deep=True)
+    customer_split_analysis(customer_once, orders_customers_items)
+
+    # Regular Customers
+    customer_regular = customer_regular.merge(orders_customers_items, how='inner', on='customer_unique_id')
+    customer_regular['RN'] = customer_regular.sort_values(['order_date'], ascending=[True]) \
+                                 .groupby(['customer_unique_id']).cumcount() + 1
+    customer_regular.sort_values(by=['customer_unique_id', 'RN'], ascending=[True, True], inplace=True)
+
+
+
+def bar_plot(df,col,target,path):
+    city_df = df.groupby([col])[target].agg(['count']).reset_index().sort_values(by = 'count', ascending= False)
     sns.barplot(
         city_df, x="count", y="product_category_name",
         errorbar=("pi", 50), capsize=.4,
         err_kws={"color": ".5", "linewidth": 2.5},
         linewidth=2.5, edgecolor=".5", facecolor=(0, 0, 0, 0),
     )
-    plt.savefig(f'output/visualisation/commercial/city bar.png')
+    plt.savefig(path)
 
-def product_popularity(df):
+def product_popularity(df,path):
     product_df = df.groupby(['product_category_name'])['customer_unique_id'].agg(['count']).reset_index().sort_values(by = 'count', ascending= False)
     sns.barplot(
         product_df, x="count", y="product_category_name",
@@ -113,7 +112,7 @@ def product_popularity(df):
         err_kws={"color": ".5", "linewidth": 2.5},
         linewidth=2.5, edgecolor=".5", facecolor=(0, 0, 0, 0),
     )
-    plt.savefig(f'output/visualisation/commercial/product popularity.png')
+    plt.savefig(f'output/visualisations/commercial/product popularity.png')
 
 
 def distribution_plt(dataframe,column_name,title,xlabel,ylabel):
@@ -126,8 +125,8 @@ def distribution_plt(dataframe,column_name,title,xlabel,ylabel):
     # plt.savefig(f'output/visualisations/commercial/customer buying frequency distribution.png')
     #plt.show()
 
-def popular_category(df,col):
-    category_df = df.groupby(col)['order_id'].agg(['count']).reset_index().sort_values(by = 'count', ascending = False)
+def popular_category(df,col,target,path):
+    category_df = df.groupby(col)[target].agg(['count']).reset_index().sort_values(by = 'count', ascending = False)
     labels = category_df[col].unique()
     sizes = category_df['count'].values.tolist()
     colors = [plt.cm.Spectral(i / float(len(labels))) for i in range(len(labels))]
@@ -140,7 +139,7 @@ def popular_category(df,col):
     plt.title('Treemap of product category')
     plt.axis('off')
     plt.tight_layout()
-    plt.savefig(f'output/visualisation/commercial/Treemap of product category.png')
+    plt.savefig(path)
 
 def payment_analysis(orders_customers_payment):
     payments = orders_customers_payment.groupby(['payment_type'])['payment_value'].agg(['count', 'sum']).reset_index()
@@ -154,7 +153,7 @@ def payment_analysis(orders_customers_payment):
             colors=sns.color_palette('Set1'), labeldistance=0.5, pctdistance=0.6)
     ax2.set_title('Payment Type Sum')
     plt.tight_layout()
-    plt.savefig(f'output/visualisation/commercial/payment type count & sum in general.png')
+    plt.savefig(f'output/visualisations/commercial/payment type count & sum in general.png')
 
 def rfm_analysis(df):
     df = df.drop_duplicates()
@@ -177,12 +176,116 @@ def rfm_analysis(df):
 
     return rfm_df
 
-
 def yearly_new_client(df):
     # Group by Customers and find its min or first purchase date - > yearly new clients
+    client_first = df.groupby(['customer_unique_id'])['order_purchase_timestamp'].agg(['min']).reset_index().rename(columns = {'min':'first_purchase_date'})
+    client_first['order_date'] = pd.to_datetime(client_first['first_purchase_date'], errors='coerce')
+    client_first['order_month'] = client_first['order_date'].dt.month
+    client_first['order_year'] = client_first['order_date'].dt.year
 
-    return df
+    yearly_clients = client_first.groupby(['order_year','order_month'])['customer_unique_id'].agg(['count']).reset_index().rename(columns = {'count':'new clients'})
+
+    yearly_clients['date'] = pd.to_datetime(yearly_clients['order_year'].astype(str) +
+                                            yearly_clients['order_month'].astype(str), format='%Y%m')
+
+    plt.figure(figsize=(12, 6))
+    sns.lineplot(data=yearly_clients, x='date', y='new clients')
+    plt.title(f'New Clients Over months')
+    plt.xlabel('order_month')
+    plt.ylabel('# of New Clients')
+    plt.legend('# of New Clients over months')
+    plt.savefig(f'output/visualisations/commercial/number_of_new_clients.png')
+
+def DAU(df, client_col):
+    # Group by Customers and find its min or first purchase date - > yearly new clients
+    client_active = df.groupby(['order_purchase_timestamp'])[client_col].agg(['count']).reset_index().rename(
+        columns={'count': 'active_user'})
+    client_active['order_date'] = client_active['order_purchase_timestamp'].dt.strftime('%Y/%m/%d')
+
+    DAU_df = client_active.groupby(['order_date'])['active_user'].agg(['sum']).reset_index().rename(
+        columns={'sum': 'DAU'})
+
+    plt.figure(figsize=(25, 15))
+    sns.lineplot(data=DAU_df, x='order_date', y='DAU')
+    plt.title(f'Daily Active Users')
+    plt.xlabel('order_date')
+    plt.ylabel('DAU')
+    plt.legend('DAU')
+    plt.savefig(f'output/visualisations/commercial/daily_active_users.png')
+
 
 def customer_lifetime(df):
-    return df
+    # Customer Value = Average Order Value * Purchase Frequency
+    # Increase CLV -> increase revenue & reduce customer acquisition cost
+    # target your ideal customers
+
+    # Frequency/ Recency analysis utilising BG/NBD model
+    clv = lifetimes.utils.summary_data_from_transaction_data(df, 'customer_unique_id', 'order_purchase_timestamp', 'price',
+                                                             observation_period_end='2017-12-09')
+    # Only choose frequency >= 2
+    clv = clv[clv['frequency'] > 1]
+
+    # BetaGeoFitter - > implement BG/NBD -> predict # of purchases for each customers.
+    bgf = BetaGeoFitter(penalizer_coef= 0.001)
+    bgf.fit(clv['frequency'], clv['recency'], clv['T'])
+
+    t = 180  # 30 day period
+    clv['expected_purc_6_months'] = bgf.conditional_expected_number_of_purchases_up_to_time(t, clv['frequency'],
+                                                                                            clv['recency'], clv['T'])
+
+    # Gamma-Gamma Model -> predicts the most likely value for each transition
+    # print(clv[['frequency','monetary_value']].corr()) # to prove there is no correlation between them.
+    ggf = GammaGammaFitter(penalizer_coef=0.01)
+    ggf.fit(clv["frequency"], clv["monetary_value"])
+
+    clv['6_monhths_clv'] = ggf.customer_lifetime_value(bgf,
+                                                       clv["frequency"],
+                                                       clv["recency"],
+                                                       clv["T"],
+                                                       clv["monetary_value"],
+                                                       time=6,
+                                                       freq='D',
+                                                       discount_rate=0.01)
+
+    clv['Segment'] = pd.qcut(clv['6_monhths_clv'], 4,
+                             labels=['Hibernating', 'Need Attention', 'LoyalCustomers', 'Champions'])
+
+   # Group by Segment
+    clv_group = clv.groupby('Segment').mean()
+
+    # After CLV, we can offer specific products to each segment
+    # Create a marketing plan to increase CLV for lower segment
+    # Focus on higher segments to decrease customer acquisition costs.
+
+    return clv, clv_group
+
+
+def geolocation_sales(orders_customers_payment,geolocation):
+    # geolocation could be state or city by your needs,e.g. customer_state, customer_city
+    # Find out top 5 states by accumulated sales
+    state_sales = orders_customers_payment.groupby([geolocation])['payment_value'].agg(['sum']).reset_index()
+    state_sales = state_sales.sort_values(by = 'sum', ascending= False)
+    top_n_states = state_sales[geolocation][:5]
+
+    # sales-state-date values
+    date_state_sales = orders_customers_payment.groupby(['order_date',geolocation])['payment_value'].agg(['count', 'sum']).reset_index()
+    top_n_sales = date_state_sales[date_state_sales[geolocation].isin(top_n_states)]
+    plt.figure(figsize=(12, 6))
+    sns.lineplot(data = top_n_sales,x='order_date', y='sum', hue=geolocation)
+    plt.title(f'Sales by {geolocation} Over Date')
+    plt.xlabel('order_date')
+    plt.ylabel('Sales')
+    plt.legend(title=geolocation)
+    plt.savefig(f'output/visualisations/commercial/sales_{geolocation}_date.png')
+
+    # sales-state-month sales
+    month_state_sales = orders_customers_payment.groupby(['order_month',geolocation])['payment_value'].agg(['count', 'sum']).reset_index()
+    top_n_sales_month = month_state_sales[month_state_sales[geolocation].isin(top_n_states)]
+    plt.figure(figsize=(12, 6))
+    sns.lineplot(data = top_n_sales_month,x='order_month', y='sum', hue=geolocation)
+    plt.title(f'Sales by {geolocation} Over months')
+    plt.xlabel('order_month')
+    plt.ylabel('Sales')
+    plt.legend(title= geolocation)
+    plt.savefig(f'output/visualisations/commercial/sales_{geolocation}_month.png')
 

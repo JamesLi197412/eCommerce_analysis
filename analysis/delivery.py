@@ -1,31 +1,20 @@
 from analysis.pre_process import *
 
 
-def delivery_analysis(orders, customers, sellers, items, products, gelocation):
+def delivery_analysis(orders_customers_items,sellers,geolocation):
     # Merge multiple tables together by needs
-    orders = order_data(orders)
-    orders_customers = pd.merge(orders, customers, on='customer_id', how='inner')
-    del orders
-    del customers
-
     # Customer Info
-    orders_customers = pd.merge(orders_customers, gelocation, left_on='customer_zip_code_prefix',
+    orders_customers_items = pd.merge(orders_customers_items, geolocation, left_on='customer_zip_code_prefix',
                                 right_on='geolocation_zip_code_prefix')
-    orders_customers.rename(
+    orders_customers_items.rename(
         columns={'geolocation_lat': 'geolocation_lat_cust', 'geolocation_lng': 'geolocation_lng_cust'}, inplace=True)
-    orders_customers.drop(
+    orders_customers_items.drop(
         columns=['geolocation_zip_code_prefix', 'geolocation_city', 'geolocation_state', 'customer_zip_code_prefix'],
         axis=1, inplace=True)
 
-    orders_customers_items = pd.merge(orders_customers, items[
-        ['order_id', 'product_id', 'seller_id', 'price', 'freight_value', 'shipping_limit_date']],
-                                      on='order_id', how='left')
-    del orders_customers
-    del items
-
     # Seller Info
     orders_customers_sellers = pd.merge(orders_customers_items, sellers, on='seller_id', how='inner')
-    orders_customers_sellers = pd.merge(orders_customers_sellers, gelocation, left_on='seller_zip_code_prefix',
+    orders_customers_sellers = pd.merge(orders_customers_sellers, geolocation, left_on='seller_zip_code_prefix',
                                         right_on='geolocation_zip_code_prefix')
     orders_customers_sellers.rename(
         columns={'geolocation_lat': 'geolocation_lat_seller', 'geolocation_lng': 'geolocation_lng_seller'},
@@ -34,13 +23,10 @@ def delivery_analysis(orders, customers, sellers, items, products, gelocation):
     orders_customers_sellers.drop(
         columns=['geolocation_zip_code_prefix', 'geolocation_state', 'seller_zip_code_prefix', 'geolocation_city'],
         axis=1, inplace=True)
-    del sellers
 
-    orders_customers_sellers = orders_customers_sellers.merge(products, how='inner', on='product_id')
-    del products
+    orders_customers_sellers.to_csv('test_delivery.csv')
     return orders_customers_sellers
-    # output
-    orders_customers_sellers.to_csv('test2.csv')
+
     # orders_customers_sellers = delivery_performance(orders_customers_sellers)
 
     # orders_customers_sellers = delivery_prediction(orders_customers_sellers)

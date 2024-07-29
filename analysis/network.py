@@ -9,16 +9,7 @@ from mlxtend.frequent_patterns import association_rules
 from analysis.pre_process import *
 
 
-def network_analysis(orders,customers,payment,items,products,product_category, sellers):
-    # One customer could have multiple orders
-    orders = order_data(orders)
-    orders['order_date'] = orders['order_purchase_timestamp'].dt.date
-    orders['order_month'] = orders['order_purchase_timestamp'].dt.month
-    orders_customers = orders.merge(customers, on = 'customer_id', how = 'left')
-    orders_customers_payment = orders_customers.merge(payment, on = 'order_id', how = 'inner')
-    orders_customers_items = orders_customers_payment.merge(items, on='order_id', how='left')
-    orders_customers_items = orders_customers_items.merge(products, on = 'product_id', how = 'inner')
-    orders_customers_items = orders_customers_items.merge(product_category, how = 'inner', on = 'product_category_name')
+def network_analysis(orders_customers_items,sellers):
     orders_customers_sellers = orders_customers_items.merge(sellers, how = 'inner', on = 'seller_id')
 
     # 1. Generate a table with seller_city and buyer city (aggregation)
