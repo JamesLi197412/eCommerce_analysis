@@ -1,8 +1,11 @@
 import jieba
-import matplotlib.pyplot as plt
-import nltk
 import numpy as np
 
+import matplotlib
+import matplotlib.pyplot as plt
+matplotlib.use('TkAgg')
+
+import nltk
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from nltk.stem.wordnet import WordNetLemmatizer
@@ -22,15 +25,17 @@ def review_analysis(reviews_df):
     reviews_df['label'] = np.where(reviews_df['review_score'] >= 3, 1, 0)
     reviews_df.to_csv('reviews.csv')
     # Produce common words
-    common_words_visualisation(reviews_df, 'typed_review_comment_message')
+    # common_words_visualisation(reviews_df, 'tidy_review_comment_message')
 
     # Work on Classification and top modelling
 
     # Topic modelling -- LDA method
     lda_model, corpus = LDA(reviews_df_without_stopwords, num_topics=20)
-    topic_sents_keywords = format(lda_model, corpus, reviews_df)
 
+    topic_sents_keywords = format_topics_sentences(lda_model, corpus, reviews_df)
+    topic_sents_keywords.to_csv('test_topic.csv')
     return reviews_df
+
 
 
 def data_preprocess(df, col):
@@ -79,5 +84,5 @@ def common_words_visualisation(df,col):
     plt.figure(figsize=(15, 12))
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis('off')
-    plt.savefig(f'output/visualisation/reviews/common words.png')
+    plt.savefig(f'output/visualisations/reviews/common words.png')
 

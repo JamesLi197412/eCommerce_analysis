@@ -1,24 +1,28 @@
 import gensim.corpora as corpora
 import pandas as pd
+import multiprocessing
+
 # LDA evaluation
 import pyLDAvis
 import pyLDAvis.gensim
 import pyLDAvis.gensim_models as gensimvisualize
-from gensim.models import LdaModel
+
+from gensim.models.ldamulticore import LdaMulticore
 from gensim.models.coherencemodel import CoherenceModel
 
 
-def LDA(words, num_topics=20):
+def LDA(words, num_topics):
     # Load the dictionary
     dictionary = corpora.Dictionary(words)
     dictionary.filter_extremes(no_below=2)
 
     # generate corpus as BoW
     corpus = [dictionary.doc2bow(word) for word in words]
+    cores = multiprocessing.cpu_count()
 
     # train LDA model
-    lda_model = LdaModel(corpus=corpus, id2word=dictionary, random_state=4583, chunksize=20, num_topics=num_topics,
-                         passes=200, iterations=1000)
+    lda_model = LdaMulticore(corpus = corpus, id2word= dictionary, num_topics=num_topics,
+                             workers = cores - 1, chunksize= 2000,   passes = 200, iterations = 100)
 
     # Evaluate models
     coherence_model = CoherenceModel(model=lda_model, texts=words, dictionary=dictionary, coherence='c_v')
@@ -31,6 +35,31 @@ def LDA(words, num_topics=20):
     pyLDAvis.display(dickens_visual)
 
     return lda_model, corpus
+
+
+def jaccard_similarity(topic_1, topic_2):
+    """
+    Derives the Jaccard similarity of two topics
+
+    Jaccard similarity:
+    - A statistic used for comparing the similarity and diversity of sample sets
+    - J(A,B) = (A ∩ B)/(A ∪ B)
+    - Goal is low Jaccard scores for coverage of the diverse elements
+    """
+    intersection = set(topic_1).intersection(set(topic_2))
+    union = set(topic_1).union(set(topic_2))
+
+    return float(len(intersection)) / float(len(union))
+
+def LDA_running():
+    # Considering topics 10 - 20 topics
+    num_topics = list(range(20))
+    num_keywords = 15
+
+    LDA_models = {}
+    LDA_topics = {}
+
+    return None
 
 
 def format_topics_sentences(lda_model, corpus, data):
