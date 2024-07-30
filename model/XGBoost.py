@@ -1,90 +1,78 @@
 import numpy as np
-import xgboost as xgb
+import pandas as pd
+
 from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_squared_error as MSE
 from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
+
+import xgboost
+import xgboost as xgb
 from xgboost import plot_importance
 
 
-class StockForecaster:
-    def __init__(self, df, features, target_col, parms, drop_cols):
+class XGBoostDelivery:
+    def __init__(self, df, features, target_col):
         self.data = df
         self.features = features
         self.target = target_col
-        self.parms = parms
         self.model = None
-        self.drop_cols = drop_cols
 
-    def data_split(self, test_size, valid_size):
-        self.data = self.data.fillna(0)
-        self.data.index = self.data.Date
+    def data_preprocess(self, encode_features, numerical_features):
+        X = self.data[self.features]
+        y = self.data[self.target]
+        X = pd.get_dummies(X, columns=encode_features)
 
-        test_split_idx = int(self.data.shape[0] * (1 - test_size))
-        valid_split_idx = int(self.data.shape[0] * (1 - (valid_size + test_size)))
-
-        train_df = self.data.iloc[:valid_split_idx].copy()
-        valid_df = self.data.iloc[valid_split_idx + 1:test_split_idx].copy()
-        test_df = self.data.iloc[test_split_idx + 1:].copy()
-
-        train_df = train_df.drop(self.drop_cols, 1)
-        test_df = test_df.drop(self.drop_cols, 1)
-        valid_df = valid_df.drop(self.drop_cols, 1)
-
-        y_train = train_df[self.target].copy()
-        X_train = train_df.drop([self.target], 1)
-
-        y_valid = valid_df[self.target].copy()
-        X_valid = valid_df.drop([self.target], 1)
-
-        y_test = test_df[self.target].copy()
-        X_test = test_df.drop([self.target], 1)
-        self.test_split_idx = test_split_idx
-        return X_train, y_train, X_test, y_test, X_valid, y_valid
-
-    def fine_tune(self, X_train, y_train, X_valid, y_valid, X_test, y_test):
-        eval_set = [(X_train, y_train), (X_valid, y_valid)]
-        model = xgb.XGBRegressor(eval_set=eval_set, objective='reg:squarederror', verbose=False)
-        clf = GridSearchCV(model, self.parms)
-        clf.fit(X_train, y_train)
-        print(f"Best params:{clf.best_params_}")
-        print(f"Best Validation Score = {clf.best_score_}")
-
-        model = xgb.XGBRegressor(**clf.best_params_, objective='reg:squarederror')
-        model.fit(X_train, y_train, eval_set=eval_set, verbose=False)
-
-        plot_importance(model)
-
-        y_pred = model.predict(X_test)
-        print(f'y_true = {np.array(y_test)[:5]}')
-        print(f'y_pred = {y_pred[:5]}')
-
-        print(f'mean_squared_error = {mean_squared_error(y_test, y_pred)}')
-
-        predicted_prices = self.data.loc[self.test_split_idx + 1:].copy()
-        predicted_prices[self.target] = y_pred
-        return predicted_prices
-
-    def model_run(self):
-        X_train, y_train, X_test, y_test, X_valid, y_valid = self.data_split(0.15, 0.15)
-        prediction = self.fine_tune(X_train, y_train, X_valid, y_valid, X_test, y_test)
-        return prediction
-
-    def create_lagged_dataset(self, n_past=1):
-        """
-        Creates a dataset for XGBoost with lagged features.
-
-        Args:
-            n_past (int, optional): The number of past periods to use as features. Defaults to 1.
-
-        Returns:
-            pandas.DataFrame: The dataset with lagged features and target.
-        """
-
-        lagged_df = self.data.copy()
-        for i in range(1, n_past + 1):
-            lagged_df[f"lag_{i}"] = lagged_df.shift(i)[self.target.name]
-        lagged_df.dropna(inplace=True)
-
-        X = lagged_df.drop(self.target.name, axis=1)
-        y = lagged_df[self.target.name]
-
+        # numerical_features
+        scaler = MinMaxScaler()
+        X.loc[:, numerical_features] = scaler.fit_transform(X[numerical_features])
         return X, y
+
+    def data_split(self, X, y, portion):
+        # self.data.index = self.data.Date
+        train_X, test_X, train_y, test_y = train_test_split(X, y, test_size=portion, random_state=123)
+        return train_X, train_y, test_X, test_y
+
+    def model_run(self, encode_features, numerical_features):
+        X, y = self.data_preprocess(encode_features, numerical_features)
+        X_train, y_train, X_test, y_test = self.data_split(X,y,0.3)
+        xgb_r = xgboost.XGBRFRegressor(objective='reg:linear', n_estimators=10, seed=123)
+        xgb_r.fit(X_train, y_train)
+
+        # predict the model
+        pred = xgb_r.predict(X_test)
+
+        # RMSE Computation
+        rmse = np.sqrt(MSE(y_test, pred))
+        print("RMSE : % f" % (rmse))
+
+        return pred
+
+
+    def modelfit(alg, dtrain, predictors, useTrainCV=True, cv_folds=5, early_stopping_rounds=50):
+        if useTrainCV:
+            xgb_param = alg.get_xgb_params()
+            xgtrain = xgb.DMatrix(dtrain[predictors].values, label=dtrain[target].values)
+            cvresult = xgb.cv(xgb_param, xgtrain, num_boost_round=alg.get_params()['n_estimators'], nfold=cv_folds,
+                              metrics='auc', early_stopping_rounds=early_stopping_rounds, show_progress=False)
+            alg.set_params(n_estimators=cvresult.shape[0])
+
+        # Fit the algorithm on the data
+        alg.fit(dtrain[predictors], dtrain['Disbursed'], eval_metric='auc')
+
+        # Predict training set:
+        dtrain_predictions = alg.predict(dtrain[predictors])
+        dtrain_predprob = alg.predict_proba(dtrain[predictors])[:, 1]
+
+        # Print model report:
+        print
+        "\nModel Report"
+        print
+        "Accuracy : %.4g" % metrics.accuracy_score(dtrain['Disbursed'].values, dtrain_predictions)
+        print
+        "AUC Score (Train): %f" % metrics.roc_auc_score(dtrain['Disbursed'], dtrain_predprob)
+
+        feat_imp = pd.Series(alg.booster().get_fscore()).sort_values(ascending=False)
+        feat_imp.plot(kind='bar', title='Feature Importances')
+        plt.ylabel('Feature Importance Score')

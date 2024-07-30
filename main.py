@@ -27,13 +27,13 @@ def analysis():
     # Commercial Analysis
     # orders & customers datasets
     orders_customers_items,customer_once, clv = order_customer(order_dataset,customers,order_payment,order_items,products,product_category)
-    print('RAM memory % used:', psutil.virtual_memory()[3] / 1000000000)
 
     # Delivery Analysis
-    # delivery_analysis(orders_customers_items,sellers,geolocation)
+    delivery_analysis(orders_customers_items,sellers,geolocation)
+    print('RAM memory % used:', psutil.virtual_memory()[3] / 1000000000)
 
     # Review analysis
-    review_analysis(order_reviews)
+    # review_analysis(order_reviews)
 
     # Network analysis
     # delivery_df = network_analysis(orders_customers_items,sellers)
