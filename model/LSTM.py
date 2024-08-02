@@ -6,6 +6,8 @@ from keras.layers import LSTM, Dense
 from keras.models import Sequential
 from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.model_selection import train_test_split
+
 
 
 # from tensorflow.keras.models import Sequential
@@ -16,10 +18,10 @@ class LSTM_Model:
         self.data = data
         self.train = None
 
-    def split_data(self, ratio, df):
-        train_size = int(len(df) * ratio)
-        train, test = df[0:train_size, :], df[train_size:len(df), :]
-        return train, test, train_size
+    def data_split(self, X, y, portion):
+        # self.data.index = self.data.Date
+        train_X, test_X, train_y, test_y = train_test_split(X, y, test_size=portion, random_state=123)
+        return train_X, train_y, test_X, test_y
 
     def data_process(self):
         scaler = MinMaxScaler(feature_range=(0, 1))
@@ -52,19 +54,17 @@ class LSTM_Model:
 
     def run(self, time_step=100):
         df = self.data_process()
-        train, test, train_size = self.split_data(0.8, df)
-        X_train, Y_train = self.create_dataset(train, time_step)
-        X_test, Y_test = self.create_dataset(test, time_step)
-        model = self.build_model(X_train, Y_train, time_step)
+        train_X, train_y, test_X, test_y = self.data_split(0.8, df)
+        model = self.build_model(train_X,train_y, time_step)
 
-        train_predict = model.predict(X_train)
-        test_predict = model.predict(X_test)
+        train_predict = model.predict(train_X)
+        test_predict = model.predict(test_X)
 
         # invert predictions
         train_predict = self.scaler.inverse_transform(train_predict)
-        Y_train = self.scaler.inverse_transform([Y_train])
+        Y_train = self.scaler.inverse_transform([train_y])
         test_predict = self.scaler.inverse_transform(test_predict)
-        Y_test = self.scaler.inverse_transform([Y_test])
+        Y_test = self.scaler.inverse_transform([test_y])
 
         # calculate root mean squared error
         trainScore = np.sqrt(mean_squared_error(Y_train[0], train_predict[:, 0]))
