@@ -18,10 +18,12 @@ def delivery_analysis(orders_customers_items,sellers,geolocation):
         columns={'geolocation_lat': 'geolocation_lat_seller', 'geolocation_lng': 'geolocation_lng_seller'},
         inplace=True)
 
+    # Add more labels
     orders_customers_sellers = delivery_performance(orders_customers_sellers)
 
-    orders_customers_sellers = delivery_prediction(orders_customers_sellers)
-
+    # Predict delivery time with xgboost help
+    orders_customers_sellers,xgb_r = delivery_prediction(orders_customers_sellers)
+    return orders_customers_sellers,xgb_r
 
 def delivery_performance(df):
     # 1. Order purchase timestamp vs oder approved at
@@ -65,7 +67,7 @@ def delivery_prediction(df):
     encode_features = ['customer_city','seller_city']
     numerical_features = ['cities distances', 'cities differences','delivery_status','purchase_approved_delta','product volumn','product_weight_g']
     xgboost = XGBoostDelivery(df = delivered, features = features, target_col = target)
-    pred = xgboost.model_run(encode_features, numerical_features)
 
+    xgb_r = xgboost.model_run(encode_features, numerical_features)
 
-    return delivered
+    return delivered,xgb_r

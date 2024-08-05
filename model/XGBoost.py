@@ -1,17 +1,19 @@
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-
-from sklearn.metrics import mean_squared_error
+import xgboost
 from sklearn.metrics import mean_squared_error as MSE
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
+from xgboost import plot_tree
+from xgboost.sklearn import XGBRegressor
+import joblib
 
-import xgboost
-import xgboost as xgb
-from xgboost import plot_importance
-
-
+"""
+    This module is a XGBoost Linear Regression class. It is used for predicting 
+    Delivery time.
+"""
 class XGBoostDelivery:
     def __init__(self, df, features, target_col):
         self.data = df
@@ -36,42 +38,66 @@ class XGBoostDelivery:
 
     def model_run(self, encode_features, numerical_features):
         X, y = self.data_preprocess(encode_features, numerical_features)
-        X_train, y_train, X_test, y_test = self.data_split(X,y,0.3)
-        xgb_r = xgboost.XGBRFRegressor(objective='reg:linear', n_estimators=10, seed=123)
+        X_train, y_train, X_test, y_test = self.data_split(X, y, 0.3)
+
+        best_parameters = self.parameters_tunning(X_train, y_train)
+
+        xgb_r = xgboost.XGBRFRegressor(colsample_bytree = best_parameters['colsample_bytree'],
+                                       learning_rate = best_parameters['learning_rate'],
+                                       max_depth = best_parameters['max_depth'],
+                                       min_child_weight = best_parameters['min_child_weight'],
+                                       n_estimators = best_parameters['n_estimators'],
+                                       nthread = best_parameters['nthread'],
+                                       subsample = best_parameters['subsample'],
+                                       objective='reg:linear'
+                                       )
         xgb_r.fit(X_train, y_train)
 
         # predict the model
         pred = xgb_r.predict(X_test)
 
         # RMSE Computation
-        rmse = np.sqrt(MSE(y_test, pred))
-        print("RMSE : % f" % (rmse))
+        rmse_score = np.sqrt(MSE(y_test, pred))
+        print("RMSE : % f" % (rmse_score))
 
-        return pred
+        # save the optimised model
+        joblib.dump(xgb_r, 'xgb_regression_model.joblib')
 
 
-    def modelfit(self, alg, dtrain, predictors, target,useTrainCV=True, cv_folds=5, early_stopping_rounds=50):
-        if useTrainCV:
-            xgb_param = alg.get_xgb_params()
-            xgtrain = xgb.DMatrix(dtrain[predictors].values, label=dtrain[target].values)
-            cvresult = xgb.cv(xgb_param, xgtrain, num_boost_round=alg.get_params()['n_estimators'], nfold=cv_folds,
-                              metrics='auc', early_stopping_rounds=early_stopping_rounds, show_progress=False)
-            alg.set_params(n_estimators=cvresult.shape[0])
+        return xgb_r
 
-        # Fit the algorithm on the data
-        alg.fit(dtrain[predictors], dtrain['Disbursed'], eval_metric='auc')
 
-        """
-        # Predict training set:
-        dtrain_predictions = alg.predict(dtrain[predictors])
-        dtrain_predprob = alg.predict_proba(dtrain[predictors])[:, 1]
 
-        # Print model report:
-        print("\nModel Report")
-        print("Accuracy : %.4g" % metrics.accuracy_score(dtrain['Disbursed'].values, dtrain_predictions)
-        print("AUC Score (Train): %f" % metrics.roc_auc_score(dtrain['Disbursed'], dtrain_predprob))
+    def visualisation_scatter(self,x_test, y_val, y_pred_xgb):
+        plt.scatter(x_test['cities distances'], y_val, color='blue', label='Real', alpha=0.5)
+        plt.scatter(x_test['cities distances'], y_pred_xgb, color='red', label='Predict', alpha=0.5)
+        plt.title("Real vs Predict")
+        plt.legend(loc='best')
+        plt.show()
 
-        feat_imp = pd.Series(alg.booster().get_fscore()).sort_values(ascending=False)
-        feat_imp.plot(kind='bar', title='Feature Importances')
-        plt.ylabel('Feature Importance Score')
-        """
+
+    def parameters_tunning(self, x_train, y_train):
+        xgb = XGBRegressor()
+
+        parameters = {'nthread': [4],  # when use hyperthread, xgboost may become slower
+                      'objective': ['reg:linear'],
+                      'learning_rate': [.03, 0.05, .07],  # so called `eta` value
+                      'max_depth': [5, 6, 7],
+                      'min_child_weight': [4],
+                      'subsample': [0.7],
+                      'colsample_bytree': [0.7],
+                      'n_estimators': [500]}
+
+        xgb_grid = GridSearchCV(xgb,
+                                parameters,
+                                cv=2,
+                                n_jobs=5,
+                                verbose=True)
+
+        xgb_grid.fit(x_train, y_train)
+
+        return xgb_grid.best_params_
+
+    def tree_visualisation(self, num_trees, model):
+        plot_tree(model, num_trees)
+        plt.show()

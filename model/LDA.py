@@ -1,17 +1,16 @@
-import gensim.corpora as corpora
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 import multiprocessing
 
+import gensim.corpora as corpora
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 # LDA evaluation
 import pyLDAvis
 import pyLDAvis.gensim
 import pyLDAvis.gensim_models as gensimvisualize
-
-from gensim.models.ldamulticore import LdaMulticore
+import seaborn as sns
 from gensim.models.coherencemodel import CoherenceModel
+from gensim.models.ldamulticore import LdaMulticore
 
 
 def LDA(words, num_topics):
