@@ -1,6 +1,8 @@
-from S3Access import *
-from MySQLConnection import *
 import pandas as pd
+
+from MySQLConnection import *
+from S3Access import *
+
 
 def mysql():
     file_name, final_df = AWS_access()
@@ -16,6 +18,7 @@ def mysql():
 
     connection.close()
     return file_name, final_df
+
 
 def AWS_access():
     """

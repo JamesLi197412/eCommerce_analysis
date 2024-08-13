@@ -1,8 +1,8 @@
-
 import pymysql.cursors
 
+
 class MySQLConnection:
-    def __init__(self,host,user,password,database):
+    def __init__(self, host, user, password, database):
         self.host = host
         self.user = user
         self.password = password
@@ -11,10 +11,10 @@ class MySQLConnection:
 
     def connection_generate(self):
         connection = pymysql.connect(
-            host = self.host,
-            user = self.user,
-            password = self.password,
-            database = self.database
+            host=self.host,
+            user=self.user,
+            password=self.password,
+            database=self.database
         )
         self.connection = connection
         return connection

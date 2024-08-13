@@ -1,61 +1,2371 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <title>Bokeh Plot</title>
     <style>
-      html, body {
-        box-sizing: border-box;
-        display: flow-root;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
+        html, body {
+            box-sizing: border-box;
+            display: flow-root;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
     </style>
-    <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-3.4.1.min.js"></script>
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-3.4.1.min.js" type="text/javascript"></script>
     <script type="text/javascript">
         Bokeh.set_log_level("info");
     </script>
-  </head>
-  <body>
-    <div id="d6ca36a7-d241-47ba-8ae4-3c502563f34d" data-root-id="p1003" style="display: contents;"></div>
-  
-    <script type="application/json" id="b9d90f9b-e1a0-45f7-b067-7feed7c7f05d">
-      {"35ad0f1d-935f-40cb-9b6d-b4d076c11cb4":{"version":"3.4.1","title":"Bokeh Application","roots":[{"type":"object","name":"Figure","id":"p1003","attributes":{"x_range":{"type":"object","name":"Range1d","id":"p1001","attributes":{"start":-10.1,"end":10.1}},"y_range":{"type":"object","name":"Range1d","id":"p1002","attributes":{"start":-10.1,"end":10.1}},"x_scale":{"type":"object","name":"LinearScale","id":"p1013"},"y_scale":{"type":"object","name":"LinearScale","id":"p1014"},"title":{"type":"object","name":"Title","id":"p1006","attributes":{"text":"Product Category Network"}},"renderers":[{"type":"object","name":"GraphRenderer","id":"p1031","attributes":{"layout_provider":{"type":"object","name":"StaticLayoutProvider","id":"p1048","attributes":{"graph_layout":{"type":"map","entries":[["agro_industry_and_commerce",{"type":"ndarray","array":{"type":"bytes","data":"AAAAAAAAJECHFLhilz3sPw=="},"shape":[2],"dtype":"float64","order":"little"}],["air_conditioning",{"type":"ndarray","array":{"type":"bytes","data":"oOG2WGiK/T9VnmQ7z+vKvw=="},"shape":[2],"dtype":"float64","order":"little"}],["art",{"type":"ndarray","array":{"type":"bytes","data":"Huog8FkQzT/AbXOn2rXUPw=="},"shape":[2],"dtype":"float64","order":"little"}],["arts_and_craftmanship",{"type":"ndarray","array":{"type":"bytes","data":"ww9yzPzM0j/nBGw4JsH1vw=="},"shape":[2],"dtype":"float64","order":"little"}],["audio",{"type":"ndarray","array":{"type":"bytes","data":"KucNMHQZub9N70f1Q7brvw=="},"shape":[2],"dtype":"float64","order":"little"}],["auto",{"type":"ndarray","array":{"type":"bytes","data":"aESlX1fr4z9IrxyvLf3jvw=="},"shape":[2],"dtype":"float64","order":"little"}],["baby",{"type":"ndarray","array":{"type":"bytes","data":"fYzaOrMz3j+Hx4ymYCLavw=="},"shape":[2],"dtype":"float64","order":"little"}],["bed_bath_table",{"type":"ndarray","array":{"type":"bytes","data":"c1P8aBtz4D+We0kcB2fLvw=="},"shape":[2],"dtype":"float64","order":"little"}],["books_general_interest",{"type":"ndarray","array":{"type":"bytes","data":"ha7Ka6kV5j84nZAzVerxvw=="},"shape":[2],"dtype":"float64","order":"little"}],["books_imported",{"type":"ndarray","array":{"type":"bytes","data":"0JLGPFOcHcCQ8W64W18TwA=="},"shape":[2],"dtype":"float64","order":"little"}],["books_technical",{"type":"ndarray","array":{"type":"bytes","data":"o/selMPO9T/W3Y1+HkLmPw=="},"shape":[2],"dtype":"float64","order":"little"}],["cds_dvds_musicals",{"type":"ndarray","array":{"type":"bytes","data":"8WqhWLmH9b8y9iRRaW0jQA=="},"shape":[2],"dtype":"float64","order":"little"}],["christmas_supplies",{"type":"ndarray","array":{"type":"bytes","data":"DpgtH5Qd3z//sASEy8X6vw=="},"shape":[2],"dtype":"float64","order":"little"}],["cine_photo",{"type":"ndarray","array":{"type":"bytes","data":"1+gP9GX+9j9gcZRPe8Hnvw=="},"shape":[2],"dtype":"float64","order":"little"}],["computers",{"type":"ndarray","array":{"type":"bytes","data":"kOAThKS91D/cyzm+3YXvPw=="},"shape":[2],"dtype":"float64","order":"little"}],["computers_accessories",{"type":"ndarray","array":{"type":"bytes","data":"Tq9yRlJe5z8ntNAwYXnXvw=="},"shape":[2],"dtype":"float64","order":"little"}],["consoles_games",{"type":"ndarray","array":{"type":"bytes","data":"iFdhf/KX8j+WkumkDLPjvw=="},"shape":[2],"dtype":"float64","order":"little"}],["construction_tools_construction",{"type":"ndarray","array":{"type":"bytes","data":"rTR1IYNJ6D9nRmlMORWkvw=="},"shape":[2],"dtype":"float64","order":"little"}],["construction_tools_lights",{"type":"ndarray","array":{"type":"bytes","data":"fTHWmXXP4T/hF2TXXZfGPw=="},"shape":[2],"dtype":"float64","order":"little"}],["construction_tools_safety",{"type":"ndarray","array":{"type":"bytes","data":"JMwb9BRluD+TW1LN13S+Pw=="},"shape":[2],"dtype":"float64","order":"little"}],["cool_stuff",{"type":"ndarray","array":{"type":"bytes","data":"nAnx0BZQ4z9Cq90p6fPbvw=="},"shape":[2],"dtype":"float64","order":"little"}],["costruction_tools_garden",{"type":"ndarray","array":{"type":"bytes","data":"8fRgUo8R7D96m4fMtFrbPw=="},"shape":[2],"dtype":"float64","order":"little"}],["costruction_tools_tools",{"type":"ndarray","array":{"type":"bytes","data":"12gyoIpsGkAylzeSk50aQA=="},"shape":[2],"dtype":"float64","order":"little"}],["diapers_and_hygiene",{"type":"ndarray","array":{"type":"bytes","data":"NfMJxhcdIEByuJiEqTwcQA=="},"shape":[2],"dtype":"float64","order":"little"}],["drinks",{"type":"ndarray","array":{"type":"bytes","data":"p0riRwBW7z+Xnpk8Xyqnvw=="},"shape":[2],"dtype":"float64","order":"little"}],["dvds_blu_ray",{"type":"ndarray","array":{"type":"bytes","data":"QhdNdG1L8z9HrzAGAa3wvw=="},"shape":[2],"dtype":"float64","order":"little"}],["electronics",{"type":"ndarray","array":{"type":"bytes","data":"imnOJ1+o5j+kmM0441nKvw=="},"shape":[2],"dtype":"float64","order":"little"}],["fashio_female_clothing",{"type":"ndarray","array":{"type":"bytes","data":"6SdGrYZlBsBcMd7RaDb0vw=="},"shape":[2],"dtype":"float64","order":"little"}],["fashion_bags_accessories",{"type":"ndarray","array":{"type":"bytes","data":"kTiq9zaS078PjP+w7X3kvw=="},"shape":[2],"dtype":"float64","order":"little"}],["fashion_childrens_clothes",{"type":"ndarray","array":{"type":"bytes","data":"hICVsnx98r+p29s3ZTztvw=="},"shape":[2],"dtype":"float64","order":"little"}],["fashion_male_clothing",{"type":"ndarray","array":{"type":"bytes","data":"cfjC+vCzHcCdCtBDR0MZwA=="},"shape":[2],"dtype":"float64","order":"little"}],["fashion_shoes",{"type":"ndarray","array":{"type":"bytes","data":"67ZHFkGb6T+Nm6nxvf32vw=="},"shape":[2],"dtype":"float64","order":"little"}],["fashion_sport",{"type":"ndarray","array":{"type":"bytes","data":"/lsUh8Pr/L819LTfNwPwvw=="},"shape":[2],"dtype":"float64","order":"little"}],["fashion_underwear_beach",{"type":"ndarray","array":{"type":"bytes","data":"F0a15I6ZIcAVEK6SRQ0CQA=="},"shape":[2],"dtype":"float64","order":"little"}],["fixed_telephony",{"type":"ndarray","array":{"type":"bytes","data":"FLHtMkZfAUBa3EUr2THgvw=="},"shape":[2],"dtype":"float64","order":"little"}],["flowers",{"type":"ndarray","array":{"type":"bytes","data":"4Dcr3HBZ3D96qIhtKmjiPw=="},"shape":[2],"dtype":"float64","order":"little"}],["food",{"type":"ndarray","array":{"type":"bytes","data":"Qa8NZDht9j/hK1GwmLG9vw=="},"shape":[2],"dtype":"float64","order":"little"}],["food_drink",{"type":"ndarray","array":{"type":"bytes","data":"CyKeUqck8T9J/zWlbZPqvw=="},"shape":[2],"dtype":"float64","order":"little"}],["furniture_bedroom",{"type":"ndarray","array":{"type":"bytes","data":"K8xDXG/V7D9+ngJdK3TkPw=="},"shape":[2],"dtype":"float64","order":"little"}],["furniture_decor",{"type":"ndarray","array":{"type":"bytes","data":"4MN3Q2aT4D8jAUnsvkK0vw=="},"shape":[2],"dtype":"float64","order":"little"}],["furniture_living_room",{"type":"ndarray","array":{"type":"bytes","data":"QYjJPhZ81j+gVa3E98bEPw=="},"shape":[2],"dtype":"float64","order":"little"}],["furniture_mattress_and_upholstery",{"type":"ndarray","array":{"type":"bytes","data":"gdjtLijIIMBP0hwc+/ITQA=="},"shape":[2],"dtype":"float64","order":"little"}],["garden_tools",{"type":"ndarray","array":{"type":"bytes","data":"0yVbAcSw4j+EM196apvOvw=="},"shape":[2],"dtype":"float64","order":"little"}],["health_beauty",{"type":"ndarray","array":{"type":"bytes","data":"IYVlEJm86T8pvsdNXYzFvw=="},"shape":[2],"dtype":"float64","order":"little"}],["home_appliances",{"type":"ndarray","array":{"type":"bytes","data":"/QMa30qZFcAbRs4JL+QhwA=="},"shape":[2],"dtype":"float64","order":"little"}],["home_appliances_2",{"type":"ndarray","array":{"type":"bytes","data":"hJiQEzsu0b8hweRcxxzwPw=="},"shape":[2],"dtype":"float64","order":"little"}],["home_comfort_2",{"type":"ndarray","array":{"type":"bytes","data":"yFofQ7bdjb+MPhA2UJv6vw=="},"shape":[2],"dtype":"float64","order":"little"}],["home_confort",{"type":"ndarray","array":{"type":"bytes","data":"u3IzIJW61D+Rzt+y1L7Evw=="},"shape":[2],"dtype":"float64","order":"little"}],["home_construction",{"type":"ndarray","array":{"type":"bytes","data":"t6w+mhRN2D8xQZ0KOEqYPw=="},"shape":[2],"dtype":"float64","order":"little"}],["housewares",{"type":"ndarray","array":{"type":"bytes","data":"XvMUfJ2R4T/4ZyWcH3zQvw=="},"shape":[2],"dtype":"float64","order":"little"}],["industry_commerce_and_business",{"type":"ndarray","array":{"type":"bytes","data":"wvztHvn+oz+hYpkyLe6EPw=="},"shape":[2],"dtype":"float64","order":"little"}],["kitchen_dining_laundry_garden_furniture",{"type":"ndarray","array":{"type":"bytes","data":"itRVjCTWgr+kidoH2UXMvw=="},"shape":[2],"dtype":"float64","order":"little"}],["la_cuisine",{"type":"ndarray","array":{"type":"bytes","data":"tE8AbzGY0L9ygl6q/hfxvw=="},"shape":[2],"dtype":"float64","order":"little"}],["luggage_accessories",{"type":"ndarray","array":{"type":"bytes","data":"CQXjD54G6D+17YJ54Tzdvw=="},"shape":[2],"dtype":"float64","order":"little"}],["market_place",{"type":"ndarray","array":{"type":"bytes","data":"LeX0Qk+/5j81nDliZpfivw=="},"shape":[2],"dtype":"float64","order":"little"}],["music",{"type":"ndarray","array":{"type":"bytes","data":"k5dKecp4/z8e1jVfPqvqPw=="},"shape":[2],"dtype":"float64","order":"little"}],["musical_instruments",{"type":"ndarray","array":{"type":"bytes","data":"7qWZ5zU90D/R1K4D3Yzrvw=="},"shape":[2],"dtype":"float64","order":"little"}],["office_furniture",{"type":"ndarray","array":{"type":"bytes","data":"/Xq3lK8U5D+UKbIAwW6zPw=="},"shape":[2],"dtype":"float64","order":"little"}],["party_supplies",{"type":"ndarray","array":{"type":"bytes","data":"swBLg1Rh5r+AydFHeO3fPw=="},"shape":[2],"dtype":"float64","order":"little"}],["perfumery",{"type":"ndarray","array":{"type":"bytes","data":"BKABMs3p8D9GqJhQqXWzvw=="},"shape":[2],"dtype":"float64","order":"little"}],["pet_shop",{"type":"ndarray","array":{"type":"bytes","data":"5Cu2zOiS8T/Z+vz/G5DCPw=="},"shape":[2],"dtype":"float64","order":"little"}],["security_and_services",{"type":"ndarray","array":{"type":"bytes","data":"i6iin7yBI8CvdI3SFBbuPw=="},"shape":[2],"dtype":"float64","order":"little"}],["signaling_and_security",{"type":"ndarray","array":{"type":"bytes","data":"Z2JVvieJ5z+fvBAQnT7+vw=="},"shape":[2],"dtype":"float64","order":"little"}],["small_appliances",{"type":"ndarray","array":{"type":"bytes","data":"0eqO9pDs8j/so0P5DjzKvw=="},"shape":[2],"dtype":"float64","order":"little"}],["small_appliances_home_oven_and_coffee",{"type":"ndarray","array":{"type":"bytes","data":"KvNFRP0oGcAktjcBAwsgQA=="},"shape":[2],"dtype":"float64","order":"little"}],["sports_leisure",{"type":"ndarray","array":{"type":"bytes","data":"znJJPX4d6j9XguQlnSHQvw=="},"shape":[2],"dtype":"float64","order":"little"}],["stationery",{"type":"ndarray","array":{"type":"bytes","data":"+lttq99D2j84lFHl/ArVvw=="},"shape":[2],"dtype":"float64","order":"little"}],["tablets_printing_image",{"type":"ndarray","array":{"type":"bytes","data":"GFK/Pkeez7+vjyZ90D/dvw=="},"shape":[2],"dtype":"float64","order":"little"}],["telephony",{"type":"ndarray","array":{"type":"bytes","data":"Mue0bJHb7z8bR3rClqXevw=="},"shape":[2],"dtype":"float64","order":"little"}],["toys",{"type":"ndarray","array":{"type":"bytes","data":"Uk3RA3BD4T9e8/vDxL7gvw=="},"shape":[2],"dtype":"float64","order":"little"}],["watches_gifts",{"type":"ndarray","array":{"type":"bytes","data":"ZqThXF7j1z8wq3WQupPdvw=="},"shape":[2],"dtype":"float64","order":"little"}]]}}},"node_renderer":{"type":"object","name":"GlyphRenderer","id":"p1036","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p1033","attributes":{"selected":{"type":"object","name":"Selection","id":"p1034","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1035"},"data":{"type":"map","entries":[["adjusted_node_size",[5,7,7,7,6,25,25,32,9,5,9,5,6,8,6,26,12,16,12,10,22,13,5,5,9,7,19,6,13,6,5,6,7,5,7,7,11,7,8,35,11,5,25,27,5,6,7,9,14,30,8,10,7,14,12,7,13,11,6,16,15,5,6,11,5,29,16,7,18,20,23]],["index",["agro_industry_and_commerce","air_conditioning","art","arts_and_craftmanship","audio","auto","baby","bed_bath_table","books_general_interest","books_imported","books_technical","cds_dvds_musicals","christmas_supplies","cine_photo","computers","computers_accessories","consoles_games","construction_tools_construction","construction_tools_lights","construction_tools_safety","cool_stuff","costruction_tools_garden","costruction_tools_tools","diapers_and_hygiene","drinks","dvds_blu_ray","electronics","fashio_female_clothing","fashion_bags_accessories","fashion_childrens_clothes","fashion_male_clothing","fashion_shoes","fashion_sport","fashion_underwear_beach","fixed_telephony","flowers","food","food_drink","furniture_bedroom","furniture_decor","furniture_living_room","furniture_mattress_and_upholstery","garden_tools","health_beauty","home_appliances","home_appliances_2","home_comfort_2","home_confort","home_construction","housewares","industry_commerce_and_business","kitchen_dining_laundry_garden_furniture","la_cuisine","luggage_accessories","market_place","music","musical_instruments","office_furniture","party_supplies","perfumery","pet_shop","security_and_services","signaling_and_security","small_appliances","small_appliances_home_oven_and_coffee","sports_leisure","stationery","tablets_printing_image","telephony","toys","watches_gifts"]]]}}},"view":{"type":"object","name":"CDSView","id":"p1037","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1038"}}},"glyph":{"type":"object","name":"Circle","id":"p1049","attributes":{"radius":{"type":"field","field":"size"},"fill_color":{"type":"field","field":"colorCode"}}}}},"edge_renderer":{"type":"object","name":"GlyphRenderer","id":"p1043","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p1040","attributes":{"selected":{"type":"object","name":"Selection","id":"p1041","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1042"},"data":{"type":"map","entries":[["weight",[1.0,1.0,10.0,1.0,1.0,1.0,6.0,2.0,3.0,2.0,5.0,2.0,4.0,3.0,2.0,1.0,1.0,4.0,3.0,1.0,1.0,3.0,1.0,1.0,4.0,6.0,1.0,70.0,1.0,2.0,1.0,35.0,3.0,2.0,1.0,21.0,1.0,9.0,1.0,8.0,1.0,1.0,1.0,1.0,26.0,2.0,1.0,1.0,1.0,1.0,14.0,2.0,33.0,1.0,1.0,1.0,153.0,2.0,8.0,23.0,1.0,58.0,923.0,3.0,11.0,11.0,1.0,1.0,1.0,2.0,2.0,1.0,1.0,2.0,1.0,1.0,1.0,1.0,2.0,1.0,2.0,2.0,1.0,1.0,1.0,7.0,1.0,20.0,8.0,25.0,1.0,3.0,4.0,145.0,1.0,3.0,2.0,1.0,6.0,1.0,1.0,1.0,1.0,1.0,2.0,1.0,6.0,2.0,1.0,1.0,3.0,1.0,1.0,1.0,20.0,1.0,1.0,3.0,2.0,7.0,4.0,4.0,1.0,1.0,1.0,2.0,8.0,8.0,2.0,1.0,1.0,1.0,1.0,1.0,17.0,2.0,4.0,2.0,1.0,3.0,1.0,1.0,5.0,1.0,2.0,1.0,1.0,2.0,2.0,1.0,2.0,1.0,1.0,1.0,2.0,1.0,1.0,6.0,4.0,2.0,2.0,3.0,2.0,1.0,11.0,60.0,3.0,9.0,25.0,40.0,6.0,1.0,4.0,2.0,6.0,2.0,3.0,3.0,3.0,2.0,10.0,1.0,5.0,2.0,8.0,15.0,1.0,2.0,1.0,6.0,2.0,1.0,4.0,1.0,2.0,2.0,14.0,1.0,1.0,52.0,9.0,2.0,2.0,3.0,1.0,1.0,1.0,4.0,4.0,2.0,2.0,1.0,2.0,21.0,40.0,2.0,1.0,1.0,1.0,9.0,1.0,1.0,1.0,1.0,4.0,1.0,13.0,1.0,3.0,3.0,1.0,1.0,2.0,2.0,2.0,4.0,5.0,6.0,2.0,1.0,2.0,1.0]],["start",["air_conditioning","air_conditioning","art","art","arts_and_craftmanship","arts_and_craftmanship","audio","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","baby","baby","baby","baby","baby","baby","baby","baby","baby","baby","baby","baby","baby","baby","baby","baby","baby","baby","baby","bed_bath_table","bed_bath_table","bed_bath_table","bed_bath_table","bed_bath_table","bed_bath_table","bed_bath_table","bed_bath_table","bed_bath_table","bed_bath_table","bed_bath_table","bed_bath_table","bed_bath_table","bed_bath_table","bed_bath_table","bed_bath_table","bed_bath_table","bed_bath_table","bed_bath_table","bed_bath_table","bed_bath_table","bed_bath_table","bed_bath_table","bed_bath_table","bed_bath_table","books_general_interest","books_general_interest","books_general_interest","books_technical","books_technical","books_technical","books_technical","cine_photo","cine_photo","cine_photo","computers","computers_accessories","computers_accessories","computers_accessories","computers_accessories","computers_accessories","computers_accessories","computers_accessories","computers_accessories","computers_accessories","computers_accessories","computers_accessories","computers_accessories","computers_accessories","computers_accessories","computers_accessories","computers_accessories","computers_accessories","computers_accessories","consoles_games","consoles_games","consoles_games","consoles_games","consoles_games","construction_tools_construction","construction_tools_construction","construction_tools_construction","construction_tools_construction","construction_tools_construction","construction_tools_construction","construction_tools_construction","construction_tools_construction","construction_tools_lights","construction_tools_lights","construction_tools_lights","construction_tools_lights","construction_tools_lights","construction_tools_safety","construction_tools_safety","cool_stuff","cool_stuff","cool_stuff","cool_stuff","cool_stuff","cool_stuff","cool_stuff","cool_stuff","cool_stuff","costruction_tools_garden","costruction_tools_garden","costruction_tools_garden","costruction_tools_garden","costruction_tools_garden","drinks","drinks","drinks","dvds_blu_ray","electronics","electronics","electronics","electronics","electronics","electronics","electronics","electronics","electronics","electronics","electronics","fashio_female_clothing","fashion_bags_accessories","fashion_bags_accessories","fashion_bags_accessories","fashion_bags_accessories","fashion_bags_accessories","fixed_telephony","fixed_telephony","flowers","food","food","food","food_drink","food_drink","furniture_bedroom","furniture_decor","furniture_decor","furniture_decor","furniture_decor","furniture_decor","furniture_decor","furniture_decor","furniture_decor","furniture_decor","furniture_decor","furniture_decor","furniture_decor","furniture_decor","furniture_decor","furniture_decor","furniture_decor","furniture_decor","furniture_living_room","furniture_living_room","furniture_living_room","garden_tools","garden_tools","garden_tools","garden_tools","garden_tools","garden_tools","garden_tools","garden_tools","garden_tools","health_beauty","health_beauty","health_beauty","health_beauty","health_beauty","health_beauty","health_beauty","health_beauty","health_beauty","health_beauty","health_beauty","home_comfort_2","home_confort","home_confort","home_construction","housewares","housewares","housewares","housewares","housewares","housewares","housewares","housewares","industry_commerce_and_business","kitchen_dining_laundry_garden_furniture","luggage_accessories","luggage_accessories","luggage_accessories","market_place","market_place","music","musical_instruments","musical_instruments","office_furniture","perfumery","perfumery","perfumery","perfumery","pet_shop","small_appliances","small_appliances","sports_leisure","sports_leisure","sports_leisure","stationery","stationery","telephony","telephony","toys"]],["end",["computers_accessories","sports_leisure","furniture_decor","stationery","garden_tools","toys","watches_gifts","baby","bed_bath_table","christmas_supplies","computers_accessories","consoles_games","construction_tools_construction","cool_stuff","drinks","electronics","fashion_bags_accessories","furniture_decor","garden_tools","health_beauty","home_comfort_2","housewares","luggage_accessories","musical_instruments","sports_leisure","telephony","watches_gifts","bed_bath_table","books_general_interest","construction_tools_lights","construction_tools_safety","cool_stuff","fashion_bags_accessories","fashion_shoes","furniture_bedroom","furniture_decor","furniture_living_room","garden_tools","health_beauty","housewares","la_cuisine","luggage_accessories","signaling_and_security","sports_leisure","toys","watches_gifts","computers_accessories","construction_tools_construction","construction_tools_lights","construction_tools_safety","cool_stuff","costruction_tools_garden","electronics","fashion_bags_accessories","food","furniture_bedroom","furniture_decor","furniture_living_room","garden_tools","health_beauty","home_appliances_2","home_confort","housewares","kitchen_dining_laundry_garden_furniture","market_place","office_furniture","party_supplies","perfumery","pet_shop","sports_leisure","toys","cool_stuff","housewares","market_place","costruction_tools_garden","furniture_decor","health_beauty","music","cool_stuff","sports_leisure","telephony","furniture_decor","consoles_games","construction_tools_construction","construction_tools_safety","cool_stuff","dvds_blu_ray","electronics","furniture_decor","garden_tools","health_beauty","home_construction","housewares","luggage_accessories","office_furniture","sports_leisure","stationery","tablets_printing_image","telephony","watches_gifts","cool_stuff","housewares","pet_shop","sports_leisure","toys","furniture_decor","garden_tools","health_beauty","housewares","kitchen_dining_laundry_garden_furniture","pet_shop","toys","watches_gifts","costruction_tools_garden","furniture_decor","garden_tools","home_construction","sports_leisure","cool_stuff","home_construction","furniture_decor","health_beauty","home_construction","housewares","sports_leisure","tablets_printing_image","telephony","toys","watches_gifts","flowers","garden_tools","home_construction","pet_shop","telephony","health_beauty","housewares","sports_leisure","housewares","food","furniture_decor","garden_tools","home_construction","housewares","luggage_accessories","perfumery","small_appliances","sports_leisure","telephony","watches_gifts","fashion_sport","fashion_childrens_clothes","fashion_sport","health_beauty","musical_instruments","stationery","food","telephony","furniture_decor","health_beauty","pet_shop","sports_leisure","housewares","sports_leisure","furniture_decor","furniture_living_room","garden_tools","health_beauty","home_confort","home_construction","housewares","industry_commerce_and_business","kitchen_dining_laundry_garden_furniture","market_place","musical_instruments","office_furniture","perfumery","pet_shop","small_appliances","sports_leisure","stationery","watches_gifts","garden_tools","office_furniture","toys","home_construction","housewares","la_cuisine","luggage_accessories","pet_shop","sports_leisure","stationery","telephony","watches_gifts","housewares","luggage_accessories","market_place","perfumery","pet_shop","small_appliances","sports_leisure","stationery","telephony","toys","watches_gifts","musical_instruments","housewares","watches_gifts","housewares","industry_commerce_and_business","kitchen_dining_laundry_garden_furniture","market_place","perfumery","small_appliances","sports_leisure","stationery","watches_gifts","office_furniture","toys","musical_instruments","stationery","telephony","musical_instruments","perfumery","perfumery","toys","watches_gifts","sports_leisure","pet_shop","sports_leisure","toys","watches_gifts","sports_leisure","sports_leisure","telephony","stationery","toys","watches_gifts","toys","watches_gifts","toys","watches_gifts","watches_gifts"]]]}}},"view":{"type":"object","name":"CDSView","id":"p1044","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1045"}}},"glyph":{"type":"object","name":"MultiLine","id":"p1050","attributes":{"line_alpha":{"type":"value","value":0.5},"line_width":{"type":"field","field":"weight"}}}}},"selection_policy":{"type":"object","name":"NodesOnly","id":"p1046"},"inspection_policy":{"type":"object","name":"NodesOnly","id":"p1047"}}}],"toolbar":{"type":"object","name":"Toolbar","id":"p1012","attributes":{"tools":[{"type":"object","name":"PanTool","id":"p1025"},{"type":"object","name":"WheelZoomTool","id":"p1026","attributes":{"renderers":"auto"}},{"type":"object","name":"SaveTool","id":"p1027"},{"type":"object","name":"ResetTool","id":"p1028"},{"type":"object","name":"TapTool","id":"p1029","attributes":{"renderers":"auto"}},{"type":"object","name":"HoverTool","id":"p1030","attributes":{"renderers":"auto","tooltips":[["Product","@index"],["Adjusted Degree","@size"]]}}],"active_scroll":{"id":"p1026"}}},"left":[{"type":"object","name":"LinearAxis","id":"p1020","attributes":{"ticker":{"type":"object","name":"BasicTicker","id":"p1021","attributes":{"mantissas":[1,2,5]}},"formatter":{"type":"object","name":"BasicTickFormatter","id":"p1022"},"major_label_policy":{"type":"object","name":"AllLabels","id":"p1023"}}}],"below":[{"type":"object","name":"LinearAxis","id":"p1015","attributes":{"ticker":{"type":"object","name":"BasicTicker","id":"p1016","attributes":{"mantissas":[1,2,5]}},"formatter":{"type":"object","name":"BasicTickFormatter","id":"p1017"},"major_label_policy":{"type":"object","name":"AllLabels","id":"p1018"}}}],"center":[{"type":"object","name":"Grid","id":"p1019","attributes":{"axis":{"id":"p1015"}}},{"type":"object","name":"Grid","id":"p1024","attributes":{"dimension":1,"axis":{"id":"p1020"}}}]}}]}}
-    </script>
-    <script type="text/javascript">
-      (function() {
-        const fn = function() {
-          Bokeh.safely(function() {
-            (function(root) {
-              function embed_document(root) {
-              const docs_json = document.getElementById('b9d90f9b-e1a0-45f7-b067-7feed7c7f05d').textContent;
-              const render_items = [{"docid":"35ad0f1d-935f-40cb-9b6d-b4d076c11cb4","roots":{"p1003":"d6ca36a7-d241-47ba-8ae4-3c502563f34d"},"root_ids":["p1003"]}];
-              root.Bokeh.embed.embed_items(docs_json, render_items);
-              }
-              if (root.Bokeh !== undefined) {
-                embed_document(root);
-              } else {
-                let attempts = 0;
-                const timer = setInterval(function(root) {
-                  if (root.Bokeh !== undefined) {
-                    clearInterval(timer);
-                    embed_document(root);
-                  } else {
-                    attempts++;
-                    if (attempts > 100) {
-                      clearInterval(timer);
-                      console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+</head>
+<body>
+<div data-root-id="p1003" id="d6ca36a7-d241-47ba-8ae4-3c502563f34d" style="display: contents;"></div>
+
+<script id="b9d90f9b-e1a0-45f7-b067-7feed7c7f05d" type="application/json">
+    {
+        "35ad0f1d-935f-40cb-9b6d-b4d076c11cb4": {
+            "version": "3.4.1",
+            "title": "Bokeh Application",
+            "roots": [
+                {
+                    "type": "object",
+                    "name": "Figure",
+                    "id": "p1003",
+                    "attributes": {
+                        "x_range": {
+                            "type": "object",
+                            "name": "Range1d",
+                            "id": "p1001",
+                            "attributes": {
+                                "start": -10.1,
+                                "end": 10.1
+                            }
+                        },
+                        "y_range": {
+                            "type": "object",
+                            "name": "Range1d",
+                            "id": "p1002",
+                            "attributes": {
+                                "start": -10.1,
+                                "end": 10.1
+                            }
+                        },
+                        "x_scale": {
+                            "type": "object",
+                            "name": "LinearScale",
+                            "id": "p1013"
+                        },
+                        "y_scale": {
+                            "type": "object",
+                            "name": "LinearScale",
+                            "id": "p1014"
+                        },
+                        "title": {
+                            "type": "object",
+                            "name": "Title",
+                            "id": "p1006",
+                            "attributes": {
+                                "text": "Product Category Network"
+                            }
+                        },
+                        "renderers": [
+                            {
+                                "type": "object",
+                                "name": "GraphRenderer",
+                                "id": "p1031",
+                                "attributes": {
+                                    "layout_provider": {
+                                        "type": "object",
+                                        "name": "StaticLayoutProvider",
+                                        "id": "p1048",
+                                        "attributes": {
+                                            "graph_layout": {
+                                                "type": "map",
+                                                "entries": [
+                                                    [
+                                                        "agro_industry_and_commerce",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "AAAAAAAAJECHFLhilz3sPw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "air_conditioning",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "oOG2WGiK/T9VnmQ7z+vKvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "art",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "Huog8FkQzT/AbXOn2rXUPw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "arts_and_craftmanship",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "ww9yzPzM0j/nBGw4JsH1vw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "audio",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "KucNMHQZub9N70f1Q7brvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "auto",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "aESlX1fr4z9IrxyvLf3jvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "baby",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "fYzaOrMz3j+Hx4ymYCLavw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "bed_bath_table",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "c1P8aBtz4D+We0kcB2fLvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "books_general_interest",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "ha7Ka6kV5j84nZAzVerxvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "books_imported",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "0JLGPFOcHcCQ8W64W18TwA=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "books_technical",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "o/selMPO9T/W3Y1+HkLmPw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "cds_dvds_musicals",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "8WqhWLmH9b8y9iRRaW0jQA=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "christmas_supplies",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "DpgtH5Qd3z//sASEy8X6vw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "cine_photo",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "1+gP9GX+9j9gcZRPe8Hnvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "computers",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "kOAThKS91D/cyzm+3YXvPw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "computers_accessories",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "Tq9yRlJe5z8ntNAwYXnXvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "consoles_games",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "iFdhf/KX8j+WkumkDLPjvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "construction_tools_construction",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "rTR1IYNJ6D9nRmlMORWkvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "construction_tools_lights",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "fTHWmXXP4T/hF2TXXZfGPw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "construction_tools_safety",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "JMwb9BRluD+TW1LN13S+Pw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "cool_stuff",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "nAnx0BZQ4z9Cq90p6fPbvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "costruction_tools_garden",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "8fRgUo8R7D96m4fMtFrbPw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "costruction_tools_tools",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "12gyoIpsGkAylzeSk50aQA=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "diapers_and_hygiene",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "NfMJxhcdIEByuJiEqTwcQA=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "drinks",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "p0riRwBW7z+Xnpk8Xyqnvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "dvds_blu_ray",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "QhdNdG1L8z9HrzAGAa3wvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "electronics",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "imnOJ1+o5j+kmM0441nKvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "fashio_female_clothing",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "6SdGrYZlBsBcMd7RaDb0vw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "fashion_bags_accessories",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "kTiq9zaS078PjP+w7X3kvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "fashion_childrens_clothes",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "hICVsnx98r+p29s3ZTztvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "fashion_male_clothing",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "cfjC+vCzHcCdCtBDR0MZwA=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "fashion_shoes",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "67ZHFkGb6T+Nm6nxvf32vw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "fashion_sport",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "/lsUh8Pr/L819LTfNwPwvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "fashion_underwear_beach",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "F0a15I6ZIcAVEK6SRQ0CQA=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "fixed_telephony",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "FLHtMkZfAUBa3EUr2THgvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "flowers",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "4Dcr3HBZ3D96qIhtKmjiPw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "food",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "Qa8NZDht9j/hK1GwmLG9vw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "food_drink",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "CyKeUqck8T9J/zWlbZPqvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "furniture_bedroom",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "K8xDXG/V7D9+ngJdK3TkPw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "furniture_decor",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "4MN3Q2aT4D8jAUnsvkK0vw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "furniture_living_room",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "QYjJPhZ81j+gVa3E98bEPw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "furniture_mattress_and_upholstery",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "gdjtLijIIMBP0hwc+/ITQA=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "garden_tools",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "0yVbAcSw4j+EM196apvOvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "health_beauty",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "IYVlEJm86T8pvsdNXYzFvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "home_appliances",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "/QMa30qZFcAbRs4JL+QhwA=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "home_appliances_2",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "hJiQEzsu0b8hweRcxxzwPw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "home_comfort_2",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "yFofQ7bdjb+MPhA2UJv6vw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "home_confort",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "u3IzIJW61D+Rzt+y1L7Evw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "home_construction",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "t6w+mhRN2D8xQZ0KOEqYPw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "housewares",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "XvMUfJ2R4T/4ZyWcH3zQvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "industry_commerce_and_business",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "wvztHvn+oz+hYpkyLe6EPw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "kitchen_dining_laundry_garden_furniture",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "itRVjCTWgr+kidoH2UXMvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "la_cuisine",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "tE8AbzGY0L9ygl6q/hfxvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "luggage_accessories",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "CQXjD54G6D+17YJ54Tzdvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "market_place",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "LeX0Qk+/5j81nDliZpfivw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "music",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "k5dKecp4/z8e1jVfPqvqPw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "musical_instruments",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "7qWZ5zU90D/R1K4D3Yzrvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "office_furniture",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "/Xq3lK8U5D+UKbIAwW6zPw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "party_supplies",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "swBLg1Rh5r+AydFHeO3fPw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "perfumery",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "BKABMs3p8D9GqJhQqXWzvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "pet_shop",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "5Cu2zOiS8T/Z+vz/G5DCPw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "security_and_services",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "i6iin7yBI8CvdI3SFBbuPw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "signaling_and_security",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "Z2JVvieJ5z+fvBAQnT7+vw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "small_appliances",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "0eqO9pDs8j/so0P5DjzKvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "small_appliances_home_oven_and_coffee",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "KvNFRP0oGcAktjcBAwsgQA=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "sports_leisure",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "znJJPX4d6j9XguQlnSHQvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "stationery",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "+lttq99D2j84lFHl/ArVvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "tablets_printing_image",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "GFK/Pkeez7+vjyZ90D/dvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "telephony",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "Mue0bJHb7z8bR3rClqXevw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "toys",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "Uk3RA3BD4T9e8/vDxL7gvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ],
+                                                    [
+                                                        "watches_gifts",
+                                                        {
+                                                            "type": "ndarray",
+                                                            "array": {
+                                                                "type": "bytes",
+                                                                "data": "ZqThXF7j1z8wq3WQupPdvw=="
+                                                            },
+                                                            "shape": [
+                                                                2
+                                                            ],
+                                                            "dtype": "float64",
+                                                            "order": "little"
+                                                        }
+                                                    ]
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "node_renderer": {
+                                        "type": "object",
+                                        "name": "GlyphRenderer",
+                                        "id": "p1036",
+                                        "attributes": {
+                                            "data_source": {
+                                                "type": "object",
+                                                "name": "ColumnDataSource",
+                                                "id": "p1033",
+                                                "attributes": {
+                                                    "selected": {
+                                                        "type": "object",
+                                                        "name": "Selection",
+                                                        "id": "p1034",
+                                                        "attributes": {
+                                                            "indices": [],
+                                                            "line_indices": []
+                                                        }
+                                                    },
+                                                    "selection_policy": {
+                                                        "type": "object",
+                                                        "name": "UnionRenderers",
+                                                        "id": "p1035"
+                                                    },
+                                                    "data": {
+                                                        "type": "map",
+                                                        "entries": [
+                                                            [
+                                                                "adjusted_node_size",
+                                                                [
+                                                                    5,
+                                                                    7,
+                                                                    7,
+                                                                    7,
+                                                                    6,
+                                                                    25,
+                                                                    25,
+                                                                    32,
+                                                                    9,
+                                                                    5,
+                                                                    9,
+                                                                    5,
+                                                                    6,
+                                                                    8,
+                                                                    6,
+                                                                    26,
+                                                                    12,
+                                                                    16,
+                                                                    12,
+                                                                    10,
+                                                                    22,
+                                                                    13,
+                                                                    5,
+                                                                    5,
+                                                                    9,
+                                                                    7,
+                                                                    19,
+                                                                    6,
+                                                                    13,
+                                                                    6,
+                                                                    5,
+                                                                    6,
+                                                                    7,
+                                                                    5,
+                                                                    7,
+                                                                    7,
+                                                                    11,
+                                                                    7,
+                                                                    8,
+                                                                    35,
+                                                                    11,
+                                                                    5,
+                                                                    25,
+                                                                    27,
+                                                                    5,
+                                                                    6,
+                                                                    7,
+                                                                    9,
+                                                                    14,
+                                                                    30,
+                                                                    8,
+                                                                    10,
+                                                                    7,
+                                                                    14,
+                                                                    12,
+                                                                    7,
+                                                                    13,
+                                                                    11,
+                                                                    6,
+                                                                    16,
+                                                                    15,
+                                                                    5,
+                                                                    6,
+                                                                    11,
+                                                                    5,
+                                                                    29,
+                                                                    16,
+                                                                    7,
+                                                                    18,
+                                                                    20,
+                                                                    23
+                                                                ]
+                                                            ],
+                                                            [
+                                                                "index",
+                                                                [
+                                                                    "agro_industry_and_commerce",
+                                                                    "air_conditioning",
+                                                                    "art",
+                                                                    "arts_and_craftmanship",
+                                                                    "audio",
+                                                                    "auto",
+                                                                    "baby",
+                                                                    "bed_bath_table",
+                                                                    "books_general_interest",
+                                                                    "books_imported",
+                                                                    "books_technical",
+                                                                    "cds_dvds_musicals",
+                                                                    "christmas_supplies",
+                                                                    "cine_photo",
+                                                                    "computers",
+                                                                    "computers_accessories",
+                                                                    "consoles_games",
+                                                                    "construction_tools_construction",
+                                                                    "construction_tools_lights",
+                                                                    "construction_tools_safety",
+                                                                    "cool_stuff",
+                                                                    "costruction_tools_garden",
+                                                                    "costruction_tools_tools",
+                                                                    "diapers_and_hygiene",
+                                                                    "drinks",
+                                                                    "dvds_blu_ray",
+                                                                    "electronics",
+                                                                    "fashio_female_clothing",
+                                                                    "fashion_bags_accessories",
+                                                                    "fashion_childrens_clothes",
+                                                                    "fashion_male_clothing",
+                                                                    "fashion_shoes",
+                                                                    "fashion_sport",
+                                                                    "fashion_underwear_beach",
+                                                                    "fixed_telephony",
+                                                                    "flowers",
+                                                                    "food",
+                                                                    "food_drink",
+                                                                    "furniture_bedroom",
+                                                                    "furniture_decor",
+                                                                    "furniture_living_room",
+                                                                    "furniture_mattress_and_upholstery",
+                                                                    "garden_tools",
+                                                                    "health_beauty",
+                                                                    "home_appliances",
+                                                                    "home_appliances_2",
+                                                                    "home_comfort_2",
+                                                                    "home_confort",
+                                                                    "home_construction",
+                                                                    "housewares",
+                                                                    "industry_commerce_and_business",
+                                                                    "kitchen_dining_laundry_garden_furniture",
+                                                                    "la_cuisine",
+                                                                    "luggage_accessories",
+                                                                    "market_place",
+                                                                    "music",
+                                                                    "musical_instruments",
+                                                                    "office_furniture",
+                                                                    "party_supplies",
+                                                                    "perfumery",
+                                                                    "pet_shop",
+                                                                    "security_and_services",
+                                                                    "signaling_and_security",
+                                                                    "small_appliances",
+                                                                    "small_appliances_home_oven_and_coffee",
+                                                                    "sports_leisure",
+                                                                    "stationery",
+                                                                    "tablets_printing_image",
+                                                                    "telephony",
+                                                                    "toys",
+                                                                    "watches_gifts"
+                                                                ]
+                                                            ]
+                                                        ]
+                                                    }
+                                                }
+                                            },
+                                            "view": {
+                                                "type": "object",
+                                                "name": "CDSView",
+                                                "id": "p1037",
+                                                "attributes": {
+                                                    "filter": {
+                                                        "type": "object",
+                                                        "name": "AllIndices",
+                                                        "id": "p1038"
+                                                    }
+                                                }
+                                            },
+                                            "glyph": {
+                                                "type": "object",
+                                                "name": "Circle",
+                                                "id": "p1049",
+                                                "attributes": {
+                                                    "radius": {
+                                                        "type": "field",
+                                                        "field": "size"
+                                                    },
+                                                    "fill_color": {
+                                                        "type": "field",
+                                                        "field": "colorCode"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "edge_renderer": {
+                                        "type": "object",
+                                        "name": "GlyphRenderer",
+                                        "id": "p1043",
+                                        "attributes": {
+                                            "data_source": {
+                                                "type": "object",
+                                                "name": "ColumnDataSource",
+                                                "id": "p1040",
+                                                "attributes": {
+                                                    "selected": {
+                                                        "type": "object",
+                                                        "name": "Selection",
+                                                        "id": "p1041",
+                                                        "attributes": {
+                                                            "indices": [],
+                                                            "line_indices": []
+                                                        }
+                                                    },
+                                                    "selection_policy": {
+                                                        "type": "object",
+                                                        "name": "UnionRenderers",
+                                                        "id": "p1042"
+                                                    },
+                                                    "data": {
+                                                        "type": "map",
+                                                        "entries": [
+                                                            [
+                                                                "weight",
+                                                                [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    10.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    6.0,
+                                                                    2.0,
+                                                                    3.0,
+                                                                    2.0,
+                                                                    5.0,
+                                                                    2.0,
+                                                                    4.0,
+                                                                    3.0,
+                                                                    2.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    4.0,
+                                                                    3.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    3.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    4.0,
+                                                                    6.0,
+                                                                    1.0,
+                                                                    70.0,
+                                                                    1.0,
+                                                                    2.0,
+                                                                    1.0,
+                                                                    35.0,
+                                                                    3.0,
+                                                                    2.0,
+                                                                    1.0,
+                                                                    21.0,
+                                                                    1.0,
+                                                                    9.0,
+                                                                    1.0,
+                                                                    8.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    26.0,
+                                                                    2.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    14.0,
+                                                                    2.0,
+                                                                    33.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    153.0,
+                                                                    2.0,
+                                                                    8.0,
+                                                                    23.0,
+                                                                    1.0,
+                                                                    58.0,
+                                                                    923.0,
+                                                                    3.0,
+                                                                    11.0,
+                                                                    11.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    2.0,
+                                                                    2.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    2.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    2.0,
+                                                                    1.0,
+                                                                    2.0,
+                                                                    2.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    7.0,
+                                                                    1.0,
+                                                                    20.0,
+                                                                    8.0,
+                                                                    25.0,
+                                                                    1.0,
+                                                                    3.0,
+                                                                    4.0,
+                                                                    145.0,
+                                                                    1.0,
+                                                                    3.0,
+                                                                    2.0,
+                                                                    1.0,
+                                                                    6.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    2.0,
+                                                                    1.0,
+                                                                    6.0,
+                                                                    2.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    3.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    20.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    3.0,
+                                                                    2.0,
+                                                                    7.0,
+                                                                    4.0,
+                                                                    4.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    2.0,
+                                                                    8.0,
+                                                                    8.0,
+                                                                    2.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    17.0,
+                                                                    2.0,
+                                                                    4.0,
+                                                                    2.0,
+                                                                    1.0,
+                                                                    3.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    5.0,
+                                                                    1.0,
+                                                                    2.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    2.0,
+                                                                    2.0,
+                                                                    1.0,
+                                                                    2.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    2.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    6.0,
+                                                                    4.0,
+                                                                    2.0,
+                                                                    2.0,
+                                                                    3.0,
+                                                                    2.0,
+                                                                    1.0,
+                                                                    11.0,
+                                                                    60.0,
+                                                                    3.0,
+                                                                    9.0,
+                                                                    25.0,
+                                                                    40.0,
+                                                                    6.0,
+                                                                    1.0,
+                                                                    4.0,
+                                                                    2.0,
+                                                                    6.0,
+                                                                    2.0,
+                                                                    3.0,
+                                                                    3.0,
+                                                                    3.0,
+                                                                    2.0,
+                                                                    10.0,
+                                                                    1.0,
+                                                                    5.0,
+                                                                    2.0,
+                                                                    8.0,
+                                                                    15.0,
+                                                                    1.0,
+                                                                    2.0,
+                                                                    1.0,
+                                                                    6.0,
+                                                                    2.0,
+                                                                    1.0,
+                                                                    4.0,
+                                                                    1.0,
+                                                                    2.0,
+                                                                    2.0,
+                                                                    14.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    52.0,
+                                                                    9.0,
+                                                                    2.0,
+                                                                    2.0,
+                                                                    3.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    4.0,
+                                                                    4.0,
+                                                                    2.0,
+                                                                    2.0,
+                                                                    1.0,
+                                                                    2.0,
+                                                                    21.0,
+                                                                    40.0,
+                                                                    2.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    9.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    4.0,
+                                                                    1.0,
+                                                                    13.0,
+                                                                    1.0,
+                                                                    3.0,
+                                                                    3.0,
+                                                                    1.0,
+                                                                    1.0,
+                                                                    2.0,
+                                                                    2.0,
+                                                                    2.0,
+                                                                    4.0,
+                                                                    5.0,
+                                                                    6.0,
+                                                                    2.0,
+                                                                    1.0,
+                                                                    2.0,
+                                                                    1.0
+                                                                ]
+                                                            ],
+                                                            [
+                                                                "start",
+                                                                [
+                                                                    "air_conditioning",
+                                                                    "air_conditioning",
+                                                                    "art",
+                                                                    "art",
+                                                                    "arts_and_craftmanship",
+                                                                    "arts_and_craftmanship",
+                                                                    "audio",
+                                                                    "auto",
+                                                                    "auto",
+                                                                    "auto",
+                                                                    "auto",
+                                                                    "auto",
+                                                                    "auto",
+                                                                    "auto",
+                                                                    "auto",
+                                                                    "auto",
+                                                                    "auto",
+                                                                    "auto",
+                                                                    "auto",
+                                                                    "auto",
+                                                                    "auto",
+                                                                    "auto",
+                                                                    "auto",
+                                                                    "auto",
+                                                                    "auto",
+                                                                    "auto",
+                                                                    "auto",
+                                                                    "baby",
+                                                                    "baby",
+                                                                    "baby",
+                                                                    "baby",
+                                                                    "baby",
+                                                                    "baby",
+                                                                    "baby",
+                                                                    "baby",
+                                                                    "baby",
+                                                                    "baby",
+                                                                    "baby",
+                                                                    "baby",
+                                                                    "baby",
+                                                                    "baby",
+                                                                    "baby",
+                                                                    "baby",
+                                                                    "baby",
+                                                                    "baby",
+                                                                    "baby",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "bed_bath_table",
+                                                                    "books_general_interest",
+                                                                    "books_general_interest",
+                                                                    "books_general_interest",
+                                                                    "books_technical",
+                                                                    "books_technical",
+                                                                    "books_technical",
+                                                                    "books_technical",
+                                                                    "cine_photo",
+                                                                    "cine_photo",
+                                                                    "cine_photo",
+                                                                    "computers",
+                                                                    "computers_accessories",
+                                                                    "computers_accessories",
+                                                                    "computers_accessories",
+                                                                    "computers_accessories",
+                                                                    "computers_accessories",
+                                                                    "computers_accessories",
+                                                                    "computers_accessories",
+                                                                    "computers_accessories",
+                                                                    "computers_accessories",
+                                                                    "computers_accessories",
+                                                                    "computers_accessories",
+                                                                    "computers_accessories",
+                                                                    "computers_accessories",
+                                                                    "computers_accessories",
+                                                                    "computers_accessories",
+                                                                    "computers_accessories",
+                                                                    "computers_accessories",
+                                                                    "computers_accessories",
+                                                                    "consoles_games",
+                                                                    "consoles_games",
+                                                                    "consoles_games",
+                                                                    "consoles_games",
+                                                                    "consoles_games",
+                                                                    "construction_tools_construction",
+                                                                    "construction_tools_construction",
+                                                                    "construction_tools_construction",
+                                                                    "construction_tools_construction",
+                                                                    "construction_tools_construction",
+                                                                    "construction_tools_construction",
+                                                                    "construction_tools_construction",
+                                                                    "construction_tools_construction",
+                                                                    "construction_tools_lights",
+                                                                    "construction_tools_lights",
+                                                                    "construction_tools_lights",
+                                                                    "construction_tools_lights",
+                                                                    "construction_tools_lights",
+                                                                    "construction_tools_safety",
+                                                                    "construction_tools_safety",
+                                                                    "cool_stuff",
+                                                                    "cool_stuff",
+                                                                    "cool_stuff",
+                                                                    "cool_stuff",
+                                                                    "cool_stuff",
+                                                                    "cool_stuff",
+                                                                    "cool_stuff",
+                                                                    "cool_stuff",
+                                                                    "cool_stuff",
+                                                                    "costruction_tools_garden",
+                                                                    "costruction_tools_garden",
+                                                                    "costruction_tools_garden",
+                                                                    "costruction_tools_garden",
+                                                                    "costruction_tools_garden",
+                                                                    "drinks",
+                                                                    "drinks",
+                                                                    "drinks",
+                                                                    "dvds_blu_ray",
+                                                                    "electronics",
+                                                                    "electronics",
+                                                                    "electronics",
+                                                                    "electronics",
+                                                                    "electronics",
+                                                                    "electronics",
+                                                                    "electronics",
+                                                                    "electronics",
+                                                                    "electronics",
+                                                                    "electronics",
+                                                                    "electronics",
+                                                                    "fashio_female_clothing",
+                                                                    "fashion_bags_accessories",
+                                                                    "fashion_bags_accessories",
+                                                                    "fashion_bags_accessories",
+                                                                    "fashion_bags_accessories",
+                                                                    "fashion_bags_accessories",
+                                                                    "fixed_telephony",
+                                                                    "fixed_telephony",
+                                                                    "flowers",
+                                                                    "food",
+                                                                    "food",
+                                                                    "food",
+                                                                    "food_drink",
+                                                                    "food_drink",
+                                                                    "furniture_bedroom",
+                                                                    "furniture_decor",
+                                                                    "furniture_decor",
+                                                                    "furniture_decor",
+                                                                    "furniture_decor",
+                                                                    "furniture_decor",
+                                                                    "furniture_decor",
+                                                                    "furniture_decor",
+                                                                    "furniture_decor",
+                                                                    "furniture_decor",
+                                                                    "furniture_decor",
+                                                                    "furniture_decor",
+                                                                    "furniture_decor",
+                                                                    "furniture_decor",
+                                                                    "furniture_decor",
+                                                                    "furniture_decor",
+                                                                    "furniture_decor",
+                                                                    "furniture_decor",
+                                                                    "furniture_living_room",
+                                                                    "furniture_living_room",
+                                                                    "furniture_living_room",
+                                                                    "garden_tools",
+                                                                    "garden_tools",
+                                                                    "garden_tools",
+                                                                    "garden_tools",
+                                                                    "garden_tools",
+                                                                    "garden_tools",
+                                                                    "garden_tools",
+                                                                    "garden_tools",
+                                                                    "garden_tools",
+                                                                    "health_beauty",
+                                                                    "health_beauty",
+                                                                    "health_beauty",
+                                                                    "health_beauty",
+                                                                    "health_beauty",
+                                                                    "health_beauty",
+                                                                    "health_beauty",
+                                                                    "health_beauty",
+                                                                    "health_beauty",
+                                                                    "health_beauty",
+                                                                    "health_beauty",
+                                                                    "home_comfort_2",
+                                                                    "home_confort",
+                                                                    "home_confort",
+                                                                    "home_construction",
+                                                                    "housewares",
+                                                                    "housewares",
+                                                                    "housewares",
+                                                                    "housewares",
+                                                                    "housewares",
+                                                                    "housewares",
+                                                                    "housewares",
+                                                                    "housewares",
+                                                                    "industry_commerce_and_business",
+                                                                    "kitchen_dining_laundry_garden_furniture",
+                                                                    "luggage_accessories",
+                                                                    "luggage_accessories",
+                                                                    "luggage_accessories",
+                                                                    "market_place",
+                                                                    "market_place",
+                                                                    "music",
+                                                                    "musical_instruments",
+                                                                    "musical_instruments",
+                                                                    "office_furniture",
+                                                                    "perfumery",
+                                                                    "perfumery",
+                                                                    "perfumery",
+                                                                    "perfumery",
+                                                                    "pet_shop",
+                                                                    "small_appliances",
+                                                                    "small_appliances",
+                                                                    "sports_leisure",
+                                                                    "sports_leisure",
+                                                                    "sports_leisure",
+                                                                    "stationery",
+                                                                    "stationery",
+                                                                    "telephony",
+                                                                    "telephony",
+                                                                    "toys"
+                                                                ]
+                                                            ],
+                                                            [
+                                                                "end",
+                                                                [
+                                                                    "computers_accessories",
+                                                                    "sports_leisure",
+                                                                    "furniture_decor",
+                                                                    "stationery",
+                                                                    "garden_tools",
+                                                                    "toys",
+                                                                    "watches_gifts",
+                                                                    "baby",
+                                                                    "bed_bath_table",
+                                                                    "christmas_supplies",
+                                                                    "computers_accessories",
+                                                                    "consoles_games",
+                                                                    "construction_tools_construction",
+                                                                    "cool_stuff",
+                                                                    "drinks",
+                                                                    "electronics",
+                                                                    "fashion_bags_accessories",
+                                                                    "furniture_decor",
+                                                                    "garden_tools",
+                                                                    "health_beauty",
+                                                                    "home_comfort_2",
+                                                                    "housewares",
+                                                                    "luggage_accessories",
+                                                                    "musical_instruments",
+                                                                    "sports_leisure",
+                                                                    "telephony",
+                                                                    "watches_gifts",
+                                                                    "bed_bath_table",
+                                                                    "books_general_interest",
+                                                                    "construction_tools_lights",
+                                                                    "construction_tools_safety",
+                                                                    "cool_stuff",
+                                                                    "fashion_bags_accessories",
+                                                                    "fashion_shoes",
+                                                                    "furniture_bedroom",
+                                                                    "furniture_decor",
+                                                                    "furniture_living_room",
+                                                                    "garden_tools",
+                                                                    "health_beauty",
+                                                                    "housewares",
+                                                                    "la_cuisine",
+                                                                    "luggage_accessories",
+                                                                    "signaling_and_security",
+                                                                    "sports_leisure",
+                                                                    "toys",
+                                                                    "watches_gifts",
+                                                                    "computers_accessories",
+                                                                    "construction_tools_construction",
+                                                                    "construction_tools_lights",
+                                                                    "construction_tools_safety",
+                                                                    "cool_stuff",
+                                                                    "costruction_tools_garden",
+                                                                    "electronics",
+                                                                    "fashion_bags_accessories",
+                                                                    "food",
+                                                                    "furniture_bedroom",
+                                                                    "furniture_decor",
+                                                                    "furniture_living_room",
+                                                                    "garden_tools",
+                                                                    "health_beauty",
+                                                                    "home_appliances_2",
+                                                                    "home_confort",
+                                                                    "housewares",
+                                                                    "kitchen_dining_laundry_garden_furniture",
+                                                                    "market_place",
+                                                                    "office_furniture",
+                                                                    "party_supplies",
+                                                                    "perfumery",
+                                                                    "pet_shop",
+                                                                    "sports_leisure",
+                                                                    "toys",
+                                                                    "cool_stuff",
+                                                                    "housewares",
+                                                                    "market_place",
+                                                                    "costruction_tools_garden",
+                                                                    "furniture_decor",
+                                                                    "health_beauty",
+                                                                    "music",
+                                                                    "cool_stuff",
+                                                                    "sports_leisure",
+                                                                    "telephony",
+                                                                    "furniture_decor",
+                                                                    "consoles_games",
+                                                                    "construction_tools_construction",
+                                                                    "construction_tools_safety",
+                                                                    "cool_stuff",
+                                                                    "dvds_blu_ray",
+                                                                    "electronics",
+                                                                    "furniture_decor",
+                                                                    "garden_tools",
+                                                                    "health_beauty",
+                                                                    "home_construction",
+                                                                    "housewares",
+                                                                    "luggage_accessories",
+                                                                    "office_furniture",
+                                                                    "sports_leisure",
+                                                                    "stationery",
+                                                                    "tablets_printing_image",
+                                                                    "telephony",
+                                                                    "watches_gifts",
+                                                                    "cool_stuff",
+                                                                    "housewares",
+                                                                    "pet_shop",
+                                                                    "sports_leisure",
+                                                                    "toys",
+                                                                    "furniture_decor",
+                                                                    "garden_tools",
+                                                                    "health_beauty",
+                                                                    "housewares",
+                                                                    "kitchen_dining_laundry_garden_furniture",
+                                                                    "pet_shop",
+                                                                    "toys",
+                                                                    "watches_gifts",
+                                                                    "costruction_tools_garden",
+                                                                    "furniture_decor",
+                                                                    "garden_tools",
+                                                                    "home_construction",
+                                                                    "sports_leisure",
+                                                                    "cool_stuff",
+                                                                    "home_construction",
+                                                                    "furniture_decor",
+                                                                    "health_beauty",
+                                                                    "home_construction",
+                                                                    "housewares",
+                                                                    "sports_leisure",
+                                                                    "tablets_printing_image",
+                                                                    "telephony",
+                                                                    "toys",
+                                                                    "watches_gifts",
+                                                                    "flowers",
+                                                                    "garden_tools",
+                                                                    "home_construction",
+                                                                    "pet_shop",
+                                                                    "telephony",
+                                                                    "health_beauty",
+                                                                    "housewares",
+                                                                    "sports_leisure",
+                                                                    "housewares",
+                                                                    "food",
+                                                                    "furniture_decor",
+                                                                    "garden_tools",
+                                                                    "home_construction",
+                                                                    "housewares",
+                                                                    "luggage_accessories",
+                                                                    "perfumery",
+                                                                    "small_appliances",
+                                                                    "sports_leisure",
+                                                                    "telephony",
+                                                                    "watches_gifts",
+                                                                    "fashion_sport",
+                                                                    "fashion_childrens_clothes",
+                                                                    "fashion_sport",
+                                                                    "health_beauty",
+                                                                    "musical_instruments",
+                                                                    "stationery",
+                                                                    "food",
+                                                                    "telephony",
+                                                                    "furniture_decor",
+                                                                    "health_beauty",
+                                                                    "pet_shop",
+                                                                    "sports_leisure",
+                                                                    "housewares",
+                                                                    "sports_leisure",
+                                                                    "furniture_decor",
+                                                                    "furniture_living_room",
+                                                                    "garden_tools",
+                                                                    "health_beauty",
+                                                                    "home_confort",
+                                                                    "home_construction",
+                                                                    "housewares",
+                                                                    "industry_commerce_and_business",
+                                                                    "kitchen_dining_laundry_garden_furniture",
+                                                                    "market_place",
+                                                                    "musical_instruments",
+                                                                    "office_furniture",
+                                                                    "perfumery",
+                                                                    "pet_shop",
+                                                                    "small_appliances",
+                                                                    "sports_leisure",
+                                                                    "stationery",
+                                                                    "watches_gifts",
+                                                                    "garden_tools",
+                                                                    "office_furniture",
+                                                                    "toys",
+                                                                    "home_construction",
+                                                                    "housewares",
+                                                                    "la_cuisine",
+                                                                    "luggage_accessories",
+                                                                    "pet_shop",
+                                                                    "sports_leisure",
+                                                                    "stationery",
+                                                                    "telephony",
+                                                                    "watches_gifts",
+                                                                    "housewares",
+                                                                    "luggage_accessories",
+                                                                    "market_place",
+                                                                    "perfumery",
+                                                                    "pet_shop",
+                                                                    "small_appliances",
+                                                                    "sports_leisure",
+                                                                    "stationery",
+                                                                    "telephony",
+                                                                    "toys",
+                                                                    "watches_gifts",
+                                                                    "musical_instruments",
+                                                                    "housewares",
+                                                                    "watches_gifts",
+                                                                    "housewares",
+                                                                    "industry_commerce_and_business",
+                                                                    "kitchen_dining_laundry_garden_furniture",
+                                                                    "market_place",
+                                                                    "perfumery",
+                                                                    "small_appliances",
+                                                                    "sports_leisure",
+                                                                    "stationery",
+                                                                    "watches_gifts",
+                                                                    "office_furniture",
+                                                                    "toys",
+                                                                    "musical_instruments",
+                                                                    "stationery",
+                                                                    "telephony",
+                                                                    "musical_instruments",
+                                                                    "perfumery",
+                                                                    "perfumery",
+                                                                    "toys",
+                                                                    "watches_gifts",
+                                                                    "sports_leisure",
+                                                                    "pet_shop",
+                                                                    "sports_leisure",
+                                                                    "toys",
+                                                                    "watches_gifts",
+                                                                    "sports_leisure",
+                                                                    "sports_leisure",
+                                                                    "telephony",
+                                                                    "stationery",
+                                                                    "toys",
+                                                                    "watches_gifts",
+                                                                    "toys",
+                                                                    "watches_gifts",
+                                                                    "toys",
+                                                                    "watches_gifts",
+                                                                    "watches_gifts"
+                                                                ]
+                                                            ]
+                                                        ]
+                                                    }
+                                                }
+                                            },
+                                            "view": {
+                                                "type": "object",
+                                                "name": "CDSView",
+                                                "id": "p1044",
+                                                "attributes": {
+                                                    "filter": {
+                                                        "type": "object",
+                                                        "name": "AllIndices",
+                                                        "id": "p1045"
+                                                    }
+                                                }
+                                            },
+                                            "glyph": {
+                                                "type": "object",
+                                                "name": "MultiLine",
+                                                "id": "p1050",
+                                                "attributes": {
+                                                    "line_alpha": {
+                                                        "type": "value",
+                                                        "value": 0.5
+                                                    },
+                                                    "line_width": {
+                                                        "type": "field",
+                                                        "field": "weight"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "selection_policy": {
+                                        "type": "object",
+                                        "name": "NodesOnly",
+                                        "id": "p1046"
+                                    },
+                                    "inspection_policy": {
+                                        "type": "object",
+                                        "name": "NodesOnly",
+                                        "id": "p1047"
+                                    }
+                                }
+                            }
+                        ],
+                        "toolbar": {
+                            "type": "object",
+                            "name": "Toolbar",
+                            "id": "p1012",
+                            "attributes": {
+                                "tools": [
+                                    {
+                                        "type": "object",
+                                        "name": "PanTool",
+                                        "id": "p1025"
+                                    },
+                                    {
+                                        "type": "object",
+                                        "name": "WheelZoomTool",
+                                        "id": "p1026",
+                                        "attributes": {
+                                            "renderers": "auto"
+                                        }
+                                    },
+                                    {
+                                        "type": "object",
+                                        "name": "SaveTool",
+                                        "id": "p1027"
+                                    },
+                                    {
+                                        "type": "object",
+                                        "name": "ResetTool",
+                                        "id": "p1028"
+                                    },
+                                    {
+                                        "type": "object",
+                                        "name": "TapTool",
+                                        "id": "p1029",
+                                        "attributes": {
+                                            "renderers": "auto"
+                                        }
+                                    },
+                                    {
+                                        "type": "object",
+                                        "name": "HoverTool",
+                                        "id": "p1030",
+                                        "attributes": {
+                                            "renderers": "auto",
+                                            "tooltips": [
+                                                [
+                                                    "Product",
+                                                    "@index"
+                                                ],
+                                                [
+                                                    "Adjusted Degree",
+                                                    "@size"
+                                                ]
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "active_scroll": {
+                                    "id": "p1026"
+                                }
+                            }
+                        },
+                        "left": [
+                            {
+                                "type": "object",
+                                "name": "LinearAxis",
+                                "id": "p1020",
+                                "attributes": {
+                                    "ticker": {
+                                        "type": "object",
+                                        "name": "BasicTicker",
+                                        "id": "p1021",
+                                        "attributes": {
+                                            "mantissas": [
+                                                1,
+                                                2,
+                                                5
+                                            ]
+                                        }
+                                    },
+                                    "formatter": {
+                                        "type": "object",
+                                        "name": "BasicTickFormatter",
+                                        "id": "p1022"
+                                    },
+                                    "major_label_policy": {
+                                        "type": "object",
+                                        "name": "AllLabels",
+                                        "id": "p1023"
+                                    }
+                                }
+                            }
+                        ],
+                        "below": [
+                            {
+                                "type": "object",
+                                "name": "LinearAxis",
+                                "id": "p1015",
+                                "attributes": {
+                                    "ticker": {
+                                        "type": "object",
+                                        "name": "BasicTicker",
+                                        "id": "p1016",
+                                        "attributes": {
+                                            "mantissas": [
+                                                1,
+                                                2,
+                                                5
+                                            ]
+                                        }
+                                    },
+                                    "formatter": {
+                                        "type": "object",
+                                        "name": "BasicTickFormatter",
+                                        "id": "p1017"
+                                    },
+                                    "major_label_policy": {
+                                        "type": "object",
+                                        "name": "AllLabels",
+                                        "id": "p1018"
+                                    }
+                                }
+                            }
+                        ],
+                        "center": [
+                            {
+                                "type": "object",
+                                "name": "Grid",
+                                "id": "p1019",
+                                "attributes": {
+                                    "axis": {
+                                        "id": "p1015"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "name": "Grid",
+                                "id": "p1024",
+                                "attributes": {
+                                    "dimension": 1,
+                                    "axis": {
+                                        "id": "p1020"
+                                    }
+                                }
+                            }
+                        ]
                     }
-                  }
-                }, 10, root)
-              }
-            })(window);
-          });
+                }
+            ]
+        }
+    }
+</script>
+<script type="text/javascript">
+    (function () {
+        const fn = function () {
+            Bokeh.safely(function () {
+                (function (root) {
+                    function embed_document(root) {
+                        const docs_json = document.getElementById('b9d90f9b-e1a0-45f7-b067-7feed7c7f05d').textContent;
+                        const render_items = [{
+                            "docid": "35ad0f1d-935f-40cb-9b6d-b4d076c11cb4",
+                            "roots": {"p1003": "d6ca36a7-d241-47ba-8ae4-3c502563f34d"},
+                            "root_ids": ["p1003"]
+                        }];
+                        root.Bokeh.embed.embed_items(docs_json, render_items);
+                    }
+
+                    if (root.Bokeh !== undefined) {
+                        embed_document(root);
+                    } else {
+                        let attempts = 0;
+                        const timer = setInterval(function (root) {
+                            if (root.Bokeh !== undefined) {
+                                clearInterval(timer);
+                                embed_document(root);
+                            } else {
+                                attempts++;
+                                if (attempts > 100) {
+                                    clearInterval(timer);
+                                    console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                                }
+                            }
+                        }, 10, root)
+                    }
+                })(window);
+            });
         };
         if (document.readyState != "loading") fn();
         else document.addEventListener("DOMContentLoaded", fn);
-      })();
-    </script>
-  </body>
+    })();
+</script>
+</body>
 </html>

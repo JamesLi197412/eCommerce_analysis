@@ -1,3 +1,4 @@
+import joblib
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -8,12 +9,13 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from xgboost import plot_tree
 from xgboost.sklearn import XGBRegressor
-import joblib
 
 """
     This module is a XGBoost Linear Regression class. It is used for predicting 
     Delivery time.
 """
+
+
 class XGBoostDelivery:
     def __init__(self, df, features, target_col):
         self.data = df
@@ -42,13 +44,13 @@ class XGBoostDelivery:
 
         best_parameters = self.parameters_tunning(X_train, y_train)
 
-        xgb_r = xgboost.XGBRFRegressor(colsample_bytree = best_parameters['colsample_bytree'],
-                                       learning_rate = best_parameters['learning_rate'],
-                                       max_depth = best_parameters['max_depth'],
-                                       min_child_weight = best_parameters['min_child_weight'],
-                                       n_estimators = best_parameters['n_estimators'],
-                                       nthread = best_parameters['nthread'],
-                                       subsample = best_parameters['subsample'],
+        xgb_r = xgboost.XGBRFRegressor(colsample_bytree=best_parameters['colsample_bytree'],
+                                       learning_rate=best_parameters['learning_rate'],
+                                       max_depth=best_parameters['max_depth'],
+                                       min_child_weight=best_parameters['min_child_weight'],
+                                       n_estimators=best_parameters['n_estimators'],
+                                       nthread=best_parameters['nthread'],
+                                       subsample=best_parameters['subsample'],
                                        objective='reg:linear'
                                        )
         xgb_r.fit(X_train, y_train)
@@ -62,19 +64,14 @@ class XGBoostDelivery:
 
         # save the optimised model
         joblib.dump(xgb_r, 'xgb_regression_model.joblib')
-
-
         return xgb_r
 
-
-
-    def visualisation_scatter(self,x_test, y_val, y_pred_xgb):
+    def visualisation_scatter(self, x_test, y_val, y_pred_xgb):
         plt.scatter(x_test['cities distances'], y_val, color='blue', label='Real', alpha=0.5)
         plt.scatter(x_test['cities distances'], y_pred_xgb, color='red', label='Predict', alpha=0.5)
         plt.title("Real vs Predict")
         plt.legend(loc='best')
         plt.show()
-
 
     def parameters_tunning(self, x_train, y_train):
         xgb = XGBRegressor()

@@ -13,6 +13,7 @@ from lifetimes.plotting import plot_frequency_recency_matrix
 def order_customer(orders, customers, payment, items, products, product_category):
     # Prepare the dataset
     orders = order_data(orders)
+
     orders['order_date'] = orders['order_purchase_timestamp'].dt.date
     orders['order_month'] = orders['order_purchase_timestamp'].dt.month
     orders_customers = pd.merge(orders, customers, on='customer_id', how='left')

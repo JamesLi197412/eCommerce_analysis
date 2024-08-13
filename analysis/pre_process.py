@@ -44,5 +44,5 @@ def hist_plot(df, xlabel, ylabel, title, path):
     plt.ylabel(ylabel)
     plt.title(title)
 
-    #plt.show()
+    # plt.show()
     plt.savefig(path)

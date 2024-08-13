@@ -1,15 +1,18 @@
 import pandas as pd
+
+
 def data_process(df):
     # adjust column _date from object to datetime
-    cols = ['order_delivered_carrier_date','order_delivered_customer_date',
-            'order_estimated_delivery_date','shipping_limit_date',
-            'review_creation_date','order_purchase_timestamp']
+    cols = ['order_delivered_carrier_date', 'order_delivered_customer_date',
+            'order_estimated_delivery_date', 'shipping_limit_date',
+            'review_creation_date', 'order_purchase_timestamp']
     for col in cols:
         df[col] = pd.to_datetime(df[col])
 
     # cleaning up name columns
     # engineering new/essential columns
-    df['delivery_against_estimated'] = (df['order_estimated_delivery_date'] - df['order_delivered_customer_date']).dt.days
+    df['delivery_against_estimated'] = (
+                df['order_estimated_delivery_date'] - df['order_delivered_customer_date']).dt.days
     df['order_purchase_year'] = df['order_purchase_timestamp'].dt.year
     df['order_purchase_month'] = df['order_purchase_timestamp'].dt.month
     df['order_purchase_day'] = df['order_purchase_timestamp'].dt.day
@@ -17,6 +20,7 @@ def data_process(df):
     df['order_purchase_hr'] = df['order_purchase_timestamp'].dt.hour
 
     return df
+
 
 def local_access_df():
     # access files with relative paths
@@ -31,4 +35,4 @@ def local_access_df():
     sellers = pd.read_csv(path + 'olist_sellers_dataset.csv')
     product_category = pd.read_csv(path + 'product_category_name_translation.csv')
 
-    return customers,geolocation,order_items,order_payment, order_reviews,order_dataset,products, sellers,product_category
+    return customers, geolocation, order_items, order_payment, order_reviews, order_dataset, products, sellers, product_category

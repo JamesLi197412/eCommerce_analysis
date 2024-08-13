@@ -1,5 +1,5 @@
 class Exploration:
-    def __init__(self,data):
+    def __init__(self, data):
         self.data = data
 
     def missing_col(self):
