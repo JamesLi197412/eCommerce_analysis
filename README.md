@@ -22,7 +22,7 @@ and comments [here](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
 
 #### Project Flow Diagram
 
-![Project Flow Diagram Latest.png](Project Flow Diagram Latest.png)
+![Project Flow Diagram Latest.png](datasets/Project Flow Diagram Latest.png)
 
 
 #### Data Schema
