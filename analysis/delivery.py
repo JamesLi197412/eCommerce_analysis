@@ -58,7 +58,16 @@ def delivery_performance(df):
 
 def delivery_prediction(df):
     delivered = df[df['order_status'] == "delivered"].copy(deep=True)
-    delivered = delivered.dropna().reset_index()
+    required_cols = [
+        'customer_city', 'seller_city', 'geolocation_lat_cust', 'geolocation_lat_seller',
+        'geolocation_lng_cust', 'geolocation_lng_seller', 'product_length_cm', 'product_height_cm',
+        'product_width_cm', 'product_weight_g', 'purchase_approved_delta', 'delivery_status', 'carrier_response'
+    ]
+    delivered = delivered.dropna(subset=required_cols).reset_index(drop=True)
+
+    if delivered.empty:
+        print('Insufficient non-null delivery rows for model training; skipping delivery model.')
+        return delivered, None
 
     delivered['cities differences'] = np.where(delivered['customer_city'] == delivered['seller_city'], 1, 0)
     delivered['cities distances'] = (

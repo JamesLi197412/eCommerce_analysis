@@ -3,9 +3,12 @@ import multiprocessing
 import gensim.corpora as corpora
 import pandas as pd
 # LDA evaluation
-import pyLDAvis
-import pyLDAvis.gensim
-import pyLDAvis.gensim_models as gensimvisualize
+try:
+    import pyLDAvis
+    import pyLDAvis.gensim_models as gensimvisualize
+except ModuleNotFoundError:
+    pyLDAvis = None
+    gensimvisualize = None
 from gensim.models.coherencemodel import CoherenceModel
 from gensim.models.ldamulticore import LdaMulticore
 
@@ -21,7 +24,7 @@ def LDA(words, num_topics):
 
     # train LDA model, use multiple cores to increase the performance
     lda_model = LdaMulticore(corpus=corpus, id2word=dictionary, num_topics=num_topics,
-                             workers=cores - 1, chunksize=2000, passes=200, iterations=100)
+                             workers=max(1, cores - 1), chunksize=2000, passes=20, iterations=50)
 
     # Evaluate models
     coherence_model = CoherenceModel(model=lda_model, texts=words, dictionary=dictionary, coherence='c_v')
@@ -32,10 +35,16 @@ def LDA(words, num_topics):
 
 
 def topic_visualisation(lda_model, corpus, dictionary):
+    if pyLDAvis is None or gensimvisualize is None:
+        print('pyLDAvis package is not available; skipping topic visualisation export.')
+        return None
+
     # Visualize the topics
-    dickens_visual = gensimvisualize.prepare(lda_model, corpus, dictionary, mds='mmds')
-    pyLDAvis.save_html(dickens_visual, 'output/model_evaluation/lda.html')
-    pyLDAvis.display(dickens_visual)
+    try:
+        dickens_visual = gensimvisualize.prepare(lda_model, corpus, dictionary, mds='mmds')
+        pyLDAvis.save_html(dickens_visual, 'output/model_evaluation/lda.html')
+    except Exception as error:
+        print(f'Unable to render pyLDAvis topic chart: {error}')
 
     return None
 

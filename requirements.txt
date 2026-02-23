@@ -6,12 +6,9 @@ numpy==1.24.4
 matplotlib==3.8.2
 seaborn==0.13.2
 pyLDAvis==3.4.1
-keras==3.3.2
-sklearn==0.0
 scikit-learn==1.0.2
 xgboost==2.0.3
 psutil==5.9.8
-jieba==0.42.1
 nltk==3.6.7
 wordcloud==1.9.3
 networkx==3.2.1

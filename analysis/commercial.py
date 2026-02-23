@@ -1,13 +1,23 @@
 import matplotlib
 
-matplotlib.use('TkAgg')
-import squarify
+matplotlib.use('Agg')
 from analysis.pre_process import *
 
-import lifetimes
-from lifetimes import BetaGeoFitter  # BG/NBD
-from lifetimes import GammaGammaFitter  # Gamma-Gamma Model
-from lifetimes.plotting import plot_frequency_recency_matrix
+try:
+    import squarify
+except ModuleNotFoundError:
+    squarify = None
+
+try:
+    import lifetimes
+    from lifetimes import BetaGeoFitter  # BG/NBD
+    from lifetimes import GammaGammaFitter  # Gamma-Gamma Model
+    from lifetimes.plotting import plot_frequency_recency_matrix
+except ModuleNotFoundError:
+    lifetimes = None
+    BetaGeoFitter = None
+    GammaGammaFitter = None
+    plot_frequency_recency_matrix = None
 
 
 def order_customer(orders, customers, payment, items, products, product_category):
@@ -75,9 +85,8 @@ def customer_analysis(orders_customers_items):
               path=f'output/visualisations/commercial/customer buying frequency distribution.png')
 
     # Split customer into two parts
-    customer_regular = rfm_customer[rfm_customer['Frequency'] > 1].copy(deep=True)
     clv = customer_lifetime(orders_customers_items)
-    clv.to_csv('output/clv.csv')
+    clv.to_csv('output/clv.csv', index=True)
 
     customer_once = rfm_customer[rfm_customer['Frequency'] == 1].copy(deep=True)
     customer_split_analysis(customer_once, orders_customers_items)
@@ -109,7 +118,7 @@ def product_popularity(df, path):
 
 def distribution_plt(dataframe, column_name, title, xlabel, ylabel):
     # Distribution of Age of Employees
-    sns.distplot(dataframe[column_name], color='red')
+    sns.histplot(dataframe[column_name].dropna(), color='red', kde=True)
     plt.title(title, fontsize=30)
     plt.xlabel(xlabel, fontsize=15)
     plt.ylabel(ylabel)
@@ -120,17 +129,23 @@ def distribution_plt(dataframe, column_name, title, xlabel, ylabel):
 
 def popular_category(df, col, target, path):
     category_df = df.groupby(col)[target].agg(['count']).reset_index().sort_values(by='count', ascending=False)
-    labels = category_df[col].unique()
-    sizes = category_df['count'].values.tolist()
-    colors = [plt.cm.Spectral(i / float(len(labels))) for i in range(len(labels))]
-
-    # Draw Plot
     plt.figure(figsize=(15, 10), dpi=120)
-    squarify.plot(sizes=sizes, label=labels, color=colors, alpha=.8)
 
-    # Decorate
-    plt.title('Treemap of product category')
-    plt.axis('off')
+    if squarify is not None:
+        labels = category_df[col].unique()
+        sizes = category_df['count'].values.tolist()
+        colors = [plt.cm.Spectral(i / float(len(labels))) for i in range(len(labels))]
+        squarify.plot(sizes=sizes, label=labels, color=colors, alpha=.8)
+        plt.title('Treemap of product category')
+        plt.axis('off')
+    else:
+        print('squarify package is not available; using horizontal bar chart fallback.')
+        top_df = category_df.head(20).sort_values(by='count', ascending=True)
+        plt.barh(top_df[col], top_df['count'], color='steelblue')
+        plt.title('Top Product Categories')
+        plt.xlabel('Count')
+        plt.ylabel(col)
+
     plt.tight_layout()
     plt.savefig(path)
 
@@ -217,6 +232,9 @@ def customer_lifetime(df):
     # Customer Value = Average Order Value * Purchase Frequency
     # Increase CLV -> increase revenue & reduce customer acquisition cost
     # target your ideal customers
+    if lifetimes is None:
+        print('lifetimes package is not available; using simplified CLV proxy.')
+        return simple_customer_lifetime(df)
 
     # Frequency/ Recency analysis utilising BG/NBD model
     clv = lifetimes.utils.summary_data_from_transaction_data(df, 'customer_unique_id', 'order_purchase_timestamp',
@@ -262,6 +280,32 @@ def customer_lifetime(df):
     return clv
 
 
+def simple_customer_lifetime(df):
+    customer_df = df.groupby('customer_unique_id').agg(
+        frequency=('order_id', 'nunique'),
+        revenue=('price', 'sum'),
+        first_purchase=('order_purchase_timestamp', 'min'),
+        last_purchase=('order_purchase_timestamp', 'max')
+    )
+
+    customer_df['avg_order_value'] = customer_df['revenue'] / customer_df['frequency'].replace(0, np.nan)
+    customer_df['lifetime_days'] = (customer_df['last_purchase'] - customer_df['first_purchase']).dt.days.clip(lower=1)
+    customer_df['expected_purc_6_months'] = (customer_df['frequency'] / customer_df['lifetime_days']) * 180
+    customer_df['6_monhths_clv'] = customer_df['avg_order_value'].fillna(0) * customer_df['expected_purc_6_months']
+
+    labels = ['Hibernating', 'Need Attention', 'LoyalCustomers', 'Champions']
+    try:
+        customer_df['Segment'] = pd.qcut(
+            customer_df['6_monhths_clv'].rank(method='first'),
+            4,
+            labels=labels
+        )
+    except ValueError:
+        customer_df['Segment'] = 'Need Attention'
+
+    return customer_df
+
+
 def geolocation_sales(orders_customers_payment, geolocation):
     # geolocation could be state or city by your needs,e.g. customer_state, customer_city
     # Find out top 5 states by accumulated sales
@@ -273,12 +317,17 @@ def geolocation_sales(orders_customers_payment, geolocation):
     date_state_sales = orders_customers_payment.groupby(['order_date', geolocation])['payment_value'].agg(
         ['count', 'sum']).reset_index()
     top_n_sales = date_state_sales[date_state_sales[geolocation].isin(top_n_states)]
+    if top_n_sales.empty:
+        print(f'No sales records available for {geolocation} over date; skipping this chart.')
+        return
+
     plt.figure(figsize=(12, 6))
-    sns.lineplot(data=top_n_sales, x='order_date', y='sum', hue=geolocation)
+    axis = sns.lineplot(data=top_n_sales, x='order_date', y='sum', hue=geolocation)
     plt.title(f'Sales by {geolocation} Over Date')
     plt.xlabel('order_date')
     plt.ylabel('Sales')
-    plt.legend(title=geolocation)
+    if axis.get_legend() is not None:
+        plt.legend(title=geolocation)
     plt.savefig(f'output/visualisations/commercial/sales_{geolocation}_date.png')
 
     # sales-state-month sales
@@ -286,9 +335,10 @@ def geolocation_sales(orders_customers_payment, geolocation):
         ['count', 'sum']).reset_index()
     top_n_sales_month = month_state_sales[month_state_sales[geolocation].isin(top_n_states)]
     plt.figure(figsize=(12, 6))
-    sns.lineplot(data=top_n_sales_month, x='order_month', y='sum', hue=geolocation)
+    month_axis = sns.lineplot(data=top_n_sales_month, x='order_month', y='sum', hue=geolocation)
     plt.title(f'Sales by {geolocation} Over months')
     plt.xlabel('order_month')
     plt.ylabel('Sales')
-    plt.legend(title=geolocation)
+    if month_axis.get_legend() is not None:
+        plt.legend(title=geolocation)
     plt.savefig(f'output/visualisations/commercial/sales_{geolocation}_month.png')

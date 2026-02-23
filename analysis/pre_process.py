@@ -15,7 +15,7 @@ def order_data(df):
 
 
 def distribution_plt(dataframe, column_name, title, xlabel, ylabel, path):
-    sns.distplot(dataframe[column_name], color='red')
+    sns.histplot(dataframe[column_name].dropna(), color='red', kde=True)
     plt.title(title, fontsize=30)
     plt.xlabel(xlabel, fontsize=15)
     plt.ylabel(ylabel)
@@ -26,13 +26,16 @@ def distribution_plt(dataframe, column_name, title, xlabel, ylabel, path):
 def pie_chart(dataframe, col, target, color, title, path):
     plt.figure(figsize=(10, 5), dpi=100)
     target_df = dataframe.groupby([col])[target].agg(['count']).reset_index()
+    if target_df.empty:
+        print(f'No data found for pie chart: {title}')
+        return
 
     plt.pie(target_df['count'], labels=target_df[col],
             autopct='%1.2f%%', startangle=45, colors=sns.color_palette(color),
             labeldistance=0.75, pctdistance=0.4)
     plt.title(title, fontsize=20)
     plt.axis('off')
-    plt.legend()
+    plt.legend(target_df[col], title=col)
     plt.savefig(path)
 
 

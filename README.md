@@ -1,79 +1,78 @@
-# E-Commerce by Olist
+# End-to-End E-Commerce Analytics (Olist)
 
-### Project Overview
+## Project Summary
+This project analyzes the Olist Brazilian e-commerce dataset from Kaggle and builds a full analytics workflow:
+- SQL analysis for business KPIs and trend tracking
+- Python analytics for commercial, delivery, and customer behavior insights
+- NLP on review text (sentiment classification + topic modeling)
+- Dashboard outputs in Tableau and Power BI
 
-This is a public dataset on Kaggle Platform. It was generously provided by Olist which is the largets department store
-in Brazil. Small businesses are connected by Olist across Brazil to channels without hassle and with a single contract.
-Those small business can sell their products through the Olist Store and products are directly shipped to the customers
-by Olist logistics partners. See more details on the website: www.olist.com. After a customer place his order from Olist
-Store, notification sent to seller to let seller complete that order. Once customer receive their product, or after the
-delivery date, customer could fill in a satisfaction survey by email where he could write down his purchase experience
-and comments [here](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce).
+The goal is to translate raw marketplace data into actionable insights for growth, customer retention, and operations.
 
-### Codes and Resources Used
+## Dataset
+- Source: https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce
+- Tables used: customers, orders, order_items, payments, reviews, products, sellers, geolocation, category translation
+- Scale: ~1.56M rows across raw CSV files
 
-* Pycharm
-* Python 3
-* MySQL / AWS S3
-* PowerBI/Tableau
-* Packages needed: Please See requirements.txt
+## Business Questions Covered
+1. How do sales vary by state/city, product category, and time?
+2. What is customer buying frequency and estimated customer lifetime value (CLV)?
+3. How well does delivery execution perform vs estimated dates?
+4. What themes and sentiment appear in customer reviews?
+5. Which product categories are bought together?
 
-### Project Framework
+## Tech Stack
+- Python 3.9
+- pandas, NumPy, matplotlib, seaborn
+- scikit-learn, XGBoost (with fallback model support)
+- gensim, pyLDAvis
+- networkx, mlxtend
+- MySQL, AWS S3 (data transfer utilities)
+- Tableau and Power BI
 
-#### Project Flow Diagram
+## Project Structure
+- `/Users/jamesli/Desktop/ecommerce/analysis` - business analysis modules
+- `/Users/jamesli/Desktop/ecommerce/model` - ML/NLP model classes
+- `/Users/jamesli/Desktop/ecommerce/src` - data access and transfer utilities
+- `/Users/jamesli/Desktop/ecommerce/sql practice` - SQL schema and analysis queries
+- `/Users/jamesli/Desktop/ecommerce/output` - generated model/visual outputs
+- `/Users/jamesli/Desktop/ecommerce/dashboard works` - Tableau/Power BI files
 
-![Project Flow Diagram Latest.png](datasets/Project_Flow_Diagram_Latest.png)
+## Setup
+```bash
+python3.9 -m pip install -r requirements.txt
+```
 
+## Run
+Full pipeline:
+```bash
+MPLCONFIGDIR=/tmp/matplotlib python3.9 main.py
+```
 
-#### Data Schema
+Quick smoke run (recommended for validation):
+```bash
+MPLCONFIGDIR=/tmp/matplotlib python3.9 main.py --quick-rows 500 --skip-exploration
+```
 
-![databaseRelationship.png](datasets/databaseRelationship.png)
+Optional flags:
+- `--skip-delivery`
+- `--skip-review`
+- `--skip-network`
+- `--skip-exploration`
+- `--quick-rows N`
 
-### Results and evaluation
+## Outputs
+Examples are saved under:
+- `/Users/jamesli/Desktop/ecommerce/output/visualisations/commercial`
+- `/Users/jamesli/Desktop/ecommerce/output/visualisations/delivery`
+- `/Users/jamesli/Desktop/ecommerce/output/visualisations/network`
+- `/Users/jamesli/Desktop/ecommerce/output/model_evaluation`
 
-### Tasks
+## Notes on Robustness
+The pipeline now includes graceful fallbacks when optional packages are unavailable:
+- `xgboost` missing -> uses `RandomForestRegressor` fallback for delivery prediction
+- `lifetimes` missing -> uses simplified CLV proxy
+- `mlxtend` missing -> uses pairwise association-rule fallback
+- `squarify` missing -> uses bar-chart fallback for category charting
 
-#### 1. Data Visualisation
-
-#### Commercial Analysis
-
-<img alt="Overview"  src="output/dashboard output/Overview.png" />
-This Dashboard gives viewers Sales Performance by Region, payment type, customer sales, their gelocation as well as monthly sales by product. All worksheets are linked together. If user wish to know more details, they could click it on Tableau to view this dashboard. It is stored at dashboard works/tableau/Ecommerce
-
-#### Delivery Dashboard for Analysis
-
-<img alt="Delivery Status"  src="output/dashboard output/Delivery status.png" />
-This Delivery Dashboard give viewers about the delivery performance. On top of it, it will give viewers summary of delivery status e.g. earlier, late, and on-time. It is meausred by the gap between the real delivery time and estiamted delivery time. Then details will be explored in time domain and from product category perspective. All worksheets are linked together, which means users could click one category to view its corresponding information.
-The dashboard are stored at dashboard works/tableau/Ecommerce.twb
-
-#### 2. Commercial Analysis
-
-Tables are merged together to form master dataframe. Sales are analysed by different perspective such as gelocatoin, prodcut category as well as its trend. 
-
-In addition, customer part is dived deeper. Daily Active User, yearly New customer as well as regular customer buying behavior are anlaysed. 
-RFM (recency, frequency, and monetary value) and customer lifetime value checked.   
-
-#### 3. Network Analysis (City relationship & Product Association)
-
-* Speaking of customer city and seller city, taking them as nodes, and frequencies between as edges. Relationship
-  betweem cities are presented in network diagram. For the strong relationship with high connection between cities, more
-  deliveries services could be planned in order to increase customer statistication.
-
-* But for product association, an adjacnecy matrix are produced between proucts relationship. Association rules are
-  utilised to help sellers have more bundles in order to attract customer in order to increase sales. Association rule
-  could tell you what is the probability of buying this product given if customer have already bought other products.
-
-#### 4. Sentiment Analysis (NLP)
-
-Reviews left by customers are valuable to improve product quality and service. Bascially, text processing are utilised on customer reviews. 
-In addition, customer reviews could be categorised into different groups by Latent Dirichlet allocation to find out key words by groups. 
-Thus, these key words are indicators for platform to improve customer experience. Finally, Positive or Negative Labels are given by customer review score. 
-Logistic Regression are used to train a model on it to help platform indentify customer review positive or negative.
-
-
-#### 5. Delivery Estimation
-
-Delivery Estimation could help buyer to understand when they could receive products. With the help of past data, and features added like distance between cities, product volumn and its weight, XGBoost use these features to estimate days needed. 
-
-
-
+This keeps the project runnable in constrained environments while preserving analysis flow.

@@ -1,10 +1,24 @@
+from itertools import combinations
+
 import networkx as nx
-from bokeh.io import show
-from bokeh.models import Range1d, Circle, MultiLine
-from bokeh.plotting import figure
-from bokeh.plotting import from_networkx
-from mlxtend.frequent_patterns import apriori
-from mlxtend.frequent_patterns import association_rules
+
+try:
+    from bokeh.io import show
+    from bokeh.models import Circle, MultiLine, Range1d
+    from bokeh.plotting import figure, from_networkx
+except ModuleNotFoundError:
+    show = None
+    Circle = None
+    MultiLine = None
+    Range1d = None
+    figure = None
+    from_networkx = None
+
+try:
+    from mlxtend.frequent_patterns import apriori, association_rules
+except ModuleNotFoundError:
+    apriori = None
+    association_rules = None
 
 from analysis.pre_process import *
 
@@ -48,27 +62,25 @@ def seller_buyer_network(df):
     return buyer_seller_df
 
 
-def hot_encode(x):
-    if (x <= 0):
-        return False
-    else:
-        return True
-
-
 def product_association(df):
     order_product = df.groupby(['order_id', 'product_category_name_english'])['product_category_name_english'].count(). \
         unstack().reset_index().fillna(0).set_index('order_id')
-    order_product_df = order_product.applymap(hot_encode)
+    if order_product.empty or order_product.shape[1] == 0:
+        print('No product-category pairs available for association analysis; skipping.')
+        return None
 
-    rules, items = get_rules(order_product_df, 0.0000001)
+    order_product_df = order_product.gt(0)
+
+    rules, items = get_rules(order_product_df, min_support=0.001)
     rules.to_csv('output/visualisations/network/Product Buying Rules.csv')
     print('Number of Associations: {}'.format(rules.shape[0]))
 
-    rules.plot.scatter('support', 'confidence', alpha=0.5, marker='*')
-    plt.xlabel('Support')
-    plt.ylabel('Confidence')
-    plt.title('Association Rule')
-    plt.savefig(f'output/visualisations/network/Association Rules.png')
+    if not rules.empty:
+        rules.plot.scatter('support', 'confidence', alpha=0.5, marker='*')
+        plt.xlabel('Support')
+        plt.ylabel('Confidence')
+        plt.title('Association Rule')
+        plt.savefig(f'output/visualisations/network/Association Rules.png')
 
     AMorders = order_product.T.dot(order_product)  # AM stands for Adjacency matrix
     np.fill_diagonal(AMorders.values, 0)
@@ -83,28 +95,88 @@ def product_association(df):
 
 
 def get_rules(df, min_support=0.01):
+    if apriori is None or association_rules is None:
+        print('mlxtend package is not available; using pairwise association fallback.')
+        return fallback_pair_rules(df, min_support=min_support, min_confidence=0.6), pd.DataFrame()
+
     # Apply the Apriori algorithm to find frequent itemsets
     frequent_itemsets = apriori(df, min_support=min_support, use_colnames=True)
     frequent_itemsets['length'] = frequent_itemsets['itemsets'].apply(lambda x: len(x))
 
     # Generate association rules
+    if frequent_itemsets.empty:
+        return pd.DataFrame(), frequent_itemsets
+
     rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.6)
 
     return rules, frequent_itemsets
 
 
+def fallback_pair_rules(df, min_support=0.01, min_confidence=0.6):
+    supports = df.mean(axis=0)
+    records = []
+
+    for antecedent, consequent in combinations(df.columns, 2):
+        pair_support = (df[antecedent] & df[consequent]).mean()
+        if pair_support < min_support:
+            continue
+
+        antecedent_support = supports[antecedent]
+        consequent_support = supports[consequent]
+
+        conf_ab = pair_support / antecedent_support if antecedent_support else 0
+        conf_ba = pair_support / consequent_support if consequent_support else 0
+
+        if conf_ab >= min_confidence and consequent_support:
+            records.append(
+                {
+                    'antecedents': frozenset([antecedent]),
+                    'consequents': frozenset([consequent]),
+                    'antecedent support': antecedent_support,
+                    'consequent support': consequent_support,
+                    'support': pair_support,
+                    'confidence': conf_ab,
+                    'lift': conf_ab / consequent_support
+                }
+            )
+        if conf_ba >= min_confidence and antecedent_support:
+            records.append(
+                {
+                    'antecedents': frozenset([consequent]),
+                    'consequents': frozenset([antecedent]),
+                    'antecedent support': consequent_support,
+                    'consequent support': antecedent_support,
+                    'support': pair_support,
+                    'confidence': conf_ba,
+                    'lift': conf_ba / antecedent_support
+                }
+            )
+
+    if not records:
+        return pd.DataFrame()
+
+    return pd.DataFrame(records).sort_values(by=['support', 'confidence'], ascending=False)
+
+
 def draw_simple_network(G, path):
     # Draw the network diagram
+    plt.figure(figsize=(16, 12))
     pos = nx.spring_layout(G)
     nx.draw(G, pos, with_labels=True, node_size=2000, node_color='skyblue', font_size=10, font_weight='bold',
             edge_color='black')
     labels = nx.get_edge_attributes(G, 'weight')
     nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
-    plt.show()
+    png_path = path.replace('.gexf', '.png')
+    plt.savefig(png_path)
+    plt.close()
     nx.write_gexf(G, path=path)
 
 
 def draw_network(G, title='buyer seller relationship'):
+    if show is None or figure is None or from_networkx is None:
+        print('bokeh package is not available; skipping interactive network chart.')
+        return
+
     # References: https://melaniewalsh.github.io/Intro-Cultural-Analytics/06-Network-Analysis/02-Making-Network-Viz-with-Bokeh.html
     degrees = dict(nx.degree(G, weight='weight'))
 
@@ -113,13 +185,12 @@ def draw_network(G, title='buyer seller relationship'):
     nx.set_node_attributes(G, name='adjusted_node_size', values=adjusted_node_size)
 
     # Choose attributes from G network to size and color by — setting manual size (e.g. 10) or color (e.g. 'skyblue') also allowed
-    size_by_this_attribute = 'size'
-    color_by_this_attribute = 'colorCode'
+    size_by_this_attribute = 'adjusted_node_size'
 
     # Establish which categories will appear when hovering over each node
     HOVER_TOOLTIPS = [
         ("Product", "@index"),
-        ("Adjusted Degree", "@size")
+        ("Adjusted Degree", "@adjusted_node_size")
     ]
 
     # Create a plot — set dimensions, toolbar, and title
@@ -131,7 +202,11 @@ def draw_network(G, title='buyer seller relationship'):
     network_graph = from_networkx(G, nx.spring_layout, scale=10, center=(0, 0))
 
     # Set node sizes and colors according to node degree (color as category from attribute)
-    network_graph.node_renderer.glyph = Circle(radius=size_by_this_attribute, fill_color=color_by_this_attribute)
+    try:
+        network_graph.node_renderer.glyph = Circle(radius=0.15, fill_color='skyblue')
+    except Exception as error:
+        print(f'Unable to render interactive node glyphs: {error}')
+        return
 
     # Set edge opacity and width
     network_graph.edge_renderer.glyph = MultiLine(line_alpha=0.5, line_width='weight')

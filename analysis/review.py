@@ -1,24 +1,37 @@
-import jieba
+import re
+
 import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 import numpy as np
-
-matplotlib.use('TkAgg')
-
-import nltk
-from nltk.corpus import stopwords
-from nltk.stem.porter import PorterStemmer
-from nltk.stem.wordnet import WordNetLemmatizer
-from nltk.tokenize import RegexpTokenizer
+import pandas as pd
 from wordcloud import WordCloud
 
-from model.LDA import *
-from model.reviewClassification import *
+from model.LDA import LDA, format_topics_sentences, topic_visualisation
+from model.reviewClassification import reviewClassification
+
+try:
+    import nltk
+except ModuleNotFoundError:
+    nltk = None
+
+
+FALLBACK_PORTUGUESE_STOPWORDS = {
+    'a', 'as', 'o', 'os', 'um', 'uma', 'de', 'do', 'da', 'dos', 'das', 'em', 'no', 'na', 'nos', 'nas',
+    'e', 'ou', 'mas', 'com', 'sem', 'para', 'por', 'que', 'se', 'ao', 'aos', 'à', 'às', 'como', 'mais',
+    'menos', 'muito', 'muita', 'muitos', 'muitas', 'já', 'não', 'sim', 'foi', 'são', 'ser', 'ter', 'eu',
+    'ele', 'ela', 'eles', 'elas', 'me', 'te', 'lhe', 'nós', 'vocês', 'isso', 'isto', 'aquele', 'aquela'
+}
 
 
 # Sentiment analysis
 def review_analysis(reviews_df):
-    # 1. drop column with nan
-    reviews_df.dropna(subset=['review_comment_message'], inplace=True)  # Drop comment is NaN
+    # Drop empty reviews and keep original dataframe unchanged.
+    reviews_df = reviews_df.dropna(subset=['review_comment_message']).copy(deep=True)
+
+    if reviews_df.empty:
+        print('No non-null review comments found; skipping review analysis.')
+        return reviews_df, pd.DataFrame()
 
     reviews_df, reviews_df_without_stopwords = data_preprocess(reviews_df, 'review_comment_message')
     reviews_df['tidy_review_comment_message'] = reviews_df['review_comment_message'].apply(text_preprocessing)
@@ -30,39 +43,47 @@ def review_analysis(reviews_df):
     # Work on Classification and top modelling
     # To make life easier, review_label: positive is 1 and negative is 0.
     reviews_subs = reviews_df[['tidy_review_comment_message', 'review_label']].copy(deep=True).dropna()
-    review_classification = reviewClassification(df = reviews_subs, reviews = 'tidy_review_comment_message', mark = 'review_label')
+    review_classification = reviewClassification(
+        df=reviews_subs,
+        reviews='tidy_review_comment_message',
+        mark='review_label'
+    )
     review_classification.classification_run(0.3)
 
     # Topic modelling -- LDA method
     topic_sents_keywords = topic_modeling(reviews_df_without_stopwords, reviews_df)
-    return reviews_df,topic_sents_keywords
+    return reviews_df, topic_sents_keywords
 
 
 def topic_modeling(tokens, df):
+    if len(tokens) < 10:
+        print('Insufficient tokenized reviews for topic modeling; skipping LDA.')
+        return pd.DataFrame()
+
     coherences = []
-    for k in range(5, 25, 5):
+    topic_candidates = [k for k in range(5, 25, 5) if k < len(tokens)]
+    if not topic_candidates:
+        topic_candidates = [2]
+
+    for k in topic_candidates:
         print('Current number of topics: ' + str(k))
         _, _, _, coherence_score = LDA(tokens, num_topics=k)
         coherences.append((k, coherence_score))
 
     # coherence_plot(coherences)
-
-    lda_model, corpus, dictionary, _ = LDA(tokens, num_topics=10)
+    best_topic_size = max(coherences, key=lambda item: item[1])[0]
+    lda_model, corpus, dictionary, _ = LDA(tokens, num_topics=best_topic_size)
     # Visualize the topics
     topic_visualisation(lda_model, corpus, dictionary)
 
-    topic_data = pyLDAvis.gensim.prepare(lda_model, corpus, dictionary, mds='pcoa')
-
     all_topics = {}
     num_terms = 10  # Adjust number of words to represent each topic
-    lambd = 0.6  # Adjust this accordingly based on tuning above
-    for i in range(1, 24):  # Adjust this to reflect number of topics chosen for final LDA model
-        topic = topic_data.topic_info[topic_data.topic_info.Category == 'Topic' + str(i)].copy()
-        topic['relevance'] = topic['loglift'] * (1 - lambd) + topic['logprob'] * lambd
-        all_topics['Topic ' + str(i)] = topic.sort_values(by='relevance', ascending=False).Term[:num_terms].values
+    for i in range(best_topic_size):
+        topic_terms = [word for word, _ in lda_model.show_topic(i, topn=num_terms)]
+        all_topics[f'Topic {i + 1}'] = topic_terms
 
     topics_df = pd.DataFrame(all_topics).T
-    topics_df.to_csv('topics_keyword.csv')
+    topics_df.to_csv('output/model_evaluation/topics_keyword.csv')
 
     topic_sents_keywords = format_topics_sentences(lda_model, corpus, df)
 
@@ -84,8 +105,7 @@ def coherence_plot(coherences):
 
 
 def data_preprocess(df, col):
-    portuguese_stopwords = nltk.corpus.stopwords.words('portuguese')
-    lemma = WordNetLemmatizer()
+    portuguese_stopwords = get_portuguese_stopwords()
 
     length = df.shape[0]
     data_without_stopwords = []
@@ -93,14 +113,12 @@ def data_preprocess(df, col):
     # Loop through each review
     for i in range(0, length):
         reviews = df.iloc[i][col]  # extract reviews
-        doc = jieba.lcut(reviews.strip())  # Split the Chinese words
+        doc = tokenize_portuguese(reviews)
 
-        doc = [lemma.lemmatize(word) for word in doc if not word in set(portuguese_stopwords)]
+        doc = [word for word in doc if word not in portuguese_stopwords]
 
-        # remove special characterists
-        special_symbols = ['，', '！', '。', '？', 'h', '+', ' ', '、', '?', '…', '：', ')', '⊙', 'o', '⊙', '(',
-                           '!', ':', '', '...', "'"]
-        doc = [value for value in doc if not value in set(special_symbols)]
+        # remove very short tokens and numerics
+        doc = [value for value in doc if len(value) > 1 and not value.isnumeric()]
 
         data_without_stopwords.append(doc)
 
@@ -110,17 +128,26 @@ def data_preprocess(df, col):
 
 
 def text_preprocessing(data):
-    stop_words = set(stopwords.words('portuguese'))
-    tokenizer = RegexpTokenizer(r'\w+')
-    stemmer = PorterStemmer()
+    stop_words = get_portuguese_stopwords()
+    words = tokenize_portuguese(data)
+    words = [word for word in words if word not in stop_words and len(word) > 1]
+    return ' '.join(words)
 
-    txt = data.lower()  # Lower the word
-    words = tokenizer.tokenize(txt)  # Tokenization
-    words = [w for w in words if not w in stop_words]  # remove stop words
-    words = [stemmer.stem(i) for i in words]  # stemming the word
-    words = ','.join([text for text in words])
 
-    return words
+def tokenize_portuguese(text):
+    if not isinstance(text, str):
+        text = str(text)
+    return re.findall(r"[a-zA-ZÀ-ÿ']+", text.lower())
+
+
+def get_portuguese_stopwords():
+    if nltk is None:
+        return FALLBACK_PORTUGUESE_STOPWORDS
+
+    try:
+        return set(nltk.corpus.stopwords.words('portuguese'))
+    except LookupError:
+        return FALLBACK_PORTUGUESE_STOPWORDS
 
 
 def common_words_visualisation(df, col):

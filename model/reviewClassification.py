@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import ConfusionMatrixDisplay
@@ -14,7 +15,13 @@ class reviewClassification:
         self.y = df[mark]
 
     def data_split(self, portion):
-        train_X, test_X, train_y, test_y = train_test_split(self.X, self.y, test_size=portion, random_state=123)
+        train_X, test_X, train_y, test_y = train_test_split(
+            self.X,
+            self.y,
+            test_size=portion,
+            random_state=123,
+            stratify=self.y
+        )
         return train_X, train_y, test_X, test_y
 
     def transformation(self, X_train):
@@ -29,12 +36,18 @@ class reviewClassification:
         model = LogisticRegression(solver='lbfgs', max_iter=1000)
         model.fit(X_train_vectorized, train_y)
 
-        predictions = model.predict(vect.transform(test_X))
+        X_test_vectorized = vect.transform(test_X)
+        pred_probs = model.predict_proba(X_test_vectorized)[:, 1]
+        predictions = (pred_probs >= 0.5).astype(int)
 
-        print('AUC: {}'.format(roc_auc_score(test_y, predictions)))  # multi_class = 'ovr'
+        try:
+            auc_score = roc_auc_score(test_y, pred_probs)
+            print(f'AUC: {auc_score:.4f}')
+        except ValueError as error:
+            print(f'AUC is not available for this split: {error}')
 
-        # self.confusion_matrix_plot(test_y, predictions)
-        self.roc_curve(test_y, predictions)
+        self.confusion_matrix_plot(test_y, predictions)
+        self.roc_curve(test_y, pred_probs)
 
         return model
 
@@ -43,26 +56,19 @@ class reviewClassification:
         ConfusionMatrixDisplay(confusion_matrix=cm).plot()
         plt.savefig(f'output/model_evaluation/review matrix.png')
 
-    def roc_curve(self, y_test, y_pred_grid):
-        ns_probs = [0 for _ in range(len(y_test))]
-
-        fpr, tpr, thresh1 = roc_curve(y_test, y_pred_grid)
-        ns_fpr, ns_tpr, thresh2 = roc_curve(y_test, ns_probs)
-
-        # auc scores
-        auc_score = roc_auc_score(y_test, y_pred_grid)
-        ns_auc = roc_auc_score(y_test, ns_probs)
+    def roc_curve(self, y_test, y_pred_probs):
+        ns_probs = np.zeros(len(y_test))
+        fpr, tpr, _ = roc_curve(y_test, y_pred_probs)
+        ns_fpr, ns_tpr, _ = roc_curve(y_test, ns_probs)
+        auc_score = roc_auc_score(y_test, y_pred_probs)
 
         # Plot the ROC curve
+        plt.figure(figsize=(8, 6))
         plt.plot(fpr, tpr, label='ROC curve (area = %0.2f)' % auc_score)
-
-        # roc curve for tpr = fpr
         plt.plot(ns_fpr, ns_tpr, linestyle='--', label='50%')
-        plt.plot(fpr, tpr, marker='.', label='Logistic')
 
         plt.xlabel('False Positive Rate')
         plt.ylabel('True Positive Rate')
         plt.title('ROC Curve')
         plt.legend()
-        # plt.show()
         plt.savefig(f'output/model_evaluation/ROC curve.png')

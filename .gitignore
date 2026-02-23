@@ -1,0 +1,20 @@
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.DS_Store
+.idea/
+.vscode/
+.pytest_cache/
+.mypy_cache/
+venv/
+.venv/
+env/
+ENV/
+
+# Generated artifacts
+output/model_evaluation/topics_keyword.csv
+output/visualisations/network/*.png
+
+# Local runtime caches
+tmp/
